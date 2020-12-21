@@ -1,0 +1,22 @@
+.btn:hover
+{
+border-width: 3px;
+border-color: lime;
+}
+/*
+ .card
+{
+ -webkit-animation: mymove 5s infinite;
+ animation: mymove .5s;
+}
+
+
+@-webkit-keyframes mymove {
+       from {top: 0%;}
+        to {top: 50%;}
+}
+
+@keyframes mymove {
+  from {top: 0px;}
+  to {top: 150px;}
+}*/
