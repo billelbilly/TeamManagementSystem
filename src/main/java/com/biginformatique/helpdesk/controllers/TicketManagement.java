@@ -34,6 +34,7 @@ import com.biginformatique.helpdesk.models.TicketUser;
 import com.biginformatique.helpdesk.models.User;
 
 import top.jfunc.json.impl.JSONObject;
+
 @WebServlet("/TicketManagement")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
 		maxFileSize = 1024 * 1024 * 10, // 10MB
@@ -55,7 +56,7 @@ public class TicketManagement extends HttpServlet {
 		ticketDao = new TicketDao();
 		ticketuserDao = new TicketUserDao();
 		userDao = new UserDao();
-		planifDao= new PlanificationsDao();
+		planifDao = new PlanificationsDao();
 		settingsDao = new SettingsDao();
 	}
 
@@ -90,7 +91,7 @@ public class TicketManagement extends HttpServlet {
 			}
 
 			break;
-			
+
 		case "/getPlanifications":
 			try {
 				getPlanifications(request, response);
@@ -100,7 +101,7 @@ public class TicketManagement extends HttpServlet {
 			}
 
 			break;
-			
+
 		case "/getPlanifByTicket":
 			try {
 				getPlanificationByTicket(request, response);
@@ -118,18 +119,16 @@ public class TicketManagement extends HttpServlet {
 	}
 
 	private void getPlanificationByTicket(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String ticketId=request.getParameter("ticket_id");
-		Ticket ticket=null;
+		String ticketId = request.getParameter("ticket_id");
+		Ticket ticket = null;
 		JSONObject jo = new JSONObject();
-		ticket=ticketDao.getTicketById(ticketId);
+		ticket = ticketDao.getTicketById(ticketId);
 		List ticketPlanif = planifDao.getPlanificationByTicketIdDao(ticket);
 		jo.put("ticketPlanif", ticketPlanif);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(jo.toString());
-		
-		
-		
+
 	}
 
 	private void getPlanifications(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -141,7 +140,7 @@ public class TicketManagement extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(jo.toString());
-		
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -202,40 +201,40 @@ public class TicketManagement extends HttpServlet {
 		String sdateDebutRealise = request.getParameter("date_debut_realise");
 		String sdateFinRealise = request.getParameter("date_fin_realise");
 		String Observation = request.getParameter("observation");
-		String ticketId=request.getParameter("ticket_id");
-		LocalDate dateDebutPlanif=null;
-		LocalDate dateFinPlanif=null;
-		LocalDate dateDebutRealise=null;
-		LocalDate dateFinRealise=null;
-		
+		String ticketId = request.getParameter("ticket_id");
+		LocalDate dateDebutPlanif = null;
+		LocalDate dateFinPlanif = null;
+		LocalDate dateDebutRealise = null;
+		LocalDate dateFinRealise = null;
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		
-        //Test here if Date Strings are not null
-		
-		dateDebutPlanif=LocalDate.parse(sdateDebutPlanif, formatter);
-		dateFinPlanif=LocalDate.parse(sdateFinPlanif, formatter);
+
+		// Test here if Date Strings are not null
+
+		dateDebutPlanif = LocalDate.parse(sdateDebutPlanif, formatter);
+		dateFinPlanif = LocalDate.parse(sdateFinPlanif, formatter);
 		if (!sdateDebutRealise.equals("") && !sdateFinRealise.equals("")) {
-			dateDebutRealise=LocalDate.parse(sdateDebutRealise, formatter);
-			dateFinRealise=LocalDate.parse(sdateFinRealise, formatter);
+			dateDebutRealise = LocalDate.parse(sdateDebutRealise, formatter);
+			dateFinRealise = LocalDate.parse(sdateFinRealise, formatter);
 		}
-		
+
 		JSONObject jo = new JSONObject();
-		Planification planifObj= new Planification();
-		Ticket ticket=null;
-		ticket=ticketDao.getTicketById(ticketId);
-		List currentTicketPlanif=planifDao.getPlanificationByTicketIdDao(ticket);	
-		
+		Planification planifObj = new Planification();
+		Ticket ticket = null;
+		ticket = ticketDao.getTicketById(ticketId);
+		List currentTicketPlanif = planifDao.getPlanificationByTicketIdDao(ticket);
+
 		planifObj.setDateDebutPlanif(dateDebutPlanif);
 		planifObj.setDateFinPlanif(dateFinPlanif);
 		planifObj.setDateDebutRealise(dateDebutRealise);
 		planifObj.setDateFinRealise(dateFinRealise);
 		planifObj.setObservation(Observation);
 		planifObj.setTicket(ticket);
-		
-		// If currentTicketPlanif not null Update Planification else Create Planification
+
+		// If currentTicketPlanif not null Update Planification else Create
+		// Planification
 		if (!currentTicketPlanif.isEmpty()) {
-		
-			
+
 			if (planifDao.UpdatePlanif(planifObj)) {
 
 				jo.put("success", "true");
@@ -250,9 +249,8 @@ public class TicketManagement extends HttpServlet {
 				response.getWriter().write(jo.toString());
 			}
 
-			
 		} else {
-			
+
 			if (planifDao.planifyTicketDao(planifObj)) {
 
 				jo.put("success", "true");
@@ -266,11 +264,42 @@ public class TicketManagement extends HttpServlet {
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(jo.toString());
 			}
-			
-		}
-		
 
-		
+		}
+
+	}
+
+	private void planifyTicketByAdmin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String sdateDebutPlanif = request.getParameter("date_debut_planif");
+		String sdateFinPlanif = request.getParameter("date_fin_planif");
+		String sdateDebutRealise = request.getParameter("date_debut_realise");
+		String sdateFinRealise = request.getParameter("date_fin_realise");
+		String ticketId = request.getParameter("ticket_id");
+		LocalDate dateDebutPlanif = null;
+		LocalDate dateFinPlanif = null;
+		LocalDate dateDebutRealise = null;
+		LocalDate dateFinRealise = null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		// Test here if Date Strings are not null
+		dateDebutPlanif = LocalDate.parse(sdateDebutPlanif, formatter);
+		dateFinPlanif = LocalDate.parse(sdateFinPlanif, formatter);
+		if (!sdateDebutRealise.equals("") && !sdateFinRealise.equals("")) {
+			dateDebutRealise = LocalDate.parse(sdateDebutRealise, formatter);
+			dateFinRealise = LocalDate.parse(sdateFinRealise, formatter);
+		}
+
+		JSONObject jo = new JSONObject();
+		Planification planifObj = new Planification();
+		Ticket ticket = null;
+		ticket = ticketDao.getTicketById(ticketId);
+		planifObj.setDateDebutPlanif(dateDebutPlanif);
+		planifObj.setDateFinPlanif(dateFinPlanif);
+		planifObj.setDateDebutRealise(dateDebutRealise);
+		planifObj.setDateFinRealise(dateFinRealise);
+		planifObj.setTicket(ticket);
+
+		planifDao.planifyTicketDao(planifObj);
 
 	}
 
@@ -308,12 +337,15 @@ public class TicketManagement extends HttpServlet {
 	private void saveTicketUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userId = request.getParameter("userEntreprise");
 		String ticketId = request.getParameter("ticket_id");
+		planifyTicketByAdmin(request, response);
 		TicketUser ticketuser = new TicketUser();
 		ticketuser.setUser_id(Integer.parseInt(userId));
 		ticketuser.setTicket_id(Integer.parseInt(ticketId));
 		JSONObject jo = new JSONObject();
+		User user = userDao.getUserById(Integer.parseInt(userId));
 
 		if (ticketuserDao.saveTicketUserDao(ticketuser)) {
+			//Send Email Notification here
 
 			jo.put("success", "true");
 			jo.put("id", ticketId);
@@ -339,8 +371,7 @@ public class TicketManagement extends HttpServlet {
 		String Details = request.getParameter("detail");
 		Part part = request.getPart("attachment");
 		User user = null;
-		MailingAttachSettings mailingAttachSettings=null;
-		
+		MailingAttachSettings mailingAttachSettings = null;
 
 		Ticket ticket = new Ticket("open");
 		ticket.setObjet(Objet);
@@ -349,10 +380,10 @@ public class TicketManagement extends HttpServlet {
 
 		// get the File uploaded name
 		String fileName = part.getSubmittedFileName();
-		
+
 		// creates the save directory if it does not exists
-		//getServletContext().getInitParameter("file-upload")
-		mailingAttachSettings=settingsDao.getInitialSettingsDao();
+		// getServletContext().getInitParameter("file-upload")
+		mailingAttachSettings = settingsDao.getInitialSettingsDao();
 		File fileSaveDir = new File(mailingAttachSettings.getAttchpath());
 		File file = new File(fileSaveDir, fileName);
 		if (!fileSaveDir.exists()) {
@@ -362,9 +393,9 @@ public class TicketManagement extends HttpServlet {
 			// Save File to Upload Directory
 //			part.write(fileSaveDir + File.separator + fileName);
 			String FilePathToDownload = fileSaveDir + File.separator + fileName;
-			
+
 			try (InputStream input = part.getInputStream()) {
-			    Files.copy(input, file.toPath());
+				Files.copy(input, file.toPath());
 			}
 			ticket.setAttachment(FilePathToDownload);
 
@@ -405,10 +436,10 @@ public class TicketManagement extends HttpServlet {
 		String username = request.getParameter("usersession");
 		user = userDao.getUserByUsername(username);
 		JSONObject jo = new JSONObject();
-		List filtreTickets=null;
+		List filtreTickets = null;
 		if (!filtre.equals("...")) {
 			filtreTickets = ticketDao.filtreTicketDao(filtre, user);
-			
+
 			jo.put("ticket", filtreTickets);
 
 			response.setContentType("application/json");
@@ -435,17 +466,17 @@ public class TicketManagement extends HttpServlet {
 		String ticketId = request.getParameter("ticket_id");
 		Part part = request.getPart("attachment");
 		User user = null;
-		MailingAttachSettings mailingAttachSettings=null;
-		
+		MailingAttachSettings mailingAttachSettings = null;
+
 		Ticket ticket = new Ticket(etatTicket);
 		ticket.setObjet(Objet);
 		ticket.setSeverity(Severity);
 		ticket.setDetails(Details);
 		// get the File uploaded name
 		String fileName = part.getSubmittedFileName();
-		
+
 		// creates the save directory if it does not exists
-		mailingAttachSettings=settingsDao.getInitialSettingsDao();
+		mailingAttachSettings = settingsDao.getInitialSettingsDao();
 		File fileSaveDir = new File(mailingAttachSettings.getAttchpath());
 		File file = new File(fileSaveDir, fileName);
 		if (!fileSaveDir.exists()) {
@@ -455,14 +486,14 @@ public class TicketManagement extends HttpServlet {
 			// Save File to Upload Directory
 //			part.write(fileSaveDir + File.separator + fileName);
 			String FilePathToDownload = fileSaveDir + File.separator + fileName;
-			
+
 			try (InputStream input = part.getInputStream()) {
-			    Files.copy(input, file.toPath());
+				Files.copy(input, file.toPath());
 			}
 			ticket.setAttachment(FilePathToDownload);
 
 		}
-		//Get The User Who Created The Ticket here
+		// Get The User Who Created The Ticket here
 		Ticket ticketCreator = ticketDao.getTicketById(ticketId);
 		user = userDao.getUserById(ticketCreator.getUser().getUser_id());
 		ticket.setTicket_id(Integer.parseInt(ticketId));

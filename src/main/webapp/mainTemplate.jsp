@@ -455,7 +455,7 @@ div.responseScroll { //
 									<span class="input-group-text"> Filtrer Par: </span> <select
 										name=filtreTicket id="filtreTicket">
 										<option>...</option>
-										<option value="open">Ouvert</option>
+										<option value="open">Crées</option>
 										<option value="fermer">Fermer</option>
 									</select>
 								</div>

@@ -109,6 +109,7 @@ function getTicketsTabulator() {
 				if (ticket[3] == "open") {
 
 					nbr_open++;
+					ticket[3]="Crée";
 				} else {
 					nbr_fermer++;
 				}
@@ -216,8 +217,8 @@ function getTicketsTabulator() {
 			// count - the number of rows in this group
 			// data - an array of all the row data objects in this group
 			// group - the group component for the group
-			if (value == "open") {
-				return "Ouvert"
+			if (value == "Crée") {
+				return "Crée"
 						+ "<span style='color:green; margin-left:10px;'>("
 						+ count + " Tiquets)</span>";
 

@@ -19,7 +19,9 @@
 
 <link rel="stylesheet" type="text/css"
 	href="resources/css/select2.min.css">
-
+	
+<link rel="stylesheet" type="text/css"
+	href="resources/css/datepicker.css">
 
 <link rel="stylesheet" type="text/css"
 	href="resources/css/tabulator_bootstrap4.min.css">
@@ -64,6 +66,10 @@
 #Settings .modal-lg {
 	max-width: 70%;
 	max-height: 70%;
+}
+
+.datepicker-container {
+	z-index: 1050 !important; /* has to be larger than 1050 */
 }
 </style>
 
@@ -171,7 +177,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-12">
 						<div class="card  traffic">
 							<div class="body bg-success">
-								<h6>Tiquets Overts</h6>
+								<h6>Tiquets Crées</h6>
 								<h2 id="nbr_open"></h2>
 
 								<!--                             <div class="progress"> -->
@@ -696,6 +702,55 @@
 
 										</select>
 									</div>
+									<div class="form-group">
+											<!-- Here put Planification DatePickers -->
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+											<input type="text" class="form-control date-input"
+												id="date_debut_planif" name="date_debut_planif"
+												placeholder="Date Début Planification">
+
+										</div>
+
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+											<input type="text" class="form-control date-input"
+												id="date_fin_planif" name="date_fin_planif"
+												placeholder="Date Fin Planification">
+
+										</div>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+											<input type="text" class="form-control date-input"
+												id="date_debut_realise" name="date_debut_realise"
+												placeholder="Date Début Réalisation">
+
+										</div>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+											<input type="text" class="form-control date-input"
+												id="date_fin_realise" name="date_fin_realise"
+												placeholder="Date Fin Réalisation">
+
+										</div>
+									
+									</div>
 									<button type="submit" class="btn btn-info btn-md">
 										<i class="fa fa-tasks"></i> Assigner
 									</button>
@@ -1187,7 +1242,8 @@
 	<script src="resources/assets/bundles/sparkline.bundle.js"></script>
 	<!-- Sparkline Plugin Js -->
 	<script src="resources/assets/bundles/c3.bundle.js"></script>
-
+    <script src="resources/js/datepicker.js"></script>
+    <script src="resources/js/datepickerForAdmin.js"></script>
 	<script src="resources/assets/bundles/mainscripts.bundle.js"></script>
 	<script src="resources/assets/js/pages/index.js"></script>
 	<script src="resources/js/contacts/contacts.js"></script>

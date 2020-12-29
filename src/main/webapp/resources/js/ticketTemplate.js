@@ -84,7 +84,7 @@ $(document).ready(function() {
 	
 	function getTickets(data) {
 
-		$("#nbr_ticket_open").text("0 Ouverts");
+		$("#nbr_ticket_open").text("0 Crées");
 		$("#nbr_ticket_closed").text("0 Fermés");
 		
 		///This is to clear up Ticket list And Close Creation Modal
@@ -617,7 +617,7 @@ $(document).ready(function() {
 			//////////**********************End Pagination***********************///////////
 			
 			// Set open ticket number ticket here
-			$("#nbr_ticket_open").text(nbr_ticket_open+" Ouverts");
+			$("#nbr_ticket_open").text(nbr_ticket_open+" Crées");
 			$("#nbr_ticket_closed").text(nbr_ticket_closed+" Fermés");
 	
 
