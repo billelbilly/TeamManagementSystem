@@ -60,6 +60,11 @@
 .option-heading:hover {
 	cursor: pointer;
 }
+
+#Settings .modal-lg {
+	max-width: 70%;
+	max-height: 70%;
+}
 </style>
 
 </head>
@@ -127,10 +132,9 @@
 					</div>
 				</li>
 				<li class="active open"><a href="panneauAdmin_new.jsp"><i
-						class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+						class="zmdi zmdi-home"></i><span>Tableau de Bord</span></a></li>
 				<li><a href="mainTemplate.jsp"><i
-						class="zmdi zmdi-folder-star-alt"></i><span>Dashboard
-							Tiquets</span></a></li>
+						class="zmdi zmdi-folder-star-alt"></i><span>Tiquets</span></a></li>
 
 				<li><a data-toggle="modal" data-target="#Settings"
 					href="javascript:void(0)"><i class="zmdi zmdi-settings"></i><span>Paramètres</span></a></li>
@@ -147,7 +151,7 @@
 			<div class="block-header">
 				<div class="row">
 					<div class="col-lg-7 col-md-6 col-sm-12">
-						<h2>Dashboard</h2>
+						<h2>Tableau de Bord</h2>
 
 						<button class="btn btn-primary btn-icon mobile_menu" type="button">
 							<i class="zmdi zmdi-sort-amount-desc"></i>
@@ -203,23 +207,23 @@
 
 				</div>
 
-				<div class="row clearfix">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="header">
-								<h2>
-									<strong><i class="zmdi zmdi-accounts-list-alt"></i>
-										Gestion</strong> Utilisateurs
-								</h2>
+<!-- 				<div class="row clearfix"> -->
+<!-- 					<div class="col-lg-12"> -->
+<!-- 						<div class="card"> -->
+<!-- 							<div class="header"> -->
+<!-- 								<h2> -->
+<!-- 									<strong><i class="zmdi zmdi-accounts-list-alt"></i> -->
+<!-- 										Gestion</strong> Utilisateurs -->
+<!-- 								</h2> -->
 
-							</div>
+<!-- 							</div> -->
 
-							<div class="body">
-								<div id="usersList"></div>
-							</div>
-						</div>
-					</div>
-				</div>
+<!-- 							<div class="body"> -->
+<!-- 								<div id="usersList"></div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 
 				<div class="row clearfix">
 					<div class="col-lg-12">
@@ -237,41 +241,41 @@
 					</div>
 				</div>
 
-				<div class="row clearfix">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="header">
-								<h2>
-									<strong><i class="zmdi zmdi-mail-send"></i> Listes des</strong>
-									Contacts
-								</h2>
+<!-- 				<div class="row clearfix"> -->
+<!-- 					<div class="col-lg-12"> -->
+<!-- 						<div class="card"> -->
+<!-- 							<div class="header"> -->
+<!-- 								<h2> -->
+<!-- 									<strong><i class="zmdi zmdi-mail-send"></i> Listes des</strong> -->
+<!-- 									Contacts -->
+<!-- 								</h2> -->
 
-							</div>
+<!-- 							</div> -->
 
-							<div class="body">
-								<div id="contactList"></div>
-							</div>
-						</div>
-					</div>
-				</div>
+<!-- 							<div class="body"> -->
+<!-- 								<div id="contactList"></div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 
-				<div class="row clearfix">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="header">
-								<h2>
-									<strong><i class="zmdi zmdi-settings"></i> Paramètres</strong>
-									Mailing & Attachements
-								</h2>
+<!-- 				<div class="row clearfix"> -->
+<!-- 					<div class="col-lg-12"> -->
+<!-- 						<div class="card"> -->
+<!-- 							<div class="header"> -->
+<!-- 								<h2> -->
+<!-- 									<strong><i class="zmdi zmdi-settings"></i> Paramètres</strong> -->
+<!-- 									Mailing & Attachements -->
+<!-- 								</h2> -->
 
-							</div>
+<!-- 							</div> -->
 
-							<div class="body">
-								<div id="paramList"></div>
-							</div>
-						</div>
-					</div>
-				</div>
+<!-- 							<div class="body"> -->
+<!-- 								<div id="paramList"></div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 
 			</div>
 		</div>
@@ -840,7 +844,7 @@
 							<div class="modal-body">
 
 
-
+                                 <!-- first param menu -->
 								<div class="option-heading">Paramètrage Mailing &
 									Attachement</div>
 								<div class="option-content is-hidden">
@@ -951,6 +955,33 @@
 									</div>
 
 								</div>
+								<br>
+								<!-- second param menu -->
+								<div class="option-heading">Gestion des utilisateurs</div>
+									<div class="option-content is-hidden">
+									
+											<div id="usersList"></div>
+									
+									</div>
+									<br>
+									
+									<!-- Third param menu -->
+								<div class="option-heading">Gestion des Contacts</div>
+									<div class="option-content is-hidden">
+									
+											<div id="contactList"></div>
+									
+									</div>
+									<br>
+									
+									<!-- Fourth param menu -->
+								<div class="option-heading">Gestion MAILING & ATTACHEMENTS</div>
+									<div class="option-content is-hidden">
+									
+											<div id="paramList"></div>
+									
+									</div>
+									
 							</div>
 
 							<div class="modal-footer">

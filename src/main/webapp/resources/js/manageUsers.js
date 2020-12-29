@@ -96,14 +96,14 @@ function getUsersTabulator() {
 			}
 		},
 		
-		{
-			formatter:deleteUser, align:"center",width:51,headerSort: false, cellClick:function(e, cell){
-				var id=cell.getRow().getData(0)[0].toString();
-	            $(".modal-footer #username_id").val(id);
-				
-			
-			}
-		},
+//		{
+//			formatter:deleteUser, align:"center",width:51,headerSort: false, cellClick:function(e, cell){
+//				var id=cell.getRow().getData(0)[0].toString();
+//	            $(".modal-footer #username_id").val(id);
+//				
+//			
+//			}
+//		},
 		
 		{
 			formatter:editUser, align:"center",width:51,headerSort: false, cellClick:function(e, cell){

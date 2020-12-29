@@ -195,17 +195,19 @@ function getTicketsTabulator() {
 
 			},
 			
-		}, {
-			formatter : deleteTicket,
-			align : "center",
-			width : 51,
-			headerSort : false,
-			cellClick : function(e, cell) {
-				var id = cell.getRow().getData(0)[0].toString();
-				$(".modal-footer #ticket_id").val(id);
-
-			}
-		},
+		}, 
+		
+//		{
+//			formatter : deleteTicket,
+//			align : "center",
+//			width : 51,
+//			headerSort : false,
+//			cellClick : function(e, cell) {
+//				var id = cell.getRow().getData(0)[0].toString();
+//				$(".modal-footer #ticket_id").val(id);
+//
+//			}
+//		},
 
 		],
 		groupBy : "3",

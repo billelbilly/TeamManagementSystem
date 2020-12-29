@@ -546,7 +546,7 @@ div.responseScroll { //
 
 							<div class="row">
 								<!-- BEGIN TICKET CONTENT -->
-								<div class="col-md-12">
+								<div class="col-md-6 offset-3">
 									<div class="ticket_list"></div>
 
 

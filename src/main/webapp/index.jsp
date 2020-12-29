@@ -46,8 +46,7 @@
 
 								<!-- Options btn color: .btn-success | .btn-info | .btn-warning | .btn-danger | .btn-primary -->
 								<div class="title__action">
-									<a href="/Helpdesk/login.jsp" class="btn btn-success">Accès
-										Au Système </a>
+									<a href="/Helpdesk/login.jsp" class="btn btn-success">Accès</a>
 								</div>
 							</div>
 							<!-- .title-01 -->
