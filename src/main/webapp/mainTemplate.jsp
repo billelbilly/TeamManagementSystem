@@ -407,9 +407,9 @@ div.responseScroll { //
 	%>
 	<!-- Send user Session To Server -->
 	<input type="text" name="usersession" id="usersession"
-		value="<%=session.getAttribute("username")%>" hidden="1" />
+		value="<%=session.getAttribute("username")%>" hidden />
 	<input type="text" name="userPermission" id="userPermission"
-		value="<%=session.getAttribute("userPermission")%>" hidden="1" />
+		value="<%=session.getAttribute("userPermission")%>" hidden />
 
 
 
@@ -444,7 +444,9 @@ div.responseScroll { //
 
 							<div class="btn-group">
 								<button id="nbr_ticket_open" type="button"
-									class="btn btn-success active"></button>
+									class="btn btn-success"></button>
+								<button id="nbr_ticket_assigned" type="button"
+									class="btn btn-info"></button>
 								<button id="nbr_ticket_closed" type="button"
 									class="btn btn-danger"></button>
 							</div>
@@ -522,7 +524,8 @@ div.responseScroll { //
 														style="height: 120px;" required="required"></textarea>
 												</div>
 												<div class="form-group">
-													<div id="bigFile" class="alert alert-danger" role="alert" hidden></div>
+													<div id="bigFile" class="alert alert-danger" role="alert"
+														hidden></div>
 													<input id="file" type="file" name="attachment">
 												</div>
 											</div>
@@ -531,7 +534,8 @@ div.responseScroll { //
 													data-dismiss="modal">
 													<i class="fa fa-times"></i> Annuler
 												</button>
-												<button id="saveTicket" type="submit" class="btn btn-primary pull-right">
+												<button id="saveTicket" type="submit"
+													class="btn btn-primary pull-right">
 													<i class="fa fa-pencil"></i> Créer
 												</button>
 											</div>
@@ -705,7 +709,8 @@ div.responseScroll { //
 						</div>
 						<div class="form-group">
 							<input id="action" name="action" type="text" class="form-control"
-								value="/UpdateTicket" hidden>
+								value="/UpdateTicket" hidden> <input type="text"
+								name="usersession" value="<%=session.getAttribute("username")%>" hidden/>
 						</div>
 
 						<div class="form-group">
@@ -739,7 +744,8 @@ div.responseScroll { //
 								style="height: 120px;" required="required"></textarea>
 						</div>
 						<div class="form-group">
-                            <div id="bigFileUpdate" class="alert alert-danger" role="alert" hidden></div>
+							<div id="bigFileUpdate" class="alert alert-danger" role="alert"
+								hidden></div>
 							<input id="fileUpdate" type="file" name="attachment">
 						</div>
 					</div>
@@ -747,7 +753,8 @@ div.responseScroll { //
 						<button type="button" class="btn btn-danger" data-dismiss="modal">
 							<i class="fa fa-times"></i> Annuler
 						</button>
-						<button id="saveTicketUpdate" type="submit" class="btn btn-primary pull-right">
+						<button id="saveTicketUpdate" type="submit"
+							class="btn btn-primary pull-right">
 							<i class="fa fa-pencil"></i> Update
 						</button>
 					</div>

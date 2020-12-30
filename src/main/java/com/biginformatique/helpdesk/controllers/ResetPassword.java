@@ -145,7 +145,6 @@ public class ResetPassword extends HttpServlet {
 			email = settings.getEmail();
 			name = settings.getNom();
 			pass=settings.getPassword();
-			//Decrypt password here
 			pass = decryptPassword.decrypt(pass);
 			
 			// Send URL to Reset password from here

@@ -2,8 +2,7 @@
 $(document).ready(function() {
 	
 	function showLoader() {
-		document.getElementById("semiTransparentDiv").style.display="block";
-			
+		document.getElementById("semiTransparentDiv").style.display="block";	
 		}
 	
 	function Filevalidation() {
@@ -85,6 +84,7 @@ $(document).ready(function() {
 	function getTickets(data) {
 
 		$("#nbr_ticket_open").text("0 Crées");
+		$("#nbr_ticket_assigned").text("0 Assignés");
 		$("#nbr_ticket_closed").text("0 Fermés");
 		
 		///This is to clear up Ticket list And Close Creation Modal
@@ -108,9 +108,9 @@ $(document).ready(function() {
 			var nbr_ticket_assign=0;
 			var userSession;
 
-		
-			data.ticket.forEach(function(ticket) {
 		    
+			data.ticket.forEach(function(ticket) {
+				
 				
 				// ***********Function to Format the
 				// CreationDateTime************//
@@ -129,17 +129,17 @@ $(document).ready(function() {
 						break;
 					}
 				   
-
 				    return str;
 				}
 			
 				var date=getFormattedDate(ticket[5],"ticket");
 				// ****************************************************************//
 				
-				/// Get the User how Created the Ticket
+				/// Get the User who Created the Ticket
 				if (ticket[6].username!=undefined) {
 					
 					userSession=ticket[6].username;	
+					
 					
 				}
 				var urlFile=$("#urlFile").val();
@@ -206,10 +206,14 @@ $(document).ready(function() {
 					nbr_ticket_open++;
 					$("#backgroundTicket-"+ticket[0]+"").addClass("list-group-item-success");
 				}
-				else {
+				else if(ticket[3]=="fermer") {
 					nbr_ticket_closed++;
 					$("#backgroundTicket-"+ticket[0]+"").addClass("list-group-item-danger");
 					$("#edit-"+ticket[0]+"").attr("hidden", true);
+					
+				}else {
+					nbr_ticket_assign++;
+					$("#backgroundTicket-"+ticket[0]+"").addClass("list-group-item-info");
 					
 				}
 				if (ticket[7]!=null) {
@@ -616,9 +620,10 @@ $(document).ready(function() {
 		
 			//////////**********************End Pagination***********************///////////
 			
-			// Set open ticket number ticket here
+			// Set number ticket here
 			$("#nbr_ticket_open").text(nbr_ticket_open+" Crées");
 			$("#nbr_ticket_closed").text(nbr_ticket_closed+" Fermés");
+			$("#nbr_ticket_assigned").text(nbr_ticket_assign+" Assignés");
 	
 
 		} else {

@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" type="text/css"
 	href="resources/css/select2.min.css">
-	
+
 <link rel="stylesheet" type="text/css"
 	href="resources/css/datepicker.css">
 
@@ -213,23 +213,23 @@
 
 				</div>
 
-<!-- 				<div class="row clearfix"> -->
-<!-- 					<div class="col-lg-12"> -->
-<!-- 						<div class="card"> -->
-<!-- 							<div class="header"> -->
-<!-- 								<h2> -->
-<!-- 									<strong><i class="zmdi zmdi-accounts-list-alt"></i> -->
-<!-- 										Gestion</strong> Utilisateurs -->
-<!-- 								</h2> -->
+				<!-- 				<div class="row clearfix"> -->
+				<!-- 					<div class="col-lg-12"> -->
+				<!-- 						<div class="card"> -->
+				<!-- 							<div class="header"> -->
+				<!-- 								<h2> -->
+				<!-- 									<strong><i class="zmdi zmdi-accounts-list-alt"></i> -->
+				<!-- 										Gestion</strong> Utilisateurs -->
+				<!-- 								</h2> -->
 
-<!-- 							</div> -->
+				<!-- 							</div> -->
 
-<!-- 							<div class="body"> -->
-<!-- 								<div id="usersList"></div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
+				<!-- 							<div class="body"> -->
+				<!-- 								<div id="usersList"></div> -->
+				<!-- 							</div> -->
+				<!-- 						</div> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
 
 				<div class="row clearfix">
 					<div class="col-lg-12">
@@ -247,45 +247,45 @@
 					</div>
 				</div>
 
-<!-- 				<div class="row clearfix"> -->
-<!-- 					<div class="col-lg-12"> -->
-<!-- 						<div class="card"> -->
-<!-- 							<div class="header"> -->
-<!-- 								<h2> -->
-<!-- 									<strong><i class="zmdi zmdi-mail-send"></i> Listes des</strong> -->
-<!-- 									Contacts -->
-<!-- 								</h2> -->
+				<!-- 				<div class="row clearfix"> -->
+				<!-- 					<div class="col-lg-12"> -->
+				<!-- 						<div class="card"> -->
+				<!-- 							<div class="header"> -->
+				<!-- 								<h2> -->
+				<!-- 									<strong><i class="zmdi zmdi-mail-send"></i> Listes des</strong> -->
+				<!-- 									Contacts -->
+				<!-- 								</h2> -->
 
-<!-- 							</div> -->
+				<!-- 							</div> -->
 
-<!-- 							<div class="body"> -->
-<!-- 								<div id="contactList"></div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
+				<!-- 							<div class="body"> -->
+				<!-- 								<div id="contactList"></div> -->
+				<!-- 							</div> -->
+				<!-- 						</div> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
 
-<!-- 				<div class="row clearfix"> -->
-<!-- 					<div class="col-lg-12"> -->
-<!-- 						<div class="card"> -->
-<!-- 							<div class="header"> -->
-<!-- 								<h2> -->
-<!-- 									<strong><i class="zmdi zmdi-settings"></i> Paramètres</strong> -->
-<!-- 									Mailing & Attachements -->
-<!-- 								</h2> -->
+				<!-- 				<div class="row clearfix"> -->
+				<!-- 					<div class="col-lg-12"> -->
+				<!-- 						<div class="card"> -->
+				<!-- 							<div class="header"> -->
+				<!-- 								<h2> -->
+				<!-- 									<strong><i class="zmdi zmdi-settings"></i> Paramètres</strong> -->
+				<!-- 									Mailing & Attachements -->
+				<!-- 								</h2> -->
 
-<!-- 							</div> -->
+				<!-- 							</div> -->
 
-<!-- 							<div class="body"> -->
-<!-- 								<div id="paramList"></div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
+				<!-- 							<div class="body"> -->
+				<!-- 								<div id="paramList"></div> -->
+				<!-- 							</div> -->
+				<!-- 						</div> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
 
 			</div>
 		</div>
-		<div id="semiTransparentDiv"> </div>
+		<div id="semiTransparentDiv"></div>
 	</section>
 
 
@@ -703,7 +703,7 @@
 										</select>
 									</div>
 									<div class="form-group">
-											<!-- Here put Planification DatePickers -->
+										<!-- Here put Planification DatePickers -->
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text"> <i
@@ -749,7 +749,7 @@
 												placeholder="Date Fin Réalisation">
 
 										</div>
-									
+
 									</div>
 									<button type="submit" class="btn btn-info btn-md">
 										<i class="fa fa-tasks"></i> Assigner
@@ -794,12 +794,12 @@
 
 							<div class="modal-body">
 
-								<div class="form-group">
+								<div id="closing_info"></div>
 
+								<div class="form-group">
 									<textarea class="form-control" id="putDetail" rows="10"
 										style="color: #000" readonly></textarea>
 								</div>
-
 
 
 							</div>
@@ -899,7 +899,7 @@
 							<div class="modal-body">
 
 
-                                 <!-- first param menu -->
+								<!-- first param menu -->
 								<div class="option-heading">Paramètrage Mailing &
 									Attachement</div>
 								<div class="option-content is-hidden">
@@ -1013,30 +1013,30 @@
 								<br>
 								<!-- second param menu -->
 								<div class="option-heading">Gestion des utilisateurs</div>
-									<div class="option-content is-hidden">
-									
-											<div id="usersList"></div>
-									
-									</div>
-									<br>
-									
-									<!-- Third param menu -->
+								<div class="option-content is-hidden">
+
+									<div id="usersList"></div>
+
+								</div>
+								<br>
+
+								<!-- Third param menu -->
 								<div class="option-heading">Gestion des Contacts</div>
-									<div class="option-content is-hidden">
-									
-											<div id="contactList"></div>
-									
-									</div>
-									<br>
-									
-									<!-- Fourth param menu -->
+								<div class="option-content is-hidden">
+
+									<div id="contactList"></div>
+
+								</div>
+								<br>
+
+								<!-- Fourth param menu -->
 								<div class="option-heading">Gestion MAILING & ATTACHEMENTS</div>
-									<div class="option-content is-hidden">
-									
-											<div id="paramList"></div>
-									
-									</div>
-									
+								<div class="option-content is-hidden">
+
+									<div id="paramList"></div>
+
+								</div>
+
 							</div>
 
 							<div class="modal-footer">
@@ -1083,14 +1083,16 @@
 
 									<form id="EditMailingSettingForm"
 										action="<%=request.getContextPath()%>/Settings" method="POST"
-										oninput='password2.setCustomValidity(password2.value != password.value ? "Mot de passe ne correspondent pas." : "")' autocomplete="off">
+										oninput='password2.setCustomValidity(password2.value != password.value ? "Mot de passe ne correspondent pas." : "")'
+										autocomplete="off">
 
 										<div class="form-group" hidden="1">
 											<input type="text" name="action" id="action"
 												value="/EditMailSettings&Attachment" />
 										</div>
 										<div class="form-group" hidden>
-											<input type="text" name="settings_id" id="settings_id" value="" />
+											<input type="text" name="settings_id" id="settings_id"
+												value="" />
 										</div>
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
@@ -1155,7 +1157,7 @@
 												</span>
 											</div>
 											<input name="password" id="password_id" class="form-control"
-												placeholder="Password" type="password" >
+												placeholder="Password" type="password">
 										</div>
 										<!-- form-group// -->
 										<div class="form-group input-group">
@@ -1165,7 +1167,7 @@
 											</div>
 											<input name="password2" id="password2_id"
 												class="form-control" placeholder="Confirmer password"
-												type="password" >
+												type="password">
 										</div>
 
 										<div class="form-group input-group">
@@ -1242,8 +1244,8 @@
 	<script src="resources/assets/bundles/sparkline.bundle.js"></script>
 	<!-- Sparkline Plugin Js -->
 	<script src="resources/assets/bundles/c3.bundle.js"></script>
-    <script src="resources/js/datepicker.js"></script>
-    <script src="resources/js/datepickerForAdmin.js"></script>
+	<script src="resources/js/datepicker.js"></script>
+	<script src="resources/js/datepickerForAdmin.js"></script>
 	<script src="resources/assets/bundles/mainscripts.bundle.js"></script>
 	<script src="resources/assets/js/pages/index.js"></script>
 	<script src="resources/js/contacts/contacts.js"></script>

@@ -32,6 +32,8 @@ import com.biginformatique.helpdesk.models.Planification;
 import com.biginformatique.helpdesk.models.Ticket;
 import com.biginformatique.helpdesk.models.TicketUser;
 import com.biginformatique.helpdesk.models.User;
+import com.biginformatique.helpdesk.util.EmailUtility;
+import com.biginformatique.helpdesk.util.EncryptDecryptPassword;
 
 import top.jfunc.json.impl.JSONObject;
 
@@ -46,6 +48,13 @@ public class TicketManagement extends HttpServlet {
 	private UserDao userDao;
 	private PlanificationsDao planifDao;
 	private SettingsDao settingsDao;
+	private String host;
+	private String smtp;
+	private String port;
+	private String email;
+	private String name;
+	private String pass;
+	private EncryptDecryptPassword decryptPassword;
 
 	public TicketManagement() {
 		super();
@@ -58,6 +67,12 @@ public class TicketManagement extends HttpServlet {
 		userDao = new UserDao();
 		planifDao = new PlanificationsDao();
 		settingsDao = new SettingsDao();
+		try {
+			decryptPassword= new EncryptDecryptPassword();
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -289,7 +304,6 @@ public class TicketManagement extends HttpServlet {
 			dateFinRealise = LocalDate.parse(sdateFinRealise, formatter);
 		}
 
-		JSONObject jo = new JSONObject();
 		Planification planifObj = new Planification();
 		Ticket ticket = null;
 		ticket = ticketDao.getTicketById(ticketId);
@@ -337,15 +351,50 @@ public class TicketManagement extends HttpServlet {
 	private void saveTicketUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userId = request.getParameter("userEntreprise");
 		String ticketId = request.getParameter("ticket_id");
-		planifyTicketByAdmin(request, response);
+		String sdateDebutPlanif = request.getParameter("date_debut_planif");
+		String sdateFinPlanif = request.getParameter("date_fin_planif");
+		if (!sdateDebutPlanif.equals("") && !sdateFinPlanif.equals("")) {
+			planifyTicketByAdmin(request, response);
+		}
 		TicketUser ticketuser = new TicketUser();
 		ticketuser.setUser_id(Integer.parseInt(userId));
 		ticketuser.setTicket_id(Integer.parseInt(ticketId));
 		JSONObject jo = new JSONObject();
+		MailingAttachSettings settings=null;
 		User user = userDao.getUserById(Integer.parseInt(userId));
+		String recipient=user.getEmail();
+		String subject = "Nouveau Tiquet Assigné";
+		//Add more info to the content such Ticket number software in question ...
+		String content = "Bonjour,<br><br>Un nouveau Tiquet vous a été assigné. Merci d'en jeter un oeil";
+		content += "<br><br>Cordialement.";
+
+		// reads SMTP server setting from DB
+		settings = settingsDao.getInitialSettingsDao();
+		host = settings.getHost();
+		smtp = settings.getSmtp();
+		port = settings.getPort();
+		email = settings.getEmail();
+		name = settings.getNom();
+		pass = settings.getPassword();
+		pass = decryptPassword.decrypt(pass);
 
 		if (ticketuserDao.saveTicketUserDao(ticketuser)) {
-			//Send Email Notification here
+			// Send Email Notification here
+			try {
+				EmailUtility.sendEmail(smtp, port, email, name, pass, recipient, subject, content);
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
+			
+			//Change Ticket Status to Assigned
+			Ticket ticket = ticketDao.getTicketById(ticketId);
+			ticket.setEtat("assigned");
+			try {
+				ticketDao.updateTicketStatus(ticket);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			jo.put("success", "true");
 			jo.put("id", ticketId);
@@ -458,7 +507,7 @@ public class TicketManagement extends HttpServlet {
 	}
 
 	private void updateTicket(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session = request.getSession();
+		String userSession=request.getParameter("usersession");
 		String Objet = request.getParameter("subject");
 		String Severity = request.getParameter("severity");
 		String etatTicket = request.getParameter("etat_ticket");
@@ -495,9 +544,11 @@ public class TicketManagement extends HttpServlet {
 		}
 		// Get The User Who Created The Ticket here
 		Ticket ticketCreator = ticketDao.getTicketById(ticketId);
+		// if etatTicket is fermer get the user who closed the ticket and add it to the ticket object
 		user = userDao.getUserById(ticketCreator.getUser().getUser_id());
 		ticket.setTicket_id(Integer.parseInt(ticketId));
 		ticket.setUser(user);
+		ticket.setClosedBy(userSession);
 		ticketDao.updateTicketDao(ticket);
 		JSONObject jo = new JSONObject();
 		jo.put("success", "true");

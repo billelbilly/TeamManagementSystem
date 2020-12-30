@@ -105,19 +105,21 @@ function getTicketsTabulator() {
 			var nbr_fermer = 0;
 			nbr_assign=0;
 			response.tickets.forEach(function(ticket) {
-
+				
 				if (ticket[3] == "open") {
-
 					nbr_open++;
-					ticket[3]="Crée";
-				} else {
+					ticket[3]="crée";
+				} else if (ticket[3]=="fermer") {
 					nbr_fermer++;
+					
+				}else {
+					nbr_assign++;
+					ticket[3]="assigné";
 				}
 				
-				if (ticket[6]) {
-					nbr_assign++;
-					
-				}
+//				if (ticket[6]) {
+//					nbr_assign++;	
+//				}
 
 			});
 
@@ -155,6 +157,12 @@ function getTicketsTabulator() {
 			headerSort : false,
 			cellClick : function(e, cell) {
 				$("#Details").modal("show");
+			// Clear closing_info div from any paragraph first
+				if (cell.getRow().getData(0)[3].toString()=="fermer" &&  cell.getRow().getData(0)[7].toString()!="null") {
+					var colosing_info=`<p>Fermé par: <strong>@${cell.getRow().getData(0)[7].toString()}</strong> le _/_/_</p>`;
+					$("#closing_info").html(colosing_info);
+				}
+				
 				$("#putDetail").text(cell.getRow().getData(0)[2].toString());
 
 			}
@@ -198,17 +206,17 @@ function getTicketsTabulator() {
 			
 		}, 
 		
-//		{
-//			formatter : deleteTicket,
-//			align : "center",
-//			width : 51,
-//			headerSort : false,
-//			cellClick : function(e, cell) {
-//				var id = cell.getRow().getData(0)[0].toString();
-//				$(".modal-footer #ticket_id").val(id);
-//
-//			}
-//		},
+		{
+			formatter : deleteTicket,
+			align : "center",
+			width : 51,
+			headerSort : false,
+			cellClick : function(e, cell) {
+				var id = cell.getRow().getData(0)[0].toString();
+				$(".modal-footer #ticket_id").val(id);
+
+			}
+		},
 
 		],
 		groupBy : "3",
@@ -217,16 +225,20 @@ function getTicketsTabulator() {
 			// count - the number of rows in this group
 			// data - an array of all the row data objects in this group
 			// group - the group component for the group
-			if (value == "Crée") {
+			if (value == "crée") {
 				return "Crée"
 						+ "<span style='color:green; margin-left:10px;'>("
 						+ count + " Tiquets)</span>";
 
-			} else {
+			} else if(value =="fermer") {
 				return "Fermer"
 						+ "<span style='color:#d00; margin-left:10px;'>("
 						+ count + " Tiquets)</span>";
 
+			}else {
+				return "Assigné"
+				+ "<span style='color:#1cbfd0; margin-left:10px;'>("
+				+ count + " Tiquets)</span>";
 			}
 
 		},

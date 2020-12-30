@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "tickets")
@@ -46,19 +47,17 @@ public class Ticket implements Serializable {
 	@Column(name = "assigned_to")
 	private String AssignedTo;
 	
+	@Column(name = "closed_by")
+	private String ClosedBy;
+	
 	@Column(name = "attachment_path")
 	private String Attachment;
-	
-	public String getAttachment() {
-		return Attachment;
-	}
-
-	public void setAttachment(String attachment) {
-		Attachment = attachment;
-	}
 
 	@CreationTimestamp
     private LocalDateTime createDateTime;
+
+	@UpdateTimestamp
+    private LocalDateTime closedDateTime;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false, insertable = true)
@@ -150,6 +149,62 @@ public class Ticket implements Serializable {
 
 	public void setSeverity(String severity) {
 		Severity = severity;
+	}
+	
+	public String getAttachment() {
+		return Attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		Attachment = attachment;
+	}
+	
+	public String getAssignedTo() {
+		return AssignedTo;
+	}
+
+	public void setAssignedTo(String assignedTo) {
+		AssignedTo = assignedTo;
+	}
+
+	public String getClosedBy() {
+		return ClosedBy;
+	}
+
+	public void setClosedBy(String closedBy) {
+		ClosedBy = closedBy;
+	}
+
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public LocalDateTime getClosedDateTime() {
+		return closedDateTime;
+	}
+
+	public void setClosedDateTime(LocalDateTime closedDateTime) {
+		this.closedDateTime = closedDateTime;
+	}
+
+	public List<Response> getResponse() {
+		return response;
+	}
+
+	public void setResponse(List<Response> response) {
+		this.response = response;
+	}
+
+	public Planification getPlanification() {
+		return planification;
+	}
+
+	public void setPlanification(Planification planification) {
+		this.planification = planification;
 	}
 
 }
