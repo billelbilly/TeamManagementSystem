@@ -1,10 +1,11 @@
 package com.biginformatique.helpdesk.models;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
@@ -57,7 +59,10 @@ public class Ticket implements Serializable {
     private LocalDateTime createDateTime;
 
 	@UpdateTimestamp
-    private LocalDateTime closedDateTime;
+    private Timestamp closedDateTime;
+	
+	@UpdateTimestamp
+    private Timestamp assignedDateTime;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false, insertable = true)
@@ -183,11 +188,11 @@ public class Ticket implements Serializable {
 		this.createDateTime = createDateTime;
 	}
 
-	public LocalDateTime getClosedDateTime() {
+	public Timestamp getClosedDateTime() {
 		return closedDateTime;
 	}
 
-	public void setClosedDateTime(LocalDateTime closedDateTime) {
+	public void setClosedDateTime(Timestamp closedDateTime) {
 		this.closedDateTime = closedDateTime;
 	}
 
@@ -206,5 +211,15 @@ public class Ticket implements Serializable {
 	public void setPlanification(Planification planification) {
 		this.planification = planification;
 	}
+
+	public Timestamp getAssignedDateTime() {
+		return assignedDateTime;
+	}
+
+	public void setAssignedDateTime(Timestamp assignedDateTime) {
+		this.assignedDateTime = assignedDateTime;
+	}
+	
+	
 
 }

@@ -92,6 +92,40 @@ function getTicketsTabulator() {
 		// the Virtual DOM and improves render speed
 		// dramatically (can be any valid css height value)
 		// data:get_data, //assign data to table
+		
+		locale:true,
+	    langs:{
+	        "fr-fr":{
+//	            "columns":{
+//	                "name":"Name", //replace the title of column name with the value "Name"
+//	            },
+	            "ajax":{
+	                "loading":"Chargement ...", //ajax loader text
+	                "error":"Erreur", //ajax error text
+	            },
+//	            "groups":{ //copy for the auto generated item count in group header
+//	                "item":"item", //the singular  for item
+//	                "items":"items", //the plural for items
+//	            },
+	            "pagination":{
+	                "first":"Premier", //text for the first page button
+	                "first_title":"Premièr Page", //tooltip text for the first page button
+	                "last":"Dernier",
+	                "last_title":"Dernièr Page",
+	                "prev":"Précédent",
+	                "prev_title":"Page Précédente",
+	                "next":"Suivant",
+	                "next_title":"Page Suivante",
+	            },
+//	            "headerFilters":{
+//	                "default":"filter column...", //default header filter placeholder text
+//	                "columns":{
+//	                    "name":"filter name...", //replace default header filter text for column name
+//	                }
+//	            }
+	        }
+	    },
+	    
 		ajaxURL : "/Helpdesk/TicketManagement",
 		ajaxParams:{action:"/getAllTickets"},
 		ajaxContentType : "application/json; charset=utf-8",
@@ -103,7 +137,11 @@ function getTicketsTabulator() {
 
 			var nbr_open = 0;
 			var nbr_fermer = 0;
-			nbr_assign=0;
+			var nbr_assign=0;
+			var percent_open=0;
+			var percent_closed=0;
+			var percent_assigned=0;
+			var Total_Ticket=response.tickets.length;
 			response.tickets.forEach(function(ticket) {
 				
 				if (ticket[3] == "open") {
@@ -116,16 +154,27 @@ function getTicketsTabulator() {
 					nbr_assign++;
 					ticket[3]="assigné";
 				}
-				
-//				if (ticket[6]) {
-//					nbr_assign++;	
-//				}
+
 
 			});
-
+            // Dump each Ticket number to The Interface.
 			$("#nbr_open").text(nbr_open);
 			$("#nbr_fermer").text(nbr_fermer);
 			$("#nbr_assign").text(nbr_assign);
+	
+			// Dump each Ticket percentage to The Interface.
+			percent_open=Math.round((nbr_open*100)/Total_Ticket);
+			percent_closed=Math.round((nbr_fermer*100)/Total_Ticket);
+			percent_assigned=Math.round((nbr_assign*100)/Total_Ticket);
+			
+			$("#percent_open_progress").css("width", percent_open);
+			$("#percent_closed_progress").css("width", percent_closed);
+			$("#percent_assigned_progress").css("width", percent_assigned);
+			
+			$("#percent_open").text(percent_open+"%");
+			$("#percent_closed").text(percent_closed+"%");
+			$("#percent_assigned").text(percent_assigned+"%");
+			
 
 			return response.tickets; // return the tableData property of a
 										// response json object
@@ -156,14 +205,18 @@ function getTicketsTabulator() {
 			title : "Détails",
 			headerSort : false,
 			cellClick : function(e, cell) {
+				///********* Here Add All The Ticket Information That you want to be added **********///
+				
 				$("#Details").modal("show");
-			// Clear closing_info div from any paragraph first
+			   // Clear closing_info div from any paragraph first
+				$("#closing_info").empty();
 				if (cell.getRow().getData(0)[3].toString()=="fermer" &&  cell.getRow().getData(0)[7].toString()!="null") {
 					var colosing_info=`<p>Fermé par: <strong>@${cell.getRow().getData(0)[7].toString()}</strong> le _/_/_</p>`;
 					$("#closing_info").html(colosing_info);
 				}
 				
 				$("#putDetail").text(cell.getRow().getData(0)[2].toString());
+				///*********************************************************************************///
 
 			}
 		}, {

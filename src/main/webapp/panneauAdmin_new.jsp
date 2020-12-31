@@ -175,38 +175,46 @@
 			<div class="container-fluid">
 				<div class="row clearfix justify-content-center">
 					<div class="col-lg-3 col-md-6 col-sm-12">
-						<div class="card  traffic">
+						<div class="card">
 							<div class="body bg-success">
 								<h6>Tiquets Crées</h6>
 								<h2 id="nbr_open"></h2>
-
-								<!--                             <div class="progress"> -->
-								<!--                                 <div class="progress-bar l-green" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%;"></div> -->
-								<!--                             </div> -->
+								<small id="percent_open"></small>
+								<div class="progress">
+									<div id="percent_open_progress" class="progress-bar l-amber" role="progressbar"
+										aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+										></div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-6 col-sm-12">
-						<div class="card  sales">
+						<div class="card">
 							<div class="body bg-danger">
 								<h6>Tiquets Fermés</h6>
 								<h2 id="nbr_fermer"></h2>
 
-								<!--                             <div class="progress"> -->
-								<!--                                 <div class="progress-bar l-red" role="progressbar" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100" style="width: 38%;"></div> -->
-								<!--                             </div> -->
+								<small id="percent_closed"></small>
+								<div class="progress">
+									<div id="percent_closed_progress" class="progress-bar l-amber" role="progressbar"
+										aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+										></div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-6 col-sm-12">
-						<div class="card  email">
+						<div class="card">
 							<div class="body bg-info">
 								<h6>Tiquets Assignés</h6>
 								<h2 id="nbr_assign"></h2>
 
-								<!-- 	                            <div class="progress"> -->
-								<!-- 	                                <div class="progress-bar l-purple" role="progressbar" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100" style="width: 39%;"></div> -->
-								<!-- 	                            </div> -->
+								<small id="percent_assigned"></small>
+								<div class="progress">
+									<div id="percent_assigned_progress" class="progress-bar l-amber" role="progressbar"
+										aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+										></div>
+								</div>
 							</div>
 						</div>
 					</div>
