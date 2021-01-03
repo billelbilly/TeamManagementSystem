@@ -402,7 +402,7 @@ div.responseScroll { //
 		response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
 		if (session.getAttribute("username") == null) {
 
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("index.jsp");
 		}
 	%>
 	<!-- Send user Session To Server -->

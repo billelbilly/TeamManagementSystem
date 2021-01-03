@@ -216,6 +216,7 @@ function getTicketsTabulator() {
 				}
 				
 				$("#putDetail").text(cell.getRow().getData(0)[2].toString());
+				console.log("Created By: "+cell.getRow().getData(0)[8].toString());
 				///*********************************************************************************///
 
 			}

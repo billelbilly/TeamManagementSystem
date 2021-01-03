@@ -68,9 +68,9 @@ public class TicketManagement extends HttpServlet {
 		planifDao = new PlanificationsDao();
 		settingsDao = new SettingsDao();
 		try {
-			decryptPassword= new EncryptDecryptPassword();
+			decryptPassword = new EncryptDecryptPassword();
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 	}
@@ -322,8 +322,9 @@ public class TicketManagement extends HttpServlet {
 		List allTickets = ticketDao.getAllTicketsDao();
 
 		JSONObject jo = new JSONObject();
+		// get each ticket username Creator as json object and send
+		// it to the Client Side
 		jo.put("tickets", allTickets);
-
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(jo.toString());
@@ -360,11 +361,11 @@ public class TicketManagement extends HttpServlet {
 		ticketuser.setUser_id(Integer.parseInt(userId));
 		ticketuser.setTicket_id(Integer.parseInt(ticketId));
 		JSONObject jo = new JSONObject();
-		MailingAttachSettings settings=null;
+		MailingAttachSettings settings = null;
 		User user = userDao.getUserById(Integer.parseInt(userId));
-		String recipient=user.getEmail();
+		String recipient = user.getEmail();
 		String subject = "Nouveau Tiquet Assigné";
-		//Add more info to the content such Ticket number software in question ...
+		// Add more info to the content such Ticket number software in question ...
 		String content = "Bonjour,<br><br>Un nouveau Tiquet vous a été assigné. Merci d'en jeter un oeil";
 		content += "<br><br>Cordialement.";
 
@@ -383,11 +384,11 @@ public class TicketManagement extends HttpServlet {
 			try {
 				EmailUtility.sendEmail(smtp, port, email, name, pass, recipient, subject, content);
 			} catch (Exception e) {
-				
+
 				e.printStackTrace();
 			}
-			
-			//Change Ticket Status to Assigned
+
+			// Change Ticket Status to Assigned
 			Ticket ticket = ticketDao.getTicketById(ticketId);
 			ticket.setEtat("assigned");
 			try {
@@ -469,10 +470,8 @@ public class TicketManagement extends HttpServlet {
 		String username = request.getParameter("usersession");
 		user = userDao.getUserByUsername(username);
 		List allTickets = ticketDao.getTicketsByUserDao(user);
-
 		JSONObject jo = new JSONObject();
 		jo.put("ticket", allTickets);
-
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(jo.toString());
@@ -507,7 +506,7 @@ public class TicketManagement extends HttpServlet {
 	}
 
 	private void updateTicket(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String userSession=request.getParameter("usersession");
+		String userSession = request.getParameter("usersession");
 		String Objet = request.getParameter("subject");
 		String Severity = request.getParameter("severity");
 		String etatTicket = request.getParameter("etat_ticket");
@@ -544,7 +543,8 @@ public class TicketManagement extends HttpServlet {
 		}
 		// Get The User Who Created The Ticket here
 		Ticket ticketCreator = ticketDao.getTicketById(ticketId);
-		// if etatTicket is fermer get the user who closed the ticket and add it to the ticket object
+		// if etatTicket is fermer get the user who closed the ticket and add it to the
+		// ticket object
 		user = userDao.getUserById(ticketCreator.getUser().getUser_id());
 		ticket.setTicket_id(Integer.parseInt(ticketId));
 		ticket.setUser(user);

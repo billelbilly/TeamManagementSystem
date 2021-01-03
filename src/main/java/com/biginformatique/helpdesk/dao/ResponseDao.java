@@ -17,7 +17,7 @@ public class ResponseDao {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void saveResponse(Response response) {
+	public boolean saveResponse(Response response) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		try {
@@ -27,6 +27,7 @@ public class ResponseDao {
 			session.save(response);
 			// commit transaction
 			transaction.commit();
+			return true;
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -35,6 +36,7 @@ public class ResponseDao {
 		} finally {
 			session.close();
 		}
+		return false;
 	}
 
 	public List getResponseByTicket(Ticket ticket) {
@@ -52,7 +54,7 @@ public class ResponseDao {
 				transaction = session.beginTransaction();
 			
 				Query query = session.createQuery(
-						"SELECT R.Response, R.createDateTime,R.user FROM Response R WHERE R.ticket = :ticket ORDER BY R.createDateTime DESC ")
+						"SELECT R.id, R.Response, R.createDateTime,U.username FROM Response R, User U WHERE R.ticket = :ticket AND R.user=U.user_id ORDER BY R.createDateTime DESC ")
 						.setParameter("ticket", ticket);
 				
 				responses = query.list();
@@ -73,5 +75,6 @@ public class ResponseDao {
 
 		
 	}
+	
 
 }

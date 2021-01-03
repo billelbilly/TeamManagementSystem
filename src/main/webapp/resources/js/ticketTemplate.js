@@ -107,10 +107,21 @@ $(document).ready(function() {
 			var nbr_ticket_closed=0;
 			var nbr_ticket_assign=0;
 			var userSession;
-
-		    
+		
 			data.ticket.forEach(function(ticket) {
+				console.log("Ticket: "+ticket);
 				
+				///**********   Get the User who Created the Ticket **********///
+//				var arrayLength = data.ticketCreators.length;
+//				for (var i = 0; i < arrayLength; i++) {
+//					
+//				    if(data.ticketCreators[i][0]==ticket[0]){
+//				    	
+//				    	userSession=data.ticketCreators[i][1]
+//				    }
+//				    
+//				}
+				///************************************************************///
 				
 				// ***********Function to Format the
 				// CreationDateTime************//
@@ -136,12 +147,12 @@ $(document).ready(function() {
 				// ****************************************************************//
 				
 				/// Get the User who Created the Ticket
-				if (ticket[6].username!=undefined) {
-					
-					userSession=ticket[6].username;	
-					
-					
-				}
+//				if (ticket[6].username!=undefined) {
+//					
+//					userSession=ticket[6].username;	
+//					
+//					
+//				}
 				var urlFile=$("#urlFile").val();
 				
 
@@ -152,7 +163,7 @@ $(document).ready(function() {
 											<strong class="text-dark">${ticket[1]}</strong> <span class="${ticket[0]}" >${ticket[4]}</span><span
 												class="number pull-right"># ${ticket[0]}</span>
 											<p class="info">
-												Crée par: <strong class="text-dark"> @${userSession}</strong> le: ${date} <i
+												Crée par: <strong class="text-dark"> @${ticket[8]}</strong> le: ${date} <i
 													class="fa fa-comments"></i> <a id="${ticket[0]}"
 													class="btn  btn-info btn-sm" href="#" role="button" data-toggle="modal"	data-target="#issue">
 													Réponses</a>
@@ -221,10 +232,7 @@ $(document).ready(function() {
 					
 				}
 				
-				
-				
-				
-				
+		
 				// ****** When Clicking on Ticket Reponses This Happens
 				// ***************//
 				
@@ -276,16 +284,29 @@ $(document).ready(function() {
 							  }
 							
 							if (isNotNull) {
-
-								for (var i = 0, l = data.responses.length; i < l; i++) {
-								    var objResponse = data.responses[i];
-								    var date_creation_response=getFormattedDate(objResponse[1],"resp");
+				
+								
+								objResponse.forEach(function(response) {
 								    
-									if (objResponse[2].username!=undefined) {
-										userResponseSession=objResponse[2].username;
-										
-									}
-								 
+								    var date_creation_response=getFormattedDate(response[2],"resp");
+								    
+								    
+								  ///**********   Get the User who Responded to the Ticket **********///
+//									var arrayLength = data.responseCreators.length;
+//									for (var i = 0; i < arrayLength; i++) {
+//									    if(data.responseCreators[i][0]==response[0]){
+//									    	
+//									    	userResponseSession=data.responseCreators[i][1]
+//									    }
+//									    
+//									}
+									///************************************************************///
+								    
+//									if (objResponse[3].username!=undefined) {
+//										userResponseSession=objResponse[3].username;
+//										
+//									}
+							
 								  
 									var ticket_response=`
 									
@@ -295,9 +316,9 @@ $(document).ready(function() {
 												
 													<span class="text-muted pull-right"> <small
 														class="text-muted">Réponse le: ${date_creation_response}</small>
-													</span> <strong class="text-success">  @${userResponseSession}</strong>
+													</span> <strong class="text-success">  @${response[3]}</strong>
 													<p>
-														${objResponse[0]}
+														${response[1]}
 														
 													</p>
 												</div>
@@ -306,7 +327,7 @@ $(document).ready(function() {
 									
 									$( ".media-list" ).append(ticket_response);
 									
-								}
+								});
 							}else {
 
 								$('.response_list').append('<div class="alert alert-warning" role="alert">Pas de Réponses pour le moment !</div>');

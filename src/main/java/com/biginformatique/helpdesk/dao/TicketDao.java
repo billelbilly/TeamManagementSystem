@@ -56,7 +56,7 @@ public class TicketDao {
 			transaction = session.beginTransaction();
 			if (user.getEtat() == 2) {
 				Query query = session.createQuery(
-						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user, T.Attachment FROM Ticket T WHERE T.user= :user")
+						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user, T.Attachment, U.username FROM Ticket T, User U WHERE T.user= :user and T.user=U.user_id")
 						.setParameter("user", user);
 				allTickets = query.list();
 				// commit transaction
@@ -64,20 +64,20 @@ public class TicketDao {
 
 			} else if (user.getEtat() == 1) {
 				Query query = session.createQuery(
-						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment FROM Ticket T ");
+						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment, U.username FROM Ticket T, User U WHERE T.user=U.user_id");
 				allTickets = query.list();
 				// commit transaction
 				transaction.commit();
 			} else {
 				Query query = session.createQuery(
-						"SELECT  T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment FROM Ticket T, TicketUser TU"
-								+ " WHERE (T.ticket_id= TU.ticket_id AND T.AssignedTo= :username)");
+						"SELECT  T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment, U.username FROM Ticket T, TicketUser TU, User U"
+								+ " WHERE (T.ticket_id= TU.ticket_id AND T.AssignedTo= :username AND T.user=U.user_id)");
 				query.setParameter("username", user.getUsername());
 				assignedTickets = query.list();
 
 				query = session.createQuery(
-						"SELECT  T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment FROM Ticket T"
-								+ " WHERE T.user= :user");
+						"SELECT  T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment, U.username FROM Ticket T, User U"
+								+ " WHERE T.user= :user and T.user=U.user_id");
 				query.setParameter("user", user);
 				currentUserTickets = query.list();
 
@@ -114,7 +114,7 @@ public class TicketDao {
 			transaction = session.beginTransaction();
 
 			Query query = session.createQuery(
-					"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime,T.AssignedTo,T.ClosedBy FROM Ticket T");
+					"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime,T.AssignedTo,T.ClosedBy,U.username  FROM Ticket T, User U WHERE T.user=U.user_id");
 			allTickets = query.list();
 			// commit transaction
 			transaction.commit();
@@ -337,5 +337,7 @@ public class TicketDao {
 		transaction.commit();
 
 	}
+	
+
 
 }
