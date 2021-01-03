@@ -41,6 +41,7 @@ public class TicketDao {
 		}
 	}
 
+	//This is for Tickets in Template
 	public List getTicketsByUserDao(User user) {
 
 		// Think how to join with user Table here to get the User who created the ticket
@@ -102,6 +103,7 @@ public class TicketDao {
 
 	}
 
+	// This is for tickets in Tabulator
 	public List getAllTicketsDao() {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -226,7 +228,7 @@ public class TicketDao {
 
 			if (user.getEtat() == 1) {
 				Query query = session.createQuery(
-						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment FROM Ticket T WHERE T.Etat= :filtre");
+						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user, T.Attachment, U.username FROM Ticket T, User U WHERE T.Etat= :filtre and T.user=U.user_id");
 				query.setParameter("filtre", filtre);
 				filtreTickets = query.list();
 				// commit transaction
@@ -234,7 +236,7 @@ public class TicketDao {
 
 			} else if (user.getEtat() == 2) {
 				Query query = session.createQuery(
-						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment FROM Ticket T WHERE T.Etat= :filtre and T.user= :user ");
+						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user, T.Attachment, U.username FROM Ticket T, User U WHERE T.Etat= :filtre and T.user= :user and T.user=U.user_id ");
 				query.setParameter("filtre", filtre);
 				query.setParameter("user", user);
 				filtreTickets = query.list();
@@ -244,15 +246,15 @@ public class TicketDao {
 			} else {
 
 				Query query = session.createQuery(
-						"SELECT  T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment FROM Ticket T, TicketUser TU"
-								+ " WHERE (T.Etat= :filtre AND T.ticket_id= TU.ticket_id AND T.AssignedTo= :username)");
+						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user, T.Attachment, U.username FROM Ticket T, TicketUser TU, User U"
+								+ " WHERE (T.Etat= :filtre AND T.ticket_id= TU.ticket_id AND T.AssignedTo= :username AND T.user=U.user_id)");
 				query.setParameter("username", user.getUsername());
 				query.setParameter("filtre", filtre);
 				List assignedTickets = query.list();
 
 				query = session.createQuery(
-						"SELECT  T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment FROM Ticket T"
-								+ " WHERE T.Etat= :filtre AND T.user= :user");
+						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user, T.Attachment, U.username FROM Ticket T, User U"
+								+ " WHERE T.Etat= :filtre AND T.user= :user AND T.user=U.user_id");
 				query.setParameter("user", user);
 				query.setParameter("filtre", filtre);
 				List currentUserTickets = query.list();

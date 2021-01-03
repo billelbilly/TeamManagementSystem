@@ -109,19 +109,7 @@ $(document).ready(function() {
 			var userSession;
 		
 			data.ticket.forEach(function(ticket) {
-				console.log("Ticket: "+ticket);
-				
-				///**********   Get the User who Created the Ticket **********///
-//				var arrayLength = data.ticketCreators.length;
-//				for (var i = 0; i < arrayLength; i++) {
-//					
-//				    if(data.ticketCreators[i][0]==ticket[0]){
-//				    	
-//				    	userSession=data.ticketCreators[i][1]
-//				    }
-//				    
-//				}
-				///************************************************************///
+
 				
 				// ***********Function to Format the
 				// CreationDateTime************//
@@ -146,13 +134,7 @@ $(document).ready(function() {
 				var date=getFormattedDate(ticket[5],"ticket");
 				// ****************************************************************//
 				
-				/// Get the User who Created the Ticket
-//				if (ticket[6].username!=undefined) {
-//					
-//					userSession=ticket[6].username;	
-//					
-//					
-//				}
+
 				var urlFile=$("#urlFile").val();
 				
 
@@ -290,23 +272,6 @@ $(document).ready(function() {
 								    
 								    var date_creation_response=getFormattedDate(response[2],"resp");
 								    
-								    
-								  ///**********   Get the User who Responded to the Ticket **********///
-//									var arrayLength = data.responseCreators.length;
-//									for (var i = 0; i < arrayLength; i++) {
-//									    if(data.responseCreators[i][0]==response[0]){
-//									    	
-//									    	userResponseSession=data.responseCreators[i][1]
-//									    }
-//									    
-//									}
-									///************************************************************///
-								    
-//									if (objResponse[3].username!=undefined) {
-//										userResponseSession=objResponse[3].username;
-//										
-//									}
-							
 								  
 									var ticket_response=`
 									
