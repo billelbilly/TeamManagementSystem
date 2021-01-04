@@ -83,7 +83,7 @@ $(document).ready(function() {
 	
 	function getTickets(data) {
 
-		$("#nbr_ticket_open").text("0 Crées");
+		$("#nbr_ticket_open").text("0 créés");
 		$("#nbr_ticket_assigned").text("0 Assignés");
 		$("#nbr_ticket_closed").text("0 Fermés");
 		
@@ -106,7 +106,6 @@ $(document).ready(function() {
 			var nbr_ticket_open=0;
 			var nbr_ticket_closed=0;
 			var nbr_ticket_assign=0;
-			var userSession;
 		
 			data.ticket.forEach(function(ticket) {
 
@@ -145,7 +144,7 @@ $(document).ready(function() {
 											<strong class="text-dark">${ticket[1]}</strong> <span class="${ticket[0]}" >${ticket[4]}</span><span
 												class="number pull-right"># ${ticket[0]}</span>
 											<p class="info">
-												Crée par: <strong class="text-dark"> @${ticket[8]}</strong> le: ${date} <i
+												créé par: <strong class="text-dark"> @${ticket[8]}</strong> le: ${date} <i
 													class="fa fa-comments"></i> <a id="${ticket[0]}"
 													class="btn  btn-info btn-sm" href="#" role="button" data-toggle="modal"	data-target="#issue">
 													Réponses</a>
@@ -195,7 +194,7 @@ $(document).ready(function() {
 					break;
 				}
 				
-				if(ticket[3]=="open") {
+				if(ticket[3]=="créé") {
 					nbr_ticket_open++;
 					$("#backgroundTicket-"+ticket[0]+"").addClass("list-group-item-success");
 				}
@@ -224,7 +223,7 @@ $(document).ready(function() {
 					var ticket_id=$((e.target)).attr('id');
 					var ticket_detail_header=`
 					<p>
-					  Tiquet <strong class="text-dark">#${ticket[0]}</strong> Crée par <strong class="text-dark"> @${userSession}</strong>
+					  Tiquet <strong class="text-dark">#${ticket[0]}</strong> créé par <strong class="text-dark"> @${ticket[8]}</strong>
 					   le: ${date}
 					</p>
 				    <p>${ticket[2]}</p>	
@@ -389,7 +388,7 @@ $(document).ready(function() {
 				
 			// ************* Click on Edit Ticket******************////
 				$("#edit-"+ticket[0]+"").click(function (e) {
-					
+					console.log("Edit Ticket: "+ticket);
 					
 					var ticket_id=$((e.target)).attr('id');
 					ticket_id=""+ticket_id+"";
@@ -398,8 +397,15 @@ $(document).ready(function() {
 					$(".modal #objet").val(ticket[1]);
 					$(".modal #detail").val(ticket[2]);
 					$(".modal #severity").val(ticket[4]);
-					$(".modal #etat_ticket").val(ticket[3]);
-					//$(".modal #assigned").val(ticket[7]);
+					
+					if (ticket[3]=="assigné") {
+						$("#etat_ticket").remove("option");
+						$("#etat_ticket").html("<option>fermer</otion><option>assigné</option>");
+						$(".modal #etat_ticket").val(ticket[3]);
+					} else {
+						$(".modal #etat_ticket").val(ticket[3]);
+
+					}
 					
 					
 					
@@ -607,7 +613,7 @@ $(document).ready(function() {
 			//////////**********************End Pagination***********************///////////
 			
 			// Set number ticket here
-			$("#nbr_ticket_open").text(nbr_ticket_open+" Crées");
+			$("#nbr_ticket_open").text(nbr_ticket_open+" créés");
 			$("#nbr_ticket_closed").text(nbr_ticket_closed+" Fermés");
 			$("#nbr_ticket_assigned").text(nbr_ticket_assign+" Assignés");
 	

@@ -71,6 +71,8 @@
 .datepicker-container {
 	z-index: 1050 !important; /* has to be larger than 1050 */
 }
+div.progress{
+width:200px}
 </style>
 
 </head>
@@ -802,7 +804,7 @@
 
 							<div class="modal-body">
 
-								<div id="closing_info"></div>
+								<div id="ticket_info"></div>
 
 								<div class="form-group">
 									<textarea class="form-control" id="putDetail" rows="10"

@@ -390,7 +390,6 @@ public class TicketManagement extends HttpServlet {
 
 			// Change Ticket Status to Assigned
 			Ticket ticket = ticketDao.getTicketById(ticketId);
-			ticket.setEtat("assigned");
 			try {
 				ticketDao.updateTicketStatus(ticket);
 			} catch (Exception e) {
@@ -423,7 +422,7 @@ public class TicketManagement extends HttpServlet {
 		User user = null;
 		MailingAttachSettings mailingAttachSettings = null;
 
-		Ticket ticket = new Ticket("open");
+		Ticket ticket = new Ticket("créé");
 		ticket.setObjet(Objet);
 		ticket.setSeverity(Severity);
 		ticket.setDetails(Details);
@@ -548,7 +547,10 @@ public class TicketManagement extends HttpServlet {
 		user = userDao.getUserById(ticketCreator.getUser().getUser_id());
 		ticket.setTicket_id(Integer.parseInt(ticketId));
 		ticket.setUser(user);
-		ticket.setClosedBy(userSession);
+		if (etatTicket.equals("fermer")) {
+			ticket.setClosedBy(userSession);
+		}
+		
 		ticketDao.updateTicketDao(ticket);
 		JSONObject jo = new JSONObject();
 		jo.put("success", "true");

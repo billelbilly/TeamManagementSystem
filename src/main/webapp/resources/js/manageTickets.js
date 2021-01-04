@@ -4,12 +4,21 @@
  *  detail => cell.getRow().getData(0)[2]
  *  etat => cell.getRow().getData(0)[3]
  *  Severity => cell.getRow().getData(0)[4]
- *  date => cell.getRow().getData(0)[5]
+ *  creation date => cell.getRow().getData(0)[5]
  *  AssignedTo => cell.getRow().getData(0)[6]
+ *  ClosedBy => cell.getRow().getData(0)[7]
+ *  Creator => cell.getRow().getData(0)[8]
+ *  Closing Date=> cell.getRow().getData(0)[9]
+ *  assigned Date => cell.getRow().getData(0)[10]
  */
 
 function showLoader() {
 document.getElementById("semiTransparentDiv").style.display="block";	
+}
+function getFormattedDate(datetoformat) {
+	var date = new Date(datetoformat);
+	var formatedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" +String(date.getMinutes()).padStart(2, '0');
+	return formatedDate;	
 }
 var deleteTicket = function(cell, formatterParams) {
 	var id = cell.getRow().getData(0)[0].toString();
@@ -144,9 +153,9 @@ function getTicketsTabulator() {
 			var Total_Ticket=response.tickets.length;
 			response.tickets.forEach(function(ticket) {
 				
-				if (ticket[3] == "open") {
+				if (ticket[3] == "créé") {
 					nbr_open++;
-					ticket[3]="crée";
+//					ticket[3]="créé";
 				} else if (ticket[3]=="fermer") {
 					nbr_fermer++;
 					
@@ -161,15 +170,18 @@ function getTicketsTabulator() {
 			$("#nbr_open").text(nbr_open);
 			$("#nbr_fermer").text(nbr_fermer);
 			$("#nbr_assign").text(nbr_assign);
-	
-			// Dump each Ticket percentage to The Interface.
-			percent_open=Math.round((nbr_open*100)/Total_Ticket);
-			percent_closed=Math.round((nbr_fermer*100)/Total_Ticket);
-			percent_assigned=Math.round((nbr_assign*100)/Total_Ticket);
 			
-			$("#percent_open_progress").css("width", percent_open);
-			$("#percent_closed_progress").css("width", percent_closed);
-			$("#percent_assigned_progress").css("width", percent_assigned);
+			if (Total_Ticket!=0) {
+				// Dump each Ticket percentage to The Interface.
+				percent_open=Math.round((nbr_open*100)/Total_Ticket);
+				percent_closed=Math.round((nbr_fermer*100)/Total_Ticket);
+				percent_assigned=Math.round((nbr_assign*100)/Total_Ticket);
+			} 
+			
+			
+			$("#percent_open_progress").css("width", percent_open*2);
+			$("#percent_closed_progress").css("width", percent_closed*2);
+			$("#percent_assigned_progress").css("width", percent_assigned*2);
 			
 			$("#percent_open").text(percent_open+"%");
 			$("#percent_closed").text(percent_closed+"%");
@@ -206,13 +218,36 @@ function getTicketsTabulator() {
 			headerSort : false,
 			cellClick : function(e, cell) {
 				///********* Here Add All The Ticket Information That you want to be added **********///
-				
+				console.log("Ticket Status: "+cell.getRow().getData(0)[3]);
+				var ticket_info;
+				var creationDate=getFormattedDate(cell.getRow().getData(0)[5].toString());
+			
 				$("#Details").modal("show");
 			   // Clear closing_info div from any paragraph first
-				$("#closing_info").empty();
-				if (cell.getRow().getData(0)[3].toString()=="fermer" &&  cell.getRow().getData(0)[7].toString()!="null") {
-					var colosing_info=`<p>Fermé par: <strong>@${cell.getRow().getData(0)[7].toString()}</strong> le _/_/_</p>`;
-					$("#closing_info").html(colosing_info);
+				$("#ticket_info").empty();
+				if (cell.getRow().getData(0)[3].toString()=="fermer") {
+					var closingDate=getFormattedDate(cell.getRow().getData(0)[9].toString());
+					ticket_info=`
+					 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
+					 <p>Fermé par: <strong>@${cell.getRow().getData(0)[7].toString()}</strong> le: <strong>${closingDate}</strong></p>
+					 <p>Logiciel & Version: <strong>${"pas encore"}</strong> </p>
+					`;
+					$("#ticket_info").html(ticket_info);
+				}else if (cell.getRow().getData(0)[3].toString()=="créé") {
+					ticket_info=`
+						 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
+						 <p>Logiciel & Version: <strong>${"pas encore"}</strong> </p>
+						`;
+						$("#ticket_info").html(ticket_info);
+					
+				}else {
+					var assignDate=getFormattedDate(cell.getRow().getData(0)[10].toString());
+					ticket_info=`
+						 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
+						 <p>Assigné à: <strong>@${cell.getRow().getData(0)[6].toString()}</strong> le: <strong>${assignDate}</strong></p>
+						 <p>Logiciel & Version: <strong>${"pas encore"}</strong> </p>
+						`;
+						$("#ticket_info").html(ticket_info);
 				}
 				
 				$("#putDetail").text(cell.getRow().getData(0)[2].toString());
@@ -244,7 +279,7 @@ function getTicketsTabulator() {
 				invalidPlaceholder : "(invalid date format)",
 			}
 		}, {
-			title : "Crée Par",
+			title : "créé Par",
 			field : "6",
 			visible : false,
 		}, {
@@ -279,8 +314,8 @@ function getTicketsTabulator() {
 			// count - the number of rows in this group
 			// data - an array of all the row data objects in this group
 			// group - the group component for the group
-			if (value == "crée") {
-				return "Crée"
+			if (value == "créé") {
+				return "créé"
 						+ "<span style='color:green; margin-left:10px;'>("
 						+ count + " Tiquets)</span>";
 

@@ -23,18 +23,24 @@ public class TicketDao {
 
 	public void saveTicket(Ticket ticket) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = null;
+		EntityManager em = session.getEntityManagerFactory().createEntityManager();
+//		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		//Transaction transaction = null;
 		try {
-			// start a transaction
-			transaction = session.beginTransaction();
-
-			session.save(ticket);
-			// commit transaction
-			transaction.commit();
+			  em.getTransaction().begin();
+			  em.persist(ticket);
+			  em.getTransaction().commit();
+//			// start a transaction
+//			transaction = session.beginTransaction();
+//
+//			session.save(ticket);
+//			// commit transaction
+//			transaction.commit();
 		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
+//			if (transaction != null) {
+//				transaction.rollback();
+//			}
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -116,7 +122,7 @@ public class TicketDao {
 			transaction = session.beginTransaction();
 
 			Query query = session.createQuery(
-					"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime,T.AssignedTo,T.ClosedBy,U.username  FROM Ticket T, User U WHERE T.user=U.user_id");
+					"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime,T.AssignedTo,T.ClosedBy,U.username,T.closedDateTime,T.assignedDateTime  FROM Ticket T, User U WHERE T.user=U.user_id");
 			allTickets = query.list();
 			// commit transaction
 			transaction.commit();
@@ -156,55 +162,48 @@ public class TicketDao {
 	}
 
 	public boolean updateTicketDao(Ticket ticket) {
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = null;
-		int result = 0;
+		EntityManager em = session.getEntityManagerFactory().createEntityManager();
+		Ticket ticketToUpdate = new Ticket();
+		ticketToUpdate=em.find(Ticket.class, ticket.getTicket_id());
 
 		try {
 			// start a transaction
-			transaction = session.beginTransaction();
+			em.getTransaction().begin();
 			if (ticket.getAttachment() != null) {
-				String updateticket = "UPDATE Ticket T set T.Objet= :objet, T.Details= :detail, T.Etat= :etat, T.Severity= :severity, T.user= :user,T.ClosedBy= :ClosedBy ,T.Attachment= :attachment WHERE ticket_id= :ticketId";
-				Query query = session.createQuery(updateticket);
-				query.setParameter("objet", ticket.getObjet());
-				query.setParameter("detail", ticket.getDetails());
-				query.setParameter("etat", ticket.getEtat());
-				query.setParameter("severity", ticket.getSeverity());
-				query.setParameter("user", ticket.getUser());
-				query.setParameter("ticketId", ticket.getTicket_id());
-				query.setParameter("ClosedBy", ticket.getClosedBy());
-				query.setParameter("attachment", ticket.getAttachment());
 
-				result = query.executeUpdate();
+				ticketToUpdate.setObjet(ticket.getObjet());
+				ticketToUpdate.setDetails(ticket.getDetails());
+				ticketToUpdate.setEtat(ticket.getEtat());
+				ticketToUpdate.setSeverity(ticket.getSeverity());
+				ticketToUpdate.setUser(ticket.getUser());
+				ticketToUpdate.setClosedBy(ticket.getClosedBy());
+				ticketToUpdate.setAttachment(ticket.getAttachment());
+				
+				ticketToUpdate=em.merge(ticketToUpdate);
 
 			} else {
-				String updateticket = "UPDATE Ticket T set T.Objet= :objet, T.Details= :detail, T.Etat= :etat, T.Severity= :severity, T.user= :user,T.ClosedBy= :ClosedBy WHERE ticket_id= :ticketId";
-				Query query = session.createQuery(updateticket);
-				query.setParameter("objet", ticket.getObjet());
-				query.setParameter("detail", ticket.getDetails());
-				query.setParameter("etat", ticket.getEtat());
-				query.setParameter("severity", ticket.getSeverity());
-				query.setParameter("user", ticket.getUser());
-				query.setParameter("ticketId", ticket.getTicket_id());
-				query.setParameter("ClosedBy", ticket.getClosedBy());
-
-				result = query.executeUpdate();
+				ticketToUpdate.setObjet(ticket.getObjet());
+				ticketToUpdate.setDetails(ticket.getDetails());
+				ticketToUpdate.setEtat(ticket.getEtat());
+				ticketToUpdate.setSeverity(ticket.getSeverity());
+				ticketToUpdate.setUser(ticket.getUser());
+				ticketToUpdate.setClosedBy(ticket.getClosedBy());
+				ticketToUpdate=em.merge(ticketToUpdate);
 
 			}
 
-			if (result != 0) {
+			if (ticketToUpdate != null) {
 				// commit transaction
-				transaction.commit();
+				em.getTransaction().commit();
 				return true;
 			}
 
 			// commit transaction
-			transaction.commit();
+			//em.getTransaction().commit();
 
 		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -326,20 +325,31 @@ public class TicketDao {
 	}
 
 	public void updateTicketStatus(Ticket ticket) {
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = null;
-		// start a transaction
-		transaction = session.beginTransaction();
-		String updateTicketStatus = "UPDATE Ticket T set T.Etat= :etat WHERE ticket_id= :ticketId";
-		Query query = session.createQuery(updateTicketStatus);
-		query.setParameter("etat", ticket.getEtat());
-		query.setParameter("ticketId", ticket.getTicket_id());
-		query.executeUpdate();
-		// commit transaction
-		transaction.commit();
+		EntityManager em = session.getEntityManagerFactory().createEntityManager();
+		Ticket ticketToUpdate = new Ticket();
+		ticketToUpdate=ticket;
+		
+		try {
+			em.getTransaction().begin();
+			ticketToUpdate.setEtat("assigné");
+			ticketToUpdate=em.merge(ticketToUpdate);
+			
+			if (ticketToUpdate != null) {
+				// commit transaction
+				em.getTransaction().commit();
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
+			
 
 	}
 	
-
 
 }

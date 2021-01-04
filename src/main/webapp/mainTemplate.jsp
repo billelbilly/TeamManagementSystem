@@ -457,8 +457,9 @@ div.responseScroll { //
 									<span class="input-group-text"> Filtrer Par: </span> <select
 										name=filtreTicket id="filtreTicket">
 										<option>...</option>
-										<option value="open">Crées</option>
+										<option value="créé">Crées</option>
 										<option value="fermer">Fermer</option>
+										<option value="assigné">Assignés</option>
 									</select>
 								</div>
 
@@ -732,10 +733,9 @@ div.responseScroll { //
 							<div class="input-group-prepend">
 								<span class="input-group-text"> Etat Tiquet </span>
 							</div>
-							<select name="etat_ticket" id="etat_ticket">
-								<option>open</option>
-								<option>fermer</option>
-
+							<select name="etat_ticket" id="etat_ticket" required>
+								<option>créé</option>
+								<option>fermer</option>			
 							</select>
 						</div>
 						<div class="form-group">
