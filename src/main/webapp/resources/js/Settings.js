@@ -61,56 +61,6 @@ $(".option-heading").on(
 			
 		});
 
-//function showParam() {
-//	             showLoader();
-//				
-//				//Init Settings Form Here
-//			      $.ajax({
-//						
-//						type: "GET",
-//						url: "/Helpdesk/Settings",
-//						data: { 
-//						    action: "/getInitialSettings"
-//						  },
-//			
-//						dataType: "json",
-//						success: function (data) {
-//							$("#semiTransparentDiv").hide();
-//					        var settingsObj=data.settings;
-//					 		var isNotNull=false;
-//					 		for(var prop in settingsObj) {
-//					 		    if(settingsObj.hasOwnProperty(prop)) {
-//					 		    	isNotNull=true;
-//					 		    }
-//					 		  }
-//					 		if (isNotNull) {
-//					         $("#host").val(settingsObj.host);
-//					         $("#smtp").val(settingsObj.smtp);
-//					         $("#port").val(settingsObj.port);
-//					         $("#email").val(settingsObj.email);
-//					         $("#nom").val(settingsObj.nom);
-//					         $("#password").val(settingsObj.password);
-//					         $("#attchpath").val(settingsObj.attchpath);
-//					         
-//					         $('#host').attr('readonly', true);
-//					         $('#smtp').attr('readonly', true);
-//					         $('#port').attr('readonly', true);
-//					         $('#email').attr('readonly', true);
-//					         $('#nom').attr('readonly', true);
-//					         $('#password').attr('readonly', true);
-//					         $('#attchpath').attr('readonly', true);
-//					         $('#sauv').attr('disabled', 'disabled');
-//					 		}
-//						},
-//						error: function (XMLHttpRequest, textStatus, errorThrown) {
-//							$("#semiTransparentDiv").hide();
-//							alert("Init Settings Form Error: "+errorThrown);
-//						},
-//				});
-//				
-//	
-//}
-
 
 
 $("#MailingSettingForm").submit(function(e) {

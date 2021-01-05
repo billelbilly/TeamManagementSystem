@@ -148,7 +148,7 @@ function getUsersTabulator() {
 		},
 		placeholder : "Pas d'utilisateur pour le moment !",
 		pagination : "local",
-		paginationSize : 10,
+		paginationSize : 5,
 		paginationSizeSelector : [25, 50, 100],
 		printAsHtml : true,
 	/*

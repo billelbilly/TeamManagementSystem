@@ -88,8 +88,8 @@ $(document).ready(function() {
 		$("#nbr_ticket_closed").text("0 Fermés");
 		
 		///This is to clear up Ticket list And Close Creation Modal
-		$(".list-group .list-group-item").remove();
-		$(".pagination li").remove();
+		$(".list-group").empty();
+		//$(".pagination li").remove();
 		$('.modal').modal('hide');
 		$("body").removeClass("modal-open");
 		$("div.modal-backdrop").remove();
@@ -307,78 +307,6 @@ $(document).ready(function() {
 					
 					/// Filter Response Here
 					// /******** Filtre Responses ***************///
-					$('#filtreResponses').change(function() {
-						console.log("Filter Responses Under Construction !");
-						//$(".media-list .media").remove();
-						
-//						
-//						$.ajax({
-//							type: "GET",
-//							url: "/Helpdesk/ResponseManagement",
-//							data: { 
-//							    ticket_id: ticket_id,
-//							    filtre: $("#filtreResponses").val(),
-//							    action: "/getResponses"
-//							  },
-//							dataType: "json",
-//							
-//							success: function (data) {
-//						
-//								var objResponse=data.responses;
-//								var userResponseSession;
-//								
-//								var isNotNull=false;
-//								for(var prop in objResponse) {
-//								    if(objResponse.hasOwnProperty(prop)) {
-//								    	isNotNull=true;
-//								    }
-//								  }
-//								
-//								if (isNotNull) {
-				//
-//									for (var i = 0, l = data.responses.length; i < l; i++) {
-//									    var objResponse = data.responses[i];
-//									    var date_creation_response=getFormattedDate(objResponse[1],"resp");
-//									    
-//										if (objResponse[2].username!=undefined) {
-//											userResponseSession=objResponse[2].username;
-//											
-//										}
-//									 
-//									  
-//										var ticket_response=`
-//										<li class="media">
-//												<a href="#" class="pull-left"> 
-//												
-//												</a>
-//													<div class="media-body">
-//													
-//														<span class="text-muted pull-right"> <small
-//															class="text-muted">Réponse le: ${date_creation_response}</small>
-//														</span> <strong class="text-success">  @${userResponseSession}</strong>
-//														<p>
-//															${objResponse[0]}
-//															
-//														</p>
-//													</div>
-//										
-//									     </li>`;
-//										
-//										$( ".media-list" ).append(ticket_response);
-//										
-//									}
-//								}else {
-				//
-//									$('.response_list').append('<div class="alert alert-warning" role="alert">Pas de Réponses pour le moment !</div>');
-//								}
-				//
-//							},
-//							error: function (XMLHttpRequest, textStatus, errorThrown) {
-//								alert("Error When getting Responses"+errorThrown);
-//							},
-//						});
-						
-					});
 					
 					
 
@@ -403,6 +331,8 @@ $(document).ready(function() {
 						$("#etat_ticket").html("<option>fermer</otion><option>assigné</option>");
 						$(".modal #etat_ticket").val(ticket[3]);
 					} else {
+						$("#etat_ticket").remove("option");
+						$("#etat_ticket").html("<option>créé</otion><option>fermer</option>");
 						$(".modal #etat_ticket").val(ticket[3]);
 
 					}
@@ -514,44 +444,23 @@ $(document).ready(function() {
 	  // ///////////************* Pagination Tickets List Here
 		// *************//////////////
 
-				
 				var numberOfItems = $(".list-group .list-group-item").length;
 				var limitPerPage=5;
-				
 				/// Hide all The Other <li> element but the very first 5 
 				$(".list-group .list-group-item:gt("+(limitPerPage-1)+")").hide();
-				
 				/// Here we calculate the number of pages needed
 				var totalPages= Math.ceil(numberOfItems/limitPerPage);
-				/// Previous Button 
-				$(".pagination").append("<li id='previous-page' class='page-item'><a class='page-link' href='javascript:void(0)' aria-label='Previous'> <span aria-hidden='true'>&laquo;</span> </a></li>");
-				
-				
-				/// Insert the very first page in the pagination
-				$(".pagination").append("<li class='page-item current-page active'><a class='page-link' href='javascript:void(0)'>"+1+"</a></li>");
-				
-				
-				for (var i = 2; i <= totalPages; i++) {
-					/// Insert the Total Pages needed in the pagination
-					$(".pagination").append("<li class='page-item current-page'><a class='page-link' href='javascript:void(0)'>"+i+"</a></li>");
-					
-				}
-				
-				
-				/// Next Button 
-				$(".pagination").append("<li id='next-page' class='page-item'><a class='page-link' href='javascript:void(0)' aria-label='Next'> <span aria-hidden='true'>&raquo;</span> </a></li>");
-				
-				
-				/// Event Click on Number in The pagination
-				$(".pagination li.current-page").on("click",function(){  
-					if ($(this).hasClass("active")) {
-						return false;
+				$('.pagination').twbsPagination({
+			        totalPages: totalPages,
+       		        visiblePages: 3,
+			        first:'Début',
+			        prev:'<span aria-hidden="true">&laquo;</span>',
+			        next:'<span aria-hidden="true">&raquo;</span>',
+			        last:'Fin',
+			        onPageClick: function (event, page) {
 						
-					} else {
-						var currentPage=$(this).index(); 
+						var currentPage=page; 
 
-						$(".pagination li").removeClass("active");
-						$(this).addClass("active");
 						$(".list-group .list-group-item").hide();
 						
 						var grandTotal=limitPerPage*currentPage;
@@ -560,56 +469,10 @@ $(document).ready(function() {
 							
 						}
 					
-
-					}
-					
-					
-				});
 				
-				/// Event Click on Next Button in The pagination
-				$("#next-page").on("click",function(){
-					var currentPage=$(".pagination li.active").index();
-					if (currentPage == totalPages) {
-						return false;
-						
-					} else {
-						currentPage++;
-						$(".pagination li").removeClass("active");
-						$(".list-group .list-group-item").hide();
-						
-						var grandTotal=limitPerPage*currentPage;
-						for (var i = grandTotal-limitPerPage; i < grandTotal; i++) {
-							$(".list-group .list-group-item:eq("+i+")").show();
-							
-						}
-						$(".pagination li.current-page:eq("+(currentPage-1)+")").addClass("active");
-
-					}
-					
-				});
+			        }
+			    });			
 				
-				/// Event Click on Previous Button in The pagination
-				$("#previous-page").on("click",function(){
-					var currentPage=$(".pagination li.active").index();
-					if (currentPage == 1) {
-						return false;
-						
-					} else {
-						currentPage--;
-						$(".pagination li").removeClass("active");
-						$(".list-group .list-group-item").hide();
-						
-						var grandTotal=limitPerPage*currentPage;
-						for (var i = grandTotal-limitPerPage; i < grandTotal; i++) {
-							$(".list-group .list-group-item:eq("+i+")").show();
-							
-						}
-						$(".pagination li.current-page:eq("+(currentPage-1)+")").addClass("active");
-
-					}
-					
-				});
-		
 			//////////**********************End Pagination***********************///////////
 			
 			// Set number ticket here
@@ -670,8 +533,8 @@ $(document).ready(function() {
 	
 	// /******** Filtre Tickets ***************///
 	$('#filtreTicket').change(function() {
-		$(".list-group .list-group-item").remove();
-		$(".pagination li").remove();
+		$(".list-group").empty();
+		//$(".pagination li").remove();
 		showLoader();
 		
       $.ajax({

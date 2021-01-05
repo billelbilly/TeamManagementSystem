@@ -71,8 +71,10 @@
 .datepicker-container {
 	z-index: 1050 !important; /* has to be larger than 1050 */
 }
-div.progress{
-width:200px}
+
+div.progress {
+	width: 200px
+}
 </style>
 
 </head>
@@ -183,9 +185,9 @@ width:200px}
 								<h2 id="nbr_open"></h2>
 								<small id="percent_open"></small>
 								<div class="progress">
-									<div id="percent_open_progress" class="progress-bar l-amber" role="progressbar"
-										aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-										></div>
+									<div id="percent_open_progress" class="progress-bar l-amber"
+										role="progressbar" aria-valuenow="0" aria-valuemin="0"
+										aria-valuemax="100"></div>
 								</div>
 							</div>
 						</div>
@@ -198,9 +200,9 @@ width:200px}
 
 								<small id="percent_closed"></small>
 								<div class="progress">
-									<div id="percent_closed_progress" class="progress-bar l-amber" role="progressbar"
-										aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
-										></div>
+									<div id="percent_closed_progress" class="progress-bar l-amber"
+										role="progressbar" aria-valuenow="45" aria-valuemin="0"
+										aria-valuemax="100"></div>
 								</div>
 							</div>
 						</div>
@@ -213,9 +215,9 @@ width:200px}
 
 								<small id="percent_assigned"></small>
 								<div class="progress">
-									<div id="percent_assigned_progress" class="progress-bar l-amber" role="progressbar"
-										aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
-										></div>
+									<div id="percent_assigned_progress"
+										class="progress-bar l-amber" role="progressbar"
+										aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 							</div>
 						</div>
@@ -1022,9 +1024,12 @@ width:200px}
 								</div>
 								<br>
 								<!-- second param menu -->
-								<div class="option-heading">Gestion des utilisateurs</div>
+								<div id="usersParam" class="option-heading">Gestion des utilisateurs</div>
 								<div class="option-content is-hidden">
-
+									<button class="btn btn-sm btn-success pull-right mx-1 "
+										data-toggle="modal" data-target="#registerModal">
+										<i class="fa fa-pencil"></i> Nouveau
+									</button>
 									<div id="usersList"></div>
 
 								</div>
@@ -1231,6 +1236,179 @@ width:200px}
 
 	</div>
 
+	<!-------------------------------Add new user----------------------->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="modal fade" id="registerModal">
+
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">
+									<i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Ajouter
+									nouveau utilisateur
+								</h5>
+
+							</div>
+
+							<div class="modal-body">
+							<div id="successAlert" class="alert alert-success" role="alert"
+														hidden></div>
+								<div class="col-md-8 offset-2">
+								
+									<form id="registerForm"
+										action="<%=request.getContextPath()%>/UserManagement"
+										method="post" autocomplete="off"
+										oninput='password2.setCustomValidity(password2.value != password.value ? "Mot de passe ne correspondent pas." : "")'>
+										<div class="form-group" hidden="1">
+											<input type="text" name="action" id="action"
+												value="/register" />
+										</div>
+
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-user"></i>
+												</span>
+											</div>
+											<input name="firstName" id="prenomRegister_id"
+												class="form-control" placeholder="Prénom" type="text"
+												oninvalid="this.setCustomValidity('Prénom obligatoire !')"
+												oninput="setCustomValidity('')" required>
+										</div>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-user"></i>
+												</span>
+											</div>
+											<input name="lastName" id="nomRegister_id"
+												class="form-control" placeholder="Nom" type="text"
+												oninvalid="this.setCustomValidity('Nom obligatoire !')"
+												oninput="setCustomValidity('')" required>
+										</div>
+										<!-- form-group// -->
+										<div id="emailAlert" class="alert alert-danger" role="alert" hidden></div>
+										<div class="form-group input-group">
+										
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fa fa-envelope"></i>
+												</span>
+											</div>
+					
+											<input name="email" id="emailRegister_id"
+												class="form-control" placeholder="adresse Email"
+												type="email"
+												oninvalid="this.setCustomValidity('Email obligatoire !')"
+												oninput="setCustomValidity('')" required>
+										</div>
+										<!-- form-group// -->
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fa fa-phone"></i>
+												</span>
+											</div>
+
+											<input name="phone" id="phoneRegister_id"
+												class="form-control" placeholder="Téléphone" type="text"
+												oninvalid="this.setCustomValidity('Téléphone obligatoire !')"
+												oninput="setCustomValidity('')" required>
+										</div>
+										<div id="usernameAlert" class="alert alert-danger" role="alert" hidden></div>
+										<div class="form-group input-group">
+										
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-user"></i>
+												</span>
+											</div>
+											
+											<input name="username" id="usernameRegister_id"
+												class="form-control" placeholder="Username" type="text"
+												oninvalid="this.setCustomValidity('Username obligatoire !')"
+												oninput="setCustomValidity('')" required>
+										</div>
+										<!-- form-group// -->
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-lock"></i>
+												</span>
+											</div>
+											<input name="password" id="passwordRegister_id"
+												class="form-control" placeholder="Password" type="password"
+												required>
+										</div>
+										<!-- form-group// -->
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-lock"></i>
+												</span>
+											</div>
+											<input name="password2" id="password2Register_id"
+												class="form-control" placeholder="Confirmer password"
+												type="password" required>
+										</div>
+										<!-- form-group// -->
+														<!-- Here put Expiration DatePickers -->
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+											<input type="text" class="form-control date-input"
+												id="date_expiration_compte" name="date_expiration_compte"
+												placeholder="Date Expération du Compte" required>
+
+										</div>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> Type</span>
+											</div>
+											<select name=userType id="userType_id" required>
+											    <option value="1">Admin</option>
+												<option value="2">Client</option>
+												<option value="3">User Entreprise</option>
+											</select>
+										</div>
+
+										<div class="form-group">
+											<button  type="submit" class="btn btn-success">Submit</button>
+										</div>
+
+									</form>
+								</div>
+
+
+
+							</div>
+
+							<div class="modal-footer">
+
+
+								<button id="closeAddUser" class="btn btn-danger btn-md"
+									data-dismiss="modal" style="color: white">
+									<i class="fa fa-times" aria-hidden="true"></i> Annuler
+								</button>
+
+							</div>
+
+						</div>
+
+
+					</div>
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+	<!-- ------------------------------------------------------------------------------------------ -->
+
 
 	<script src="resources/js/jquery-3.5.1.min.js"></script>
 	<script src="resources/js/moment.min.js"></script>
@@ -1260,6 +1438,7 @@ width:200px}
 	<script src="resources/assets/js/pages/index.js"></script>
 	<script src="resources/js/contacts/contacts.js"></script>
 	<script src="resources/js/Settings.js"></script>
+	<script src="resources/js/validateForms.js"></script>
 
 </body>
 </html>

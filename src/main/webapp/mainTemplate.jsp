@@ -419,7 +419,7 @@ div.responseScroll { //
 
 				<!-- BEGIN TICKET -->
 				<div class="col-md-8 offset-2">
-					<div class="grid support-content">
+					<div class="grid support-content rounded">
 						<div class="grid-body">
 							<div class="d-flex justify-content-between">
 
@@ -438,11 +438,8 @@ div.responseScroll { //
 
 
 							</div>
-
-
-							<hr>
-
-							<div class="btn-group">
+							
+									<div class="btn-group">
 								<button id="nbr_ticket_open" type="button"
 									class="btn btn-success"></button>
 								<button id="nbr_ticket_assigned" type="button"
@@ -470,8 +467,7 @@ div.responseScroll { //
 
 
 							</div>
-
-							<!-- BEGIN NEW TICKET -->
+							
 							<div class="justify-content-center pull-right">
 								<button type="button" class="btn btn-info btn-sm"
 									id="listPlanifBtn" data-toggle="modal"
@@ -484,6 +480,12 @@ div.responseScroll { //
 								</button>
 							</div>
 
+
+							<hr>
+
+					
+
+							<!-- BEGIN NEW TICKET -->
 
 							<div class="modal fade" id="newIssue" tabindex="-1" role="dialog"
 								aria-labelledby="newIssue" aria-hidden="true">
@@ -937,8 +939,8 @@ div.responseScroll { //
 
 	</div>
 	<!-- ------------------------------------------------------------------------------------------ -->
-
-
+	
+	
 
 	<script src="resources/js/jquery-3.5.1.min.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
@@ -955,5 +957,7 @@ div.responseScroll { //
 	<script src="resources/js/bootstrap-toggle.min.js"></script>
 	<script src="resources/js/bootstrap4-rating-input.min.js"></script>
 	<script src="resources/js/mainTemplate.js"></script>
+	<script src="resources/js/jquery.twbsPagination.min.js"></script>
 	<script src="resources/js/ticketTemplate.js"></script>
+	
 </html>

@@ -193,114 +193,62 @@ $(document).ready(function () {
 			//contentType: "text",
 			dataType: "text",
 			success: function (data) {
-				$("#semiTransparentDiv").hide();
+				
 				if (data=="usersaved") {
-					flash('Enregistrement Termnié avec succès !', {
-
-						// background color
-						'bgColor': 'green',
-
-						// text color
-						'ftColor': 'white',
-
-						// or 'top'
-						'vPosition': 'top',
-
-						// or 'left'
-						'hPosition': 'right',
-
-						// duration of animation
-						'fadeIn': 400,
-						'fadeOut': 400,
-
-						// click to close
-						'clickable': true,
-
-						// auto hides after a duration time
-						'autohide': true,
-
-						// timout
-						'duration': 4000
-
-					});
-					$('#prenom_id').val('');
-					$('#nom_id').val('');
-					$('#email_id').val('');
-					$('#phone_id').val('');
-					$('#username_id').val('');
-					$('#password_id').val('');
-					$('#password2_id').val('');
-					
+					var isHidden = document.getElementById("successAlert").hasAttribute("hidden");
+                	if (isHidden) {
+                		$("#successAlert").show();
+                    	$("#successAlert").removeAttr("hidden");
+                    	$("#successAlert").text('Utilisateur Ajouté Avec Succès !');
+					}else {
+						$("#successAlert").attr("hidden");
+                		$("#successAlert").hide();
+                		$("#successAlert").show();
+                    	$("#successAlert").removeAttr("hidden");
+                    	$("#successAlert").text('Utilisateur Ajouté Avec Succès !');
+					}
+					$("#semiTransparentDiv").hide();
+					$('#prenomRegister_id').val('');
+					$('#nomRegister_id').val('');
+					$('#emailRegister_id').val('');
+					$('#phoneRegister_id').val('');
+					$('#usernameRegister_id').val('');
+					$('#passwordRegister_id').val('');
+					$('#password2Register_id').val('');	
+					getUsersTabulator();
 					
 				}
 				else if (data=="usernameexist") {
-					$("input").change(function() {
-						$("#username_id").css("border", "");
-					}).trigger("change");
-					$("#username_id").css("border", "1px solid red");
-					flash('Utilisateur existe déjà !', {
-
-						// background color
-						'bgColor': 'red',
-
-						// text color
-						'ftColor': 'white',
-
-						// or 'top'
-						'vPosition': 'top',
-
-						// or 'left'
-						'hPosition': 'right',
-
-						// duration of animation
-						'fadeIn': 400,
-						'fadeOut': 400,
-
-						// click to close
-						'clickable': true,
-
-						// auto hides after a duration time
-						'autohide': true,
-
-						// timout
-						'duration': 4000
-
+					$("#semiTransparentDiv").hide();					
+					$('#usernameRegister_id').on('input', function() {
+						$("#usernameRegister_id").css("border", "");
+						var isHidden = document.getElementById("usernameAlert").hasAttribute("hidden");
+	                	if (!isHidden) {
+	                		$("#usernameAlert").attr("hidden");
+	                		$("#usernameAlert").hide();
+						}
+						
 					});
+					$("#usernameRegister_id").css("border", "1px solid red");
+					$("#usernameAlert").show();
+                	$("#usernameAlert").removeAttr("hidden");
+                	$("#usernameAlert").text('Username existe déjà !');
 					
 				}else{
-					$("input").change(function() {
-						$("#email_id").css("border", "");
-					}).trigger("change");
-					$("#email_id").css("border", "1px solid red");
-					flash('Email Exist déjà !', {
+					$("#semiTransparentDiv").hide();
+					$('#emailRegister_id').on('input', function() {
+						$("#emailRegister_id").css("border", "");
+						var isHidden = document.getElementById("emailAlert").hasAttribute("hidden");
+	                	if (!isHidden) {
+	                		$("#emailAlert").attr("hidden");
+	                		$("#emailAlert").hide();
+						}
 						
-
-						// background color
-						'bgColor': 'red',
-
-						// text color
-						'ftColor': 'white',
-
-						// or 'top'
-						'vPosition': 'top',
-
-						// or 'left'
-						'hPosition': 'right',
-
-						// duration of animation
-						'fadeIn': 400,
-						'fadeOut': 400,
-
-						// click to close
-						'clickable': true,
-
-						// auto hides after a duration time
-						'autohide': true,
-
-						// timout
-						'duration': 4000
-
 					});
+					$("#emailRegister_id").css("border", "1px solid red");
+					$("#emailAlert").show();
+                	$("#emailAlert").removeAttr("hidden");
+                	$("#emailAlert").text('Email existe déjà !');
 
 				}
 				
@@ -311,4 +259,11 @@ $(document).ready(function () {
 			},
 		});
 	});
+
+//	$("#closeAddUser").on('click',function() {
+//		$("#usersParam").click();
+//		$('.modal').modal('hide');
+//		$("body").removeClass("modal-open");
+//		$("div.modal-backdrop").remove();
+//	});
 });
