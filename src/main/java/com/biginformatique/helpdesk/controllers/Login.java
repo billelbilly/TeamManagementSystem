@@ -46,10 +46,11 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession();
 		User user=null;
+		int usertype=userDao.validate(username, password);
 		user=userDao.getUserByUsername(username);
 		JSONObject jo = new JSONObject();
 
-		switch (userDao.validate(username, password)) {
+		switch (usertype) {
 
 		case 0:
 

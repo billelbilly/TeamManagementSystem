@@ -1,8 +1,8 @@
 package com.biginformatique.helpdesk.models;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,11 +59,14 @@ public class User implements Serializable {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "password")
+	@Column(name = "password")
     private String password;
     
     @Column(name = "etat")
     private int Etat;
+    
+    @Column(name = "dateExpiration")
+    private LocalDate dateExpiration;
     
     @OneToMany(fetch = FetchType.EAGER ,mappedBy="user")
     @Fetch(value = FetchMode.SUBSELECT)
@@ -149,4 +152,20 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public LocalDate getDateExpiration() {
+		return dateExpiration;
+	}
+
+	public void setDateExpiration(LocalDate dateExpiration) {
+		this.dateExpiration = dateExpiration;
+	}
+
+	public List<Response> getResponses() {
+		return responses;
+	}
+
+	public void setResponses(List<Response> responses) {
+		this.responses = responses;
+	}
 }

@@ -1,5 +1,6 @@
 package com.biginformatique.helpdesk.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,9 +37,9 @@ public class UserDao {
 
 	public int validate(String userName, String password) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-
 		Transaction transaction = null;
 		User user = null;
+
 		try {
 			// start a transaction
 			transaction = session.beginTransaction();
@@ -47,13 +48,19 @@ public class UserDao {
 					.setParameter("userName", userName).uniqueResult();
 
 			if (user != null && verifyHash(password, user.getPassword())) {
-				return user.getEtat();
+				LocalDate dateExpiration = user.getDateExpiration();
+				LocalDate currentDate = LocalDate.now();
+				int resultComparaison = currentDate.compareTo(dateExpiration);
+				if (resultComparaison > 0) {
+					return 0;
+					}else {
+						return user.getEtat();
+					}
+				
 			} else if (user == null) {
 				return -1;
 			}
 
-			// commit transaction
-			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -62,6 +69,7 @@ public class UserDao {
 		} finally {
 			session.close();
 		}
+		
 		return -2;
 	}
 
@@ -221,30 +229,29 @@ public class UserDao {
 	public boolean deleteUserDao(String user_id) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		EntityManager em=session.getEntityManagerFactory().createEntityManager();
-		boolean userRemoved=false;
+		EntityManager em = session.getEntityManagerFactory().createEntityManager();
+		boolean userRemoved = false;
 		try {
-			 em.getTransaction().begin();
-			 User userToDelete = em.find(User.class, Integer.parseInt(user_id));
+			em.getTransaction().begin();
+			User userToDelete = em.find(User.class, Integer.parseInt(user_id));
 
 			String deleteAssociatedResponses = "DELETE FROM responses WHERE user_id = :userId";
 			Query query = (Query) em.createNativeQuery(deleteAssociatedResponses);
 			query.setParameter("userId", userToDelete.getId());
 			query.executeUpdate();
-			
+
 			String deleteAssociatedTickets = "DELETE FROM tickets WHERE user_id = :userId";
 			query = (Query) em.createNativeQuery(deleteAssociatedTickets);
 			query.setParameter("userId", userToDelete.getId());
 			query.executeUpdate();
 
 			em.remove(userToDelete);
-			// commit EntityManager Transaction			
+			// commit EntityManager Transaction
 			em.getTransaction().commit();
-			userRemoved=true;
-		
+			userRemoved = true;
 
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -278,7 +285,7 @@ public class UserDao {
 					transaction.commit();
 					return true;
 				}
-			}else {
+			} else {
 				String updateUser = "UPDATE User U set U.firstName= :firstname, U.lastName= :lastname, U.Email= :email, U.Phone= :phone,  U.username= :username, U.Etat= :etat WHERE U.id = :user_id";
 				Query query = session.createQuery(updateUser);
 				query.setParameter("user_id", user.getId());
@@ -295,9 +302,8 @@ public class UserDao {
 					transaction.commit();
 					return true;
 				}
-				
-			}
 
+			}
 
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -310,19 +316,17 @@ public class UserDao {
 		return false;
 
 	}
-	
+
 	public User getUserByUsername(String username) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
-		User user=null;
+		User user = null;
 		try {
 			// start a transaction
 			transaction = session.beginTransaction();
 
 			user = (User) session.createQuery("from User u where u.username = :username")
-					.setParameter("username", username)
-					.getSingleResult();
-
+					.setParameter("username", username).getSingleResult();
 
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -335,19 +339,17 @@ public class UserDao {
 		return user;
 
 	}
-	
+
 	public User getUserByEmail(String email) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
-		User user=null;
+		User user = null;
 		try {
 			// start a transaction
 			transaction = session.beginTransaction();
 
-			user = (User) session.createQuery("from User u where u.Email = :email")
-					.setParameter("email", email)
+			user = (User) session.createQuery("from User u where u.Email = :email").setParameter("email", email)
 					.getSingleResult();
-
 
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -360,17 +362,16 @@ public class UserDao {
 		return user;
 
 	}
-	
+
 	public User getUserById(int userId) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
-		User user=null;
+		User user = null;
 		try {
 			// start a transaction
 			transaction = session.beginTransaction();
 
-			user =  (User) session.get(User.class, userId);
-
+			user = (User) session.get(User.class, userId);
 
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -393,7 +394,7 @@ public class UserDao {
 	}
 
 	public List getUserEntrepriseDao() {
-		
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		List getUserEntreprise = null;
@@ -452,7 +453,7 @@ public class UserDao {
 		}
 
 		return false;
-		
+
 	}
 
 }

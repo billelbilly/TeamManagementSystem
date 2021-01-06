@@ -1,5 +1,6 @@
 
 $(document).ready(function() {
+
 	
 	function showLoader() {
 		document.getElementById("semiTransparentDiv").style.display="block";	
@@ -89,7 +90,7 @@ $(document).ready(function() {
 		
 		///This is to clear up Ticket list And Close Creation Modal
 		$(".list-group").empty();
-		//$(".pagination li").remove();
+		//$(".pagination").empty();
 		$('.modal').modal('hide');
 		$("body").removeClass("modal-open");
 		$("div.modal-backdrop").remove();
@@ -316,7 +317,7 @@ $(document).ready(function() {
 				
 			// ************* Click on Edit Ticket******************////
 				$("#edit-"+ticket[0]+"").click(function (e) {
-					console.log("Edit Ticket: "+ticket);
+					
 					
 					var ticket_id=$((e.target)).attr('id');
 					ticket_id=""+ticket_id+"";
@@ -441,9 +442,10 @@ $(document).ready(function() {
 			});
 			qs.cache();
 			
-	  // ///////////************* Pagination Tickets List Here
-		// *************//////////////
-
+	        /////////////************* Pagination Tickets List Here *************//////////////
+	 	    
+          function paginationFunc(){
+        	    //$(".pagination").empty();
 				var numberOfItems = $(".list-group .list-group-item").length;
 				var limitPerPage=5;
 				/// Hide all The Other <li> element but the very first 5 
@@ -460,7 +462,6 @@ $(document).ready(function() {
 			        onPageClick: function (event, page) {
 						
 						var currentPage=page; 
-
 						$(".list-group .list-group-item").hide();
 						
 						var grandTotal=limitPerPage*currentPage;
@@ -471,8 +472,11 @@ $(document).ready(function() {
 					
 				
 			        }
-			    });			
-				
+			    });		
+						
+          }	
+           paginationFunc();
+ 	
 			//////////**********************End Pagination***********************///////////
 			
 			// Set number ticket here
@@ -487,6 +491,7 @@ $(document).ready(function() {
 		}
 		
 	}
+	
 	
 //	function successCallBack(data) {
 //		console.log("inside CallBack");
@@ -607,6 +612,35 @@ $(document).ready(function() {
 				if (data.success) {
 					
 					RefreshPage();
+					
+					flash('Tiquet Créé Avec Succès', {
+
+						// background color
+						'bgColor': 'green',
+
+						// text color
+						'ftColor': 'white',
+
+						// or 'top'
+						'vPosition': 'top',
+
+						// or 'left'
+						'hPosition': 'right',
+
+						// duration of animation
+						'fadeIn': 400,
+						'fadeOut': 400,
+
+						// click to close
+						'clickable': true,
+
+						// auto hides after a duration time
+						'autohide': true,
+
+						// timout
+						'duration': 4000
+
+					});
 
 				} else {
 					alert("No Ticket Available !");

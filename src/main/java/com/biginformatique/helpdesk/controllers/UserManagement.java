@@ -1,6 +1,8 @@
 package com.biginformatique.helpdesk.controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -157,14 +159,21 @@ public class UserManagement extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String typeUser = request.getParameter("userType");
+		String sdateExpiration = request.getParameter("date_expiration_compte");
 		int user_email[] = new int[2];
+		LocalDate dateExpiration = null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+		
 
-		User user = new User(0);
+		User user = new User(Integer.parseInt(typeUser));
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setEmail(email);
 		user.setPhone(phone);
 		user.setUsername(username);
+		user.setDateExpiration(dateExpiration);
 		user.setPassword(userDao.hash(password));
 
 		user_email = (int[]) userDao.getUser(user);

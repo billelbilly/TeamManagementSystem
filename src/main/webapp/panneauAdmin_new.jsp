@@ -39,6 +39,9 @@
 <link rel="stylesheet" href="resources/assets/css/style.min.css">
 <link rel="stylesheet" type="text/css"
 	href="resources/css/ResetPassword.css">
+	
+	<link rel="stylesheet" type="text/css"
+	href="resources/css/bootstrap-datetimepicker.min.css">
 
 
 <style type="text/css">
@@ -382,9 +385,8 @@ div.progress {
 												<span class="input-group-text"> Type Utilisateur </span>
 											</div>
 											<select name=userType id="userType_id">
-												<option value="0">Non Validé</option>
+											    <option value="1">Admin</option>
 												<option value="2">Client</option>
-												<option value="1">Admin</option>
 												<option value="3">User Entreprise</option>
 											</select>
 										</div>
@@ -1356,7 +1358,7 @@ div.progress {
 													class="fa fa-calendar" aria-hidden="true"></i>
 												</span>
 											</div>
-											<input type="text" class="form-control date-input"
+											<input type="text" class="form-control"
 												id="date_expiration_compte" name="date_expiration_compte"
 												placeholder="Date Expération du Compte" required>
 
@@ -1365,7 +1367,7 @@ div.progress {
 											<div class="input-group-prepend">
 												<span class="input-group-text"> Type</span>
 											</div>
-											<select name=userType id="userType_id" required>
+											<select name="userType" id="userType_id" required>
 											    <option value="1">Admin</option>
 												<option value="2">Client</option>
 												<option value="3">User Entreprise</option>
@@ -1432,6 +1434,7 @@ div.progress {
 	<script src="resources/assets/bundles/sparkline.bundle.js"></script>
 	<!-- Sparkline Plugin Js -->
 	<script src="resources/assets/bundles/c3.bundle.js"></script>
+	<script src="resources/js/bootstrap-datetimepicker.min.js"></script>
 	<script src="resources/js/datepicker.js"></script>
 	<script src="resources/js/datepickerForAdmin.js"></script>
 	<script src="resources/assets/bundles/mainscripts.bundle.js"></script>
@@ -1439,6 +1442,7 @@ div.progress {
 	<script src="resources/js/contacts/contacts.js"></script>
 	<script src="resources/js/Settings.js"></script>
 	<script src="resources/js/validateForms.js"></script>
+	
 
 </body>
 </html>

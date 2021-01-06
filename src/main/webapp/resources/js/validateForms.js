@@ -24,7 +24,7 @@ $(document).ready(function () {
 				
 				switch (data.user_type) {
 				case "0":
-					flash('Veuillez Validé votre compte contactez votre administrateur pour plus d\'information', {
+					flash('Compte expiré Veuillez contactez votre administrateur !', {
 
 						// background color
 						'bgColor': 'blue',

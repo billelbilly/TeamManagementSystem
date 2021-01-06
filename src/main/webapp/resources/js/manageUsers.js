@@ -86,15 +86,15 @@ function getUsersTabulator() {
 			field : "6",
 			visible:false,
 		},
-		{
-			formatter:validateIcon, align:"center",title: "Validé",headerSort: false, cellClick:function(e, cell){
-				
-				var id=cell.getRow().getData(0)[0].toString();
-	            $(".modal-body #username_id").val(id);
-	            
-			
-			}
-		},
+//		{
+//			formatter:validateIcon, align:"center",title: "Validé",headerSort: false, cellClick:function(e, cell){
+//				
+//				var id=cell.getRow().getData(0)[0].toString();
+//	            $(".modal-body #username_id").val(id);
+//	            
+//			
+//			}
+//		},
 		
 //		{
 //			formatter:deleteUser, align:"center",width:51,headerSort: false, cellClick:function(e, cell){
@@ -144,7 +144,7 @@ function getUsersTabulator() {
 				value="User Entreprise";	
 			}
 
-		    return value + "<span style='color:#d00; margin-left:10px;'>(" + count + " Users)</span>";
+		    return value + "<span style='color:#d00; margin-left:10px;'>(" + count + " Utilisateurs)</span>";
 		},
 		placeholder : "Pas d'utilisateur pour le moment !",
 		pagination : "local",
