@@ -387,8 +387,6 @@ $(document).ready(function() {
 								dataType: "json",
 								success: function (data) {
 									$("#semiTransparentDiv").hide();
-									
-							
 									var objPlanif=data.ticketPlanif;
 									var isNotNull=false;
 									for(var prop in objPlanif) {
@@ -729,6 +727,8 @@ $(document).ready(function() {
 		var form = $(this);
 		var url = form.attr("action");
 		var form_data = $("#planifForm").serialize();
+		//Validate Planification Dates here
+		
 		showLoader();
 
 		$.ajax({

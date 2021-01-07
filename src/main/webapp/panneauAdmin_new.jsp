@@ -39,8 +39,8 @@
 <link rel="stylesheet" href="resources/assets/css/style.min.css">
 <link rel="stylesheet" type="text/css"
 	href="resources/css/ResetPassword.css">
-	
-	<link rel="stylesheet" type="text/css"
+
+<link rel="stylesheet" type="text/css"
 	href="resources/css/bootstrap-datetimepicker.min.css">
 
 
@@ -72,11 +72,24 @@
 }
 
 .datepicker-container {
-	z-index: 1050 !important; /* has to be larger than 1050 */
+	z-index: 9999 !important; /* has to be larger than 1050 */
 }
 
 div.progress {
 	width: 200px
+}
+
+#delete_user_modal {
+	z-index: 9999 !important; /* has to be larger than 1050 */
+}
+
+#edit_user_modal {
+	z-index: 9999 !important; /* has to be larger than 1050 */
+}
+
+#userListModal .modal-lg {
+	max-width: 80%;
+	max-height: 80%;
 }
 </style>
 
@@ -228,23 +241,27 @@ div.progress {
 
 				</div>
 
-				<!-- 				<div class="row clearfix"> -->
-				<!-- 					<div class="col-lg-12"> -->
-				<!-- 						<div class="card"> -->
-				<!-- 							<div class="header"> -->
-				<!-- 								<h2> -->
-				<!-- 									<strong><i class="zmdi zmdi-accounts-list-alt"></i> -->
-				<!-- 										Gestion</strong> Utilisateurs -->
-				<!-- 								</h2> -->
+				<div class="row clearfix">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="header">
+								<h2>
+									<strong><i class="zmdi zmdi-accounts-list-alt"></i>
+										Gestion</strong> Utilisateurs
+								</h2>
 
-				<!-- 							</div> -->
+							</div>
 
-				<!-- 							<div class="body"> -->
-				<!-- 								<div id="usersList"></div> -->
-				<!-- 							</div> -->
-				<!-- 						</div> -->
-				<!-- 					</div> -->
-				<!-- 				</div> -->
+							<div class="body">
+								<button class="btn btn-sm btn-success pull-right"
+									data-toggle="modal" data-target="#registerModal">
+									<i class="fa fa-pencil"></i> Nouveau
+								</button>
+								<div id="usersList"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<div class="row clearfix">
 					<div class="col-lg-12">
@@ -380,16 +397,7 @@ div.progress {
 											<input name="username" id="username_id" class="form-control"
 												placeholder="Username" type="text" required="required">
 										</div>
-										<div class="form-group input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"> Type Utilisateur </span>
-											</div>
-											<select name=userType id="userType_id">
-											    <option value="1">Admin</option>
-												<option value="2">Client</option>
-												<option value="3">User Entreprise</option>
-											</select>
-										</div>
+
 										<!-- form-group// -->
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
@@ -408,6 +416,28 @@ div.progress {
 											<input name="password2" id="password2_id"
 												class="form-control" placeholder="Confirmer password"
 												type="password">
+										</div>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+											<input type="text" class="form-control"
+												id="date_expiration_compte_EditUser"
+												name="date_expiration_compte"
+												placeholder="Date Expération du Compte"  required>
+
+										</div>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">Type</span>
+											</div>
+											<select name=userType id="userType_id">
+												<option value="1">Admin</option>
+												<option value="2">Client</option>
+												<option value="3">User Entreprise</option>
+											</select>
 										</div>
 										<!-- form-group// -->
 										<div class="form-group">
@@ -1022,11 +1052,14 @@ div.progress {
 											</div>
 										</form>
 									</div>
+									<!-- Put Edit Mailing parameters here -->
+									<div id="paramList"></div>
 
 								</div>
 								<br>
 								<!-- second param menu -->
-								<div id="usersParam" class="option-heading">Gestion des utilisateurs</div>
+								<div id="usersParam" class="option-heading">Gestion des
+									utilisateurs</div>
 								<div class="option-content is-hidden">
 									<button class="btn btn-sm btn-success pull-right mx-1 "
 										data-toggle="modal" data-target="#registerModal">
@@ -1047,12 +1080,12 @@ div.progress {
 								<br>
 
 								<!-- Fourth param menu -->
-								<div class="option-heading">Gestion MAILING & ATTACHEMENTS</div>
-								<div class="option-content is-hidden">
+								<!-- 								<div class="option-heading">Gestion MAILING & ATTACHEMENTS</div> -->
+								<!-- 								<div class="option-content is-hidden"> -->
 
-									<div id="paramList"></div>
+								<!-- 									<div id="paramList"></div> -->
 
-								</div>
+								<!-- 								</div> -->
 
 							</div>
 
@@ -1255,10 +1288,10 @@ div.progress {
 							</div>
 
 							<div class="modal-body">
-							<div id="successAlert" class="alert alert-success" role="alert"
-														hidden></div>
+								<div id="successAlert" class="alert alert-success" role="alert"
+									hidden></div>
 								<div class="col-md-8 offset-2">
-								
+
 									<form id="registerForm"
 										action="<%=request.getContextPath()%>/UserManagement"
 										method="post" autocomplete="off"
@@ -1289,15 +1322,16 @@ div.progress {
 												oninput="setCustomValidity('')" required>
 										</div>
 										<!-- form-group// -->
-										<div id="emailAlert" class="alert alert-danger" role="alert" hidden></div>
+										<div id="emailAlert" class="alert alert-danger" role="alert"
+											hidden></div>
 										<div class="form-group input-group">
-										
+
 											<div class="input-group-prepend">
 												<span class="input-group-text"> <i
 													class="fa fa-envelope"></i>
 												</span>
 											</div>
-					
+
 											<input name="email" id="emailRegister_id"
 												class="form-control" placeholder="adresse Email"
 												type="email"
@@ -1317,14 +1351,15 @@ div.progress {
 												oninvalid="this.setCustomValidity('Téléphone obligatoire !')"
 												oninput="setCustomValidity('')" required>
 										</div>
-										<div id="usernameAlert" class="alert alert-danger" role="alert" hidden></div>
+										<div id="usernameAlert" class="alert alert-danger"
+											role="alert" hidden></div>
 										<div class="form-group input-group">
-										
+
 											<div class="input-group-prepend">
 												<span class="input-group-text"> <i class="fa fa-user"></i>
 												</span>
 											</div>
-											
+
 											<input name="username" id="usernameRegister_id"
 												class="form-control" placeholder="Username" type="text"
 												oninvalid="this.setCustomValidity('Username obligatoire !')"
@@ -1351,7 +1386,7 @@ div.progress {
 												type="password" required>
 										</div>
 										<!-- form-group// -->
-														<!-- Here put Expiration DatePickers -->
+										<!-- Here put Expiration DatePickers -->
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text"> <i
@@ -1365,17 +1400,17 @@ div.progress {
 										</div>
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text"> Type</span>
+												<span class="input-group-text">Type</span>
 											</div>
 											<select name="userType" id="userType_id" required>
-											    <option value="1">Admin</option>
+												<option value="1">Admin</option>
 												<option value="2">Client</option>
 												<option value="3">User Entreprise</option>
 											</select>
 										</div>
 
 										<div class="form-group">
-											<button  type="submit" class="btn btn-success">Submit</button>
+											<button type="submit" class="btn btn-success">Submit</button>
 										</div>
 
 									</form>
@@ -1391,6 +1426,67 @@ div.progress {
 								<button id="closeAddUser" class="btn btn-danger btn-md"
 									data-dismiss="modal" style="color: white">
 									<i class="fa fa-times" aria-hidden="true"></i> Annuler
+								</button>
+
+							</div>
+
+						</div>
+
+
+					</div>
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+	<!-- ------------------------------------------------------------------------------------------ -->
+
+	<!------------------------------- Liste des Utilisateurs ----------------------->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="modal fade" id="userListModal">
+
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+
+								<h5 class="modal-title">
+									<i class="fa fa-badge fa-lg" aria-hidden="true"></i> Liste des
+									Utilisateur
+								</h5>
+
+
+							</div>
+
+							<div class="modal-body">
+								<div class="mb-1">
+									<button id="download-xlsx" class="btn btn-success btn-sm">Télécharger
+										XLSX</button>
+									<button id="download-pdf" class="btn btn-danger btn-sm">Télécharger
+										PDF</button>
+									<button class="btn btn-sm btn-success pull-right mx-1 "
+										data-toggle="modal" data-target="#registerModal">
+										<i class="fa fa-pencil"></i> Nouveau
+									</button>
+								</div>
+
+
+								<div id="usersList"></div>
+
+							</div>
+
+							<div class="modal-footer">
+
+
+								<button id="close_model" class="btn btn-danger btn-md"
+									data-dismiss="modal" style="color: white">
+									<i class="fa fa-times" aria-hidden="true"></i> Fermer
 								</button>
 
 							</div>
@@ -1442,7 +1538,7 @@ div.progress {
 	<script src="resources/js/contacts/contacts.js"></script>
 	<script src="resources/js/Settings.js"></script>
 	<script src="resources/js/validateForms.js"></script>
-	
+
 
 </body>
 </html>

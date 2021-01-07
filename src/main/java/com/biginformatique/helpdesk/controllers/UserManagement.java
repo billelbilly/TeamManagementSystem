@@ -109,7 +109,6 @@ public class UserManagement extends HttpServlet {
 		List allUsers = userDao.getAllUsers();
 		/* Send Json Response To Client */
 		String json = new Gson().toJson(allUsers);
-
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(json);
@@ -229,24 +228,24 @@ public class UserManagement extends HttpServlet {
 		String username = request.getParameter("username");
 		String typeUser = request.getParameter("userType");
 		String password = request.getParameter("password");
+		String sdateExpiration = request.getParameter("date_expiration_compte");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		// Test here if Date Strings are not null
+		LocalDate dateExpiration = LocalDate.parse(sdateExpiration, formatter);
 		User user=null;
 		int user_email[] = new int[2];
 		switch (typeUser) {
-		case "2":// client
-			 user = new User(2);
-
-			break;
 		case "1":// admin
 			 user = new User(1);
+
+			break;
+		case "2":// client
+			 user = new User(2);
 
 			break;
 		
 		case "3":// utilisateur entreprise
 			 user = new User(3);
-
-			break;
-		case "0":// non validé
-			 user = new User(0);
 
 			break;
 
@@ -259,6 +258,7 @@ public class UserManagement extends HttpServlet {
 		user.setEmail(email);
 		user.setPhone(phone);
 		user.setUsername(username);
+		user.setDateExpiration(dateExpiration);
 		if(!password.equals("")) {
 			user.setPassword(userDao.hash(password));
 		}
