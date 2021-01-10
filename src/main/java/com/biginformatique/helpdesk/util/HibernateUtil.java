@@ -9,12 +9,14 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import com.biginformatique.helpdesk.models.Contact;
+import com.biginformatique.helpdesk.models.Logiciel;
 import com.biginformatique.helpdesk.models.MailingAttachSettings;
 import com.biginformatique.helpdesk.models.Planification;
 import com.biginformatique.helpdesk.models.Response;
 import com.biginformatique.helpdesk.models.Ticket;
 import com.biginformatique.helpdesk.models.TicketUser;
 import com.biginformatique.helpdesk.models.User;
+import com.biginformatique.helpdesk.models.Version;
 
 public class HibernateUtil {
 
@@ -48,6 +50,8 @@ public class HibernateUtil {
 				configuration.addAnnotatedClass(Planification.class);
 				configuration.addAnnotatedClass(Contact.class);
 				configuration.addAnnotatedClass(MailingAttachSettings.class);
+				configuration.addAnnotatedClass(Logiciel.class);
+				configuration.addAnnotatedClass(Version.class);
 
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();

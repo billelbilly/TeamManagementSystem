@@ -154,10 +154,6 @@ div.progress {
 				<li><a href="mainTemplate.jsp"><i
 						class="zmdi zmdi-folder-star-alt"></i><span>Tiquets</span></a></li>
 
-				<li><a href="/Helpdesk/Users&Contacts.jsp"><i
-						class="zmdi zmdi-account-box-mail"></i><span>Utilisateurs &
-							Contacts</span></a></li>
-
 				<li><a data-toggle="modal" data-target="#Settings"
 					href="javascript:void(0)"><i class="zmdi zmdi-settings"></i><span>Paramètres</span></a></li>
 
@@ -170,93 +166,53 @@ div.progress {
 	<!-- Main Content -->
 
 	<section class="content">
-		<div class="">
-			<div class="block-header">
-				<div class="row">
-					<div class="col-lg-7 col-md-6 col-sm-12">
-						<h2>Tableau de Bord</h2>
 
-						<button class="btn btn-primary btn-icon mobile_menu" type="button">
-							<i class="zmdi zmdi-sort-amount-desc"></i>
-						</button>
-					</div>
-					<div class="col-lg-5 col-md-6 col-sm-12">
-						<button
-							class="btn btn-primary btn-icon float-right right_icon_toggle_btn"
-							type="button">
-							<i class="zmdi zmdi-arrow-right"></i>
-						</button>
+
+		<div class="container-fluid">
+
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header">
+							<h2>
+								<strong><i class="zmdi zmdi-accounts-list-alt"></i>
+									Gestion</strong> Utilisateurs
+							</h2>
+
+						</div>
+
+						<div class="body">
+							<button class="btn btn-sm btn-success pull-right"
+								data-toggle="modal" data-target="#registerModal">
+								<i class="fa fa-pencil"></i> Nouveau
+							</button>
+							<div id="usersList"></div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="container-fluid">
-				<div class="row clearfix justify-content-center">
-					<div class="col-lg-3 col-md-6 col-sm-12">
-						<div class="card">
-							<div class="body bg-success">
-								<h6>Tiquets Crées</h6>
-								<h2 id="nbr_open"></h2>
-								<small id="percent_open"></small>
-								<div class="progress">
-									<div id="percent_open_progress" class="progress-bar l-amber"
-										role="progressbar" aria-valuenow="0" aria-valuemin="0"
-										aria-valuemax="100"></div>
-								</div>
-							</div>
+
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="header">
+							<h2>
+								<strong><i class="zmdi zmdi-email"></i> Gestion</strong>
+								Contacts
+							</h2>
+
+
 						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-sm-12">
-						<div class="card">
-							<div class="body bg-danger">
-								<h6>Tiquets Fermés</h6>
-								<h2 id="nbr_fermer"></h2>
 
-								<small id="percent_closed"></small>
-								<div class="progress">
-									<div id="percent_closed_progress" class="progress-bar l-amber"
-										role="progressbar" aria-valuenow="45" aria-valuemin="0"
-										aria-valuemax="100"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6 col-sm-12">
-						<div class="card">
-							<div class="body bg-info">
-								<h6>Tiquets Assignés</h6>
-								<h2 id="nbr_assign"></h2>
-
-								<small id="percent_assigned"></small>
-								<div class="progress">
-									<div id="percent_assigned_progress"
-										class="progress-bar l-amber" role="progressbar"
-										aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-
-				<div class="row clearfix">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="header">
-								<h2>
-									<strong><i class="zmdi zmdi-folder-star-alt"></i>
-										Gestion</strong> Tiquets
-								</h2>
-							</div>
-							<div class="body">
-								<div id="ticketList"></div>
-							</div>
+						<div class="body">
+							<div id="contactList"></div>
 						</div>
 					</div>
 				</div>
-
 			</div>
+
 		</div>
+
 		<div id="semiTransparentDiv"></div>
 	</section>
 
@@ -418,72 +374,6 @@ div.progress {
 	</div>
 
 
-
-
-	<!--Validate User-->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8">
-				<div class="modal fade" id="validate_user_modal">
-
-					<div class="modal-dialog">
-						<div class="modal-content">
-
-							<div class="modal-body">
-
-								<em><i class="fa fa-check"
-									style="font-size: 30px; color: green; width: 10%; height: 10%"></i>
-									Validez l'utilisateur en tant que ?</em>
-								<form id="validateForm"
-									action="<%=request.getContextPath()%>/UserManagement"
-									method="POST" autocomplete="off">
-
-									<div class="form-group" hidden="1">
-										<input type="text" name="usernameId" id="username_id" value="" />
-									</div>
-									<div class="form-group" hidden="1">
-										<input type="text" name="action" id="action"
-											value="/ValidateUser" />
-									</div>
-									<div class="form-group mt-3">
-										<select name=userType>
-											<option selected="selected">Client</option>
-											<option>Admin</option>
-											<option>User Entreprise</option>
-
-
-										</select>
-									</div>
-									<button type="submit" class="btn btn-success btn-md">
-										<i class="fa fa-check"></i> Valider
-									</button>
-								</form>
-
-							</div>
-
-							<div class="modal-footer">
-
-								<button class="btn btn-danger btn-md" data-dismiss="modal"
-									style="color: white">
-									<i class="fa fa-times" aria-hidden="true"></i> Annuler
-								</button>
-
-							</div>
-
-						</div>
-
-					</div>
-
-
-				</div>
-
-			</div>
-
-		</div>
-
-
-	</div>
-
 	<!--Delete User-->
 	<div class="container">
 		<div class="row">
@@ -540,61 +430,6 @@ div.progress {
 
 	</div>
 
-	<!--Delete Ticket-->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8">
-				<div class="modal fade" id="delete_ticket_modal">
-
-					<div class="modal-dialog">
-						<div class="modal-content">
-
-							<div class="modal-body">
-
-								<em><i class="fa fa-exclamation-triangle"
-									style="font-size: 30px; color: red; width: 10%; height: 10%"></i>êtes
-									vous sûre ?</em>
-
-							</div>
-
-							<div class="modal-footer">
-
-								<form id="DeleteTicketForm"
-									action="<%=request.getContextPath()%>/TicketManagement"
-									method="POST" autocomplete="off">
-
-									<div class="form-group" hidden>
-										<input type="text" name="ticket_id" id="ticket_id" value="" />
-									</div>
-									<div class="form-group" hidden>
-										<input type="text" name="action" id="action"
-											value="/DeleteTicket" />
-									</div>
-									<button type="submit" class="btn btn-danger btn-md">
-										<i class="fa fa-trash"></i> Supprimer
-									</button>
-								</form>
-								<button id="close_model" class="btn btn-success btn-md"
-									data-dismiss="modal" style="color: white">
-									<i class="fa fa-times" aria-hidden="true"></i> Annuler
-								</button>
-
-							</div>
-
-						</div>
-
-
-					</div>
-
-
-				</div>
-
-			</div>
-
-		</div>
-
-
-	</div>
 
 	<!--Delete Contact-->
 	<div class="container">
@@ -652,166 +487,6 @@ div.progress {
 
 	</div>
 
-	<!--Assign Ticket-->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8">
-				<div class="modal fade" id="assign_ticket_modal">
-
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5>Assigner Tiquet</h5>
-							</div>
-							<div class="modal-body">
-
-								<form id="AssignTicketForm"
-									action="<%=request.getContextPath()%>/TicketManagement"
-									method="POST" autocomplete="off">
-
-									<div class="form-group">
-										<input type="text" name="ticket_id" id="ticket_id" value=""
-											hidden />
-									</div>
-									<div class="form-group">
-										<input type="text" name="action" id="action"
-											value="/AssignTicket" hidden />
-									</div>
-									<!-- Here put Select Field Populated with the UserEntreprise -->
-									<div class="form-group">
-										<select name=userEntreprise id="userEntreprise"
-											style='width: 200px;'
-											oninvalid="this.setCustomValidity('Affectez Des User Entreprise D\'abord !')"
-											oninput="setCustomValidity('')" required>
-
-										</select>
-									</div>
-									<div class="form-group">
-										<!-- Here put Planification DatePickers -->
-										<div class="form-group input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"> <i
-													class="fa fa-calendar" aria-hidden="true"></i>
-												</span>
-											</div>
-											<input type="text" class="form-control date-input"
-												id="date_debut_planif" name="date_debut_planif"
-												placeholder="Date Début Planification">
-
-										</div>
-
-										<div class="form-group input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"> <i
-													class="fa fa-calendar" aria-hidden="true"></i>
-												</span>
-											</div>
-											<input type="text" class="form-control date-input"
-												id="date_fin_planif" name="date_fin_planif"
-												placeholder="Date Fin Planification">
-
-										</div>
-										<div class="form-group input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"> <i
-													class="fa fa-calendar" aria-hidden="true"></i>
-												</span>
-											</div>
-											<input type="text" class="form-control date-input"
-												id="date_debut_realise" name="date_debut_realise"
-												placeholder="Date Début Réalisation">
-
-										</div>
-										<div class="form-group input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text"> <i
-													class="fa fa-calendar" aria-hidden="true"></i>
-												</span>
-											</div>
-											<input type="text" class="form-control date-input"
-												id="date_fin_realise" name="date_fin_realise"
-												placeholder="Date Fin Réalisation">
-
-										</div>
-
-									</div>
-									<button type="submit" class="btn btn-info btn-md">
-										<i class="fa fa-tasks"></i> Assigner
-									</button>
-								</form>
-
-							</div>
-
-							<div class="modal-footer">
-								<button id="close_model" class="btn btn-danger btn-md"
-									data-dismiss="modal" style="color: white">
-									<i class="fa fa-times" aria-hidden="true"></i> Annuler
-								</button>
-							</div>
-						</div>
-
-					</div>
-
-				</div>
-
-			</div>
-
-		</div>
-
-
-	</div>
-
-	<!--Show Ticket Details In popup-->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8">
-				<div class="modal fade" id="Details">
-
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">
-									<i class="fa fa-info-circle fa-lg" aria-hidden="true"></i>
-									Détails du Tiquet
-								</h5>
-							</div>
-
-							<div class="modal-body">
-
-								<div id="ticket_info"></div>
-
-								<div class="form-group">
-									<textarea class="form-control" id="putDetail" rows="10"
-										style="color: #000" readonly></textarea>
-								</div>
-
-
-							</div>
-
-							<div class="modal-footer">
-
-
-								<button id="close_model" class="btn btn-danger btn-md"
-									data-dismiss="modal" style="color: white">
-									<i class="fa fa-times" aria-hidden="true"></i> Fermer
-								</button>
-
-							</div>
-
-						</div>
-
-
-					</div>
-
-
-				</div>
-
-			</div>
-
-		</div>
-
-
-	</div>
 
 	<!--Show Message In popup-->
 	<div class="container">
@@ -997,7 +672,7 @@ div.progress {
 
 								</div>
 								<br>
-								<!-- second param menu -->
+							<!-- second param menu -->
 								<div id="usersParam" class="option-heading">Logiciels et Version</div>
 								<div class="option-content is-hidden">
 
@@ -1005,8 +680,6 @@ div.progress {
 
 								</div>
 								
-								<br>
-
 
 							</div>
 

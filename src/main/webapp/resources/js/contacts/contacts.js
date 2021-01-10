@@ -50,7 +50,7 @@ $(document).ready(function () {
 			columns : [
 			// Define Table Columns
 			{
-				title : "Nom",
+				title : "Client",
 				field : "1",
 				headerFilter : true,
 				headerFilterPlaceholder:"Recherche",

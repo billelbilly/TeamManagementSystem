@@ -520,6 +520,16 @@ div.responseScroll { //
 														<option>Normale</option>
 
 													</select>
+													
+													<div class="input-group-prepend pull-right">
+														<span class="input-group-text"> Sévérité </span>
+													</div>
+													<select name="severity" id="severity">
+														<option>Critique</option>
+														<option>Moyen</option>
+														<option>Normale</option>
+
+													</select>
 												</div>
 												<div class="form-group">
 													<textarea name="detail" class="form-control"
@@ -551,7 +561,7 @@ div.responseScroll { //
 
 							<div class="padding"></div>
 
-							<div class="row">
+							<div id="clickClearSearchHistory" class="row">
 								<!-- BEGIN TICKET CONTENT -->
 								<div class="col-md-6 offset-3">
 									<div class="ticket_list"></div>

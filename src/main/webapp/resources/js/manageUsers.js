@@ -403,3 +403,12 @@ $("#editForm").submit(function(e) {
 		},
 	});
 });
+
+
+//Show List of Users Div here
+$("#gestionUtilisateur").on("click",function(){
+	$("#usersListDiv").removeAttr("hidden");
+
+	
+})
+

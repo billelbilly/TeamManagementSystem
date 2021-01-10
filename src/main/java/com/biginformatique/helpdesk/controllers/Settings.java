@@ -110,10 +110,24 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+			
+		case "/Logiciel&Version":
+			try {
+				LogicielVersionSettings(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
 
 		default:
 			break;
 		}
+	}
+
+	private void LogicielVersionSettings(HttpServletRequest request, HttpServletResponse response) {
+		String nomLogiciel=request.getParameter("nomLogiciel");
+		
+		
 	}
 
 	private void EditMailAttachSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {

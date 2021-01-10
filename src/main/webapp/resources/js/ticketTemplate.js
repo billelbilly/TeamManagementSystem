@@ -491,6 +491,8 @@ $(document).ready(function() {
 	}
 	
 	
+	
+	
 //	function successCallBack(data) {
 //		console.log("inside CallBack");
 //		$("#semiTransparentDiv").hide();
@@ -995,6 +997,20 @@ $(document).ready(function() {
 
 	// initialize with defaults
 	$("#rating1").rating();
+	
+	//Clear Search and back to first page 
+	$("#search").on("change",function(){
+//		$("#clickClearSearchHistory").click();
+
+		if ($("#search").val()=="") {
+			$(".last a").click();
+			$(".first a").click();
+		}
+		
+		
+	});
+	
+	
 
 	
 
