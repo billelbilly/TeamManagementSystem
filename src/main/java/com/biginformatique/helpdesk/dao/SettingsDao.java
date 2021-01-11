@@ -2,10 +2,13 @@ package com.biginformatique.helpdesk.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import com.biginformatique.helpdesk.models.Logiciel;
 import com.biginformatique.helpdesk.models.MailingAttachSettings;
 import com.biginformatique.helpdesk.util.HibernateUtil;
 
@@ -164,6 +167,36 @@ public class SettingsDao {
 			session.close();
 		}
 		return false;
+		
+	}
+
+	public void LogicielVersionDao(Logiciel logiciel) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		EntityManager em = session.getEntityManagerFactory().createEntityManager();
+
+		try {
+			  em.getTransaction().begin();
+			  em.persist(logiciel);
+			  em.getTransaction().commit();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	
+		
+	}
+
+	public void VersionDao() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void LogicielDao() {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -25,9 +25,9 @@ public class Logiciel implements Serializable {
 
 	@Column(name = "nom_logiciel")
     private String nomLogiciel;
-	
-	
-	 @ManyToMany(cascade = { CascadeType.ALL })
+
+
+	@ManyToMany(cascade = { CascadeType.ALL })
 	    @JoinTable(
 	        name = "logiciel_version", 
 	        joinColumns = { @JoinColumn(name = "logiciel_id") }, 
@@ -52,6 +52,15 @@ public class Logiciel implements Serializable {
 
 	public void setNomLogiciel(String nomLogiciel) {
 		this.nomLogiciel = nomLogiciel;
+	}
+	
+	 public List<Version> getVersions() {
+		return versions;
+	}
+
+
+	public void setVersions(List<Version> versions) {
+		this.versions = versions;
 	}
 	
 

@@ -42,6 +42,16 @@ public class Version implements Serializable {
 	public void setNomVersion(String nomVersion) {
 		this.nomVersion = nomVersion;
 	}
+
+	public List<Logiciel> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Logiciel> projects) {
+		this.projects = projects;
+	}
+	
+	
 	
 	
 

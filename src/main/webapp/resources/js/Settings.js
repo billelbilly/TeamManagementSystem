@@ -256,6 +256,117 @@ var editParam = function(cell, formatterParams){
 
 };
 
+$("#LogicielForm").submit(function(e) {
+	e.preventDefault(); // avoid to execute the actual submit of the form to
+	var form = $(this);
+	var form_data = $("#LogicielForm").serialize();
+	showLoader();
+	$.ajax({
+		
+		type: "POST",
+		url: form.attr("action"),
+		data: form_data, // serializes the form's elements.
+
+		dataType: "json",
+		success: function (data) {
+			$("#semiTransparentDiv").hide();
+
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown) {
+			$("#semiTransparentDiv").hide();
+			alert("Logiciel Settings Error: "+errorThrown);
+		},
+	});
+});
+
+$("#VersionForm").submit(function(e) {
+	e.preventDefault(); // avoid to execute the actual submit of the form to
+	var form = $(this);
+	var form_data = $("#VersionForm").serialize();
+	showLoader();
+	$.ajax({
+		
+		type: "POST",
+		url: form.attr("action"),
+		data: form_data, // serializes the form's elements.
+
+		dataType: "json",
+		success: function (data) {
+			$("#semiTransparentDiv").hide();
+
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown) {
+			$("#semiTransparentDiv").hide();
+			alert("Version Settings Error: "+errorThrown);
+		},
+	});
+});
+
+$("#LogicielVersionForm").submit(function(e) {
+	e.preventDefault(); // avoid to execute the actual submit of the form to
+	var form = $(this);
+	var form_data = $("#LogicielVersionForm").serialize();
+	showLoader();
+	$.ajax({
+		
+		type: "POST",
+		url: form.attr("action"),
+		data: form_data, // serializes the form's elements.
+
+		dataType: "json",
+		success: function (data) {
+			$("#semiTransparentDiv").hide();
+
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown) {
+			$("#semiTransparentDiv").hide();
+			alert("Logiciel Version Settings Error: "+errorThrown);
+		},
+	});
+});
+
+
+
+$("#nomVersion").attr('disabled', true);
+$("#listLogiciel").attr('disabled', true);
+$("#listVersion").attr('disabled', true);
+$("#versionSauv").attr('disabled', true);
+$("#logicielVersionSauv").attr('disabled', true);
+
+$('input[type=radio][name=inlineRadioOptions]').change(function() {
+    if (this.value == 'logiciel') {
+        $("#nomVersion").attr('disabled', true);
+        $("#listLogiciel").attr('disabled', true);
+        $("#listVersion").attr('disabled', true);
+        $("#versionSauv").attr('disabled', true);
+        $("#logicielVersionSauv").attr('disabled', true);
+        
+        $("#nomLogiciel").removeAttr("disabled");
+        $("#logicielSauv").removeAttr("disabled");
+        
+    }
+    else if (this.value == 'version') {
+    	$("#nomLogiciel").attr('disabled', true);
+        $("#listLogiciel").attr('disabled', true);
+        $("#listVersion").attr('disabled', true);
+        $("#logicielSauv").attr('disabled', true);
+        $("#logicielVersionSauv").attr('disabled', true);
+        
+        $("#nomVersion").removeAttr("disabled");
+        $("#versionSauv").removeAttr("disabled");
+    }else {
+    	$("#nomLogiciel").attr('disabled', true);
+    	 $("#nomVersion").attr('disabled', true);
+    	 $("#logicielSauv").attr('disabled', true);
+    	 $("#versionSauv").attr('disabled', true);
+    	 
+    	 $("#listLogiciel").removeAttr("disabled");
+         $("#listVersion").removeAttr("disabled");
+         $("#logicielVersionSauv").removeAttr("disabled");
+        
+	}
+});
+
 
 function getParamTabulator() {
 	// create Tabulator on DOM element with id "example-table"

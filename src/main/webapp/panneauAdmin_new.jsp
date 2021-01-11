@@ -998,13 +998,133 @@ div.progress {
 								</div>
 								<br>
 								<!-- second param menu -->
-								<div id="usersParam" class="option-heading">Logiciels et Version</div>
+								<div id="usersParam" class="option-heading">Logiciels et
+									Version</div>
 								<div class="option-content is-hidden">
+								    <!-- Alert Message -->
+									<div id="alertParam" class="alert alert-success" role="alert" hidden></div>
+									
+									<div class="d-flex justify-content-around mt-3">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio"
+												name="inlineRadioOptions" id="logicielRadio"
+												value="logiciel" checked> <label
+												class="form-check-label" for="logicielRadio">Ajouter
+												Logiciel</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio"
+												name="inlineRadioOptions" id="versionRadio" value="version">
+											<label class="form-check-label" for="versionRadio">Ajouter
+												Version</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio"
+												name="inlineRadioOptions" id="assignLogicielVersion"
+												value="logiciel&version"> <label
+												class="form-check-label" for="assignLogicielVersion">Associer
+												Logiciel&Version</label>
+										</div>
+									</div>
 
-									<h1>put here</h1>
+									<div class="d-flex justify-content-around mt-1">
+
+
+										<form id="LogicielForm"
+											action="<%=request.getContextPath()%>/Settings" method="POST"
+											autocomplete="off">
+
+
+											<div class="form-group" hidden="1">
+												<input type="text" name="action" id="action"
+													value="/Logiciel" />
+											</div>
+											<div class="form-group">
+												<input name="nomLogiciel" id="nomLogiciel"
+													class="form-control" placeholder="Nom Logiciel" type="text"
+													oninvalid="this.setCustomValidity('Nom Logiciel obligatoire !')"
+													oninput="setCustomValidity('')" required />
+
+											</div>
+											<div class="form-group">
+
+												<button id="logicielSauv" type="submit"
+													class="btn btn-success btn-md">
+													<i class="fa fa-plus-circle"></i> Ajouter
+												</button>
+											</div>
+
+										</form>
+
+
+										<form id="VersionForm"
+											action="<%=request.getContextPath()%>/Settings" method="POST"
+											autocomplete="off">
+
+											<div class="form-group" hidden="1">
+												<input type="text" name="action" id="action"
+													value="/Version" />
+											</div>
+											<div class="form-group">
+												<input name="nomVersion" id="nomVersion"
+													class="form-control" placeholder="Nom Version" type="text"
+													oninvalid="this.setCustomValidity('Nom Version obligatoire !')"
+													oninput="setCustomValidity('')" required />
+
+											</div>
+											<div class="form-group">
+
+												<button id="versionSauv" type="submit"
+													class="btn btn-success btn-md">
+													<i class="fa fa-plus-circle"></i> Ajouter
+												</button>
+											</div>
+
+										</form>
+
+										<form id="LogicielVersionForm"
+											action="<%=request.getContextPath()%>/Settings" method="POST"
+											autocomplete="off">
+
+											<div class="form-group" hidden="1">
+												<input type="text" name="action" id="action"
+													value="/Logiciel&Version" />
+											</div>
+											<!-- Here put Select Field Populated with the UserEntreprise -->
+											<div class="form-group">
+												<select name=listLogiciel id="listLogiciel"
+													style='width: 200px;'
+													oninvalid="this.setCustomValidity('Ajoutez des Logiciel D\'abord !')"
+													oninput="setCustomValidity('')" required>
+
+												</select>
+											</div>
+
+											<!-- Here put Select Field Populated with the UserEntreprise -->
+											<div class="form-group">
+												<select name=listVersion id="listVersion"
+													style='width: 200px;'
+													oninvalid="this.setCustomValidity('Ajoutez des Version D\'abord !')"
+													oninput="setCustomValidity('')" required>
+
+												</select>
+											</div>
+											<div class="form-group">
+
+												<button id="logicielVersionSauv" type="submit"
+													class="btn btn-success btn-md">
+													<i class="fa fa-tasks"></i> Associer
+												</button>
+											</div>
+
+										</form>
+
+
+
+									</div>
 
 								</div>
-								
+
 								<br>
 
 

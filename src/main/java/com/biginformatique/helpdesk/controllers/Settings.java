@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.biginformatique.helpdesk.dao.SettingsDao;
 import com.biginformatique.helpdesk.dao.UserDao;
+import com.biginformatique.helpdesk.models.Logiciel;
 import com.biginformatique.helpdesk.models.MailingAttachSettings;
+import com.biginformatique.helpdesk.models.Version;
 import com.biginformatique.helpdesk.util.EncryptDecryptPassword;
 
 import top.jfunc.json.impl.JSONObject;
@@ -118,14 +120,41 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+			
+		case "/Logiciel":
+			try {
+				LogicielSettings(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+			
+		case "/Version":
+			try {
+				VersionSettings(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
 
 		default:
 			break;
 		}
 	}
 
+	private void VersionSettings(HttpServletRequest request, HttpServletResponse response) {
+		settingsDao.VersionDao();
+		
+	}
+
+	private void LogicielSettings(HttpServletRequest request, HttpServletResponse response) {
+		settingsDao.LogicielDao();
+		
+	}
+
 	private void LogicielVersionSettings(HttpServletRequest request, HttpServletResponse response) {
-		String nomLogiciel=request.getParameter("nomLogiciel");
+		String nomLogiciel=request.getParameter("listLogiciel");
+		String nomVersion=request.getParameter("listVersion");
 		
 		
 	}
