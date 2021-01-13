@@ -193,18 +193,12 @@ $(document).ready(function () {
 			//contentType: "text",
 			dataType: "text",
 			success: function (data) {
+				$("#semiTransparentDiv").hide();
 				
 				if (data=="usersaved") {
 					var isHidden = document.getElementById("successAlert").hasAttribute("hidden");
                 	if (isHidden) {
-                		$("#successAlert").show();
-                    	$("#successAlert").removeAttr("hidden");
-                    	$("#successAlert").text('Utilisateur Ajouté Avec Succès !');
-					}else {
-						$("#successAlert").attr("hidden");
-                		$("#successAlert").hide();
-                		$("#successAlert").show();
-                    	$("#successAlert").removeAttr("hidden");
+                		$("#successAlert").removeAttr("hidden");
                     	$("#successAlert").text('Utilisateur Ajouté Avec Succès !');
 					}
 					$("#semiTransparentDiv").hide();
@@ -224,13 +218,11 @@ $(document).ready(function () {
 						$("#usernameRegister_id").css("border", "");
 						var isHidden = document.getElementById("usernameAlert").hasAttribute("hidden");
 	                	if (!isHidden) {
-	                		$("#usernameAlert").attr("hidden");
-	                		$("#usernameAlert").hide();
+	                		$("#usernameAlert").attr("hidden",true);
 						}
 						
 					});
 					$("#usernameRegister_id").css("border", "1px solid red");
-					$("#usernameAlert").show();
                 	$("#usernameAlert").removeAttr("hidden");
                 	$("#usernameAlert").text('Username existe déjà !');
 					
@@ -240,13 +232,11 @@ $(document).ready(function () {
 						$("#emailRegister_id").css("border", "");
 						var isHidden = document.getElementById("emailAlert").hasAttribute("hidden");
 	                	if (!isHidden) {
-	                		$("#emailAlert").attr("hidden");
-	                		$("#emailAlert").hide();
+	                		$("#emailAlert").attr("hidden",true);
 						}
 						
 					});
 					$("#emailRegister_id").css("border", "1px solid red");
-					$("#emailAlert").show();
                 	$("#emailAlert").removeAttr("hidden");
                 	$("#emailAlert").text('Email existe déjà !');
 
@@ -255,15 +245,16 @@ $(document).ready(function () {
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				$("#semiTransparentDiv").hide();
-				alert(errorThrown);
+				alert("Erreur Serveur Veuillez contacter votre administrateur !");
 			},
 		});
 	});
 
-//	$("#closeAddUser").on('click',function() {
-//		$("#usersParam").click();
-//		$('.modal').modal('hide');
-//		$("body").removeClass("modal-open");
-//		$("div.modal-backdrop").remove();
-//	});
+	$("#prenomRegister_id").on('change',function() {
+		var isHidden = document.getElementById("successAlert").hasAttribute("hidden");
+    	if (!isHidden) {
+    		$("#successAlert").attr("hidden",true);
+        	
+		}
+	});
 });

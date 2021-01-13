@@ -409,6 +409,5 @@ $("#editForm").submit(function(e) {
 $("#gestionUtilisateur").on("click",function(){
 	$("#usersListDiv").removeAttr("hidden");
 
-	
 })
 

@@ -17,6 +17,7 @@ import com.biginformatique.helpdesk.models.Logiciel;
 import com.biginformatique.helpdesk.models.MailingAttachSettings;
 import com.biginformatique.helpdesk.models.Version;
 import com.biginformatique.helpdesk.util.EncryptDecryptPassword;
+import com.google.gson.Gson;
 
 import top.jfunc.json.impl.JSONObject;
 
@@ -64,10 +65,60 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+			
+		case "/getLogicielList":
+			try {
+				getLogicielList(request, response);
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+			break;
+			
+		case "/getVersionList":
+			try {
+				getVersionList(request, response);
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+			break;
 
 		default:
 			break;
 		}
+	}
+
+	private void getVersionList(HttpServletRequest request, HttpServletResponse response) {
+		List VersionList = settingsDao.getVersionListDao();
+		/* Send Json Response To Client */
+		String jsonVersionList = new Gson().toJson(VersionList);
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.getWriter().write(jsonVersionList);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void getLogicielList(HttpServletRequest request, HttpServletResponse response) {
+		List LogicielList = settingsDao.getLogicielListDao();
+		/* Send Json Response To Client */
+		String jsonLogicielList = new Gson().toJson(LogicielList);
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.getWriter().write(jsonLogicielList);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void getInitialSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -141,20 +192,69 @@ public class Settings extends HttpServlet {
 			break;
 		}
 	}
+	
+	private void LogicielSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String nomLogiciel=request.getParameter("nomLogiciel");
+		Logiciel logiciel=new Logiciel();
+		JSONObject jo = new JSONObject();
+		logiciel.setNomLogiciel(nomLogiciel);
+		if (settingsDao.LogicielDao(logiciel)) {
 
-	private void VersionSettings(HttpServletRequest request, HttpServletResponse response) {
-		settingsDao.VersionDao();
+			jo.put("success", "true");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jo.toString());
+		} else {
+
+			jo.put("success", "false");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jo.toString());
+		}
+		
 		
 	}
 
-	private void LogicielSettings(HttpServletRequest request, HttpServletResponse response) {
-		settingsDao.LogicielDao();
+	private void VersionSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String nomVersion=request.getParameter("nomVersion");
+		Version version=new Version();
+		JSONObject jo = new JSONObject();
+		version.setNomVersion(nomVersion);
+		if (settingsDao.VersionDao(version)) {
+
+			jo.put("success", "true");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jo.toString());
+		} else {
+
+			jo.put("success", "false");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jo.toString());
+		}
 		
 	}
 
-	private void LogicielVersionSettings(HttpServletRequest request, HttpServletResponse response) {
-		String nomLogiciel=request.getParameter("listLogiciel");
-		String nomVersion=request.getParameter("listVersion");
+
+	private void LogicielVersionSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String Logiciel=request.getParameter("listLogiciel");
+		String Version=request.getParameter("listVersion");
+		JSONObject jo = new JSONObject();
+		
+		if (settingsDao.LogicielVersionDao(Integer.parseInt(Logiciel), Integer.parseInt(Version))) {
+
+			jo.put("success", "true");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jo.toString());
+		} else {
+
+			jo.put("success", "false");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jo.toString());
+		}
 		
 		
 	}

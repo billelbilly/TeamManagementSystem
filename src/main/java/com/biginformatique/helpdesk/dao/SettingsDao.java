@@ -9,7 +9,10 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.biginformatique.helpdesk.models.Logiciel;
+import com.biginformatique.helpdesk.models.LogicielVersion;
 import com.biginformatique.helpdesk.models.MailingAttachSettings;
+import com.biginformatique.helpdesk.models.User;
+import com.biginformatique.helpdesk.models.Version;
 import com.biginformatique.helpdesk.util.HibernateUtil;
 
 public class SettingsDao {
@@ -42,20 +45,20 @@ public class SettingsDao {
 			saved = true;
 
 		} catch (Exception e) {
-			
+
 			if (settings == null) {
 				// save the settings object
 				session.save(mailingAttachSettings);
 				// commit transaction
 				transaction.commit();
 				saved = true;
-			}else {
+			} else {
 				if (transaction != null) {
 					transaction.rollback();
 				}
 				e.printStackTrace();
 			}
-			
+
 		} finally {
 			session.close();
 		}
@@ -81,9 +84,9 @@ public class SettingsDao {
 		}
 		return settings;
 	}
-	
+
 	public List getSettingsListDao() {
-		
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		List listSettings = null;
@@ -110,7 +113,7 @@ public class SettingsDao {
 
 		return listSettings;
 	}
-	
+
 	public boolean EditMailAttachSettingsDao(MailingAttachSettings mailingAttachSettings) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -129,7 +132,7 @@ public class SettingsDao {
 				query.setParameter("password", mailingAttachSettings.getPassword());
 				query.setParameter("attchpath", mailingAttachSettings.getAttchpath());
 				query.setParameter("setting_id", mailingAttachSettings.getSetting_id());
-				
+
 				int result = query.executeUpdate();
 
 				if (result != 0) {
@@ -137,7 +140,7 @@ public class SettingsDao {
 					transaction.commit();
 					return true;
 				}
-			}else {
+			} else {
 				String updateUser = "UPDATE MailingAttachSettings S set S.host= :host, S.smtp= :smtp, S.port= :port, S.email= :email, S.nom = :nom, S.attchpath= :attchpath WHERE setting_id = :setting_id";
 				Query query = session.createQuery(updateUser);
 				query.setParameter("host", mailingAttachSettings.getHost());
@@ -154,9 +157,8 @@ public class SettingsDao {
 					transaction.commit();
 					return true;
 				}
-				
-			}
 
+			}
 
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -167,18 +169,42 @@ public class SettingsDao {
 			session.close();
 		}
 		return false;
-		
+
 	}
 
-	public void LogicielVersionDao(Logiciel logiciel) {
-		
+	public boolean LogicielVersionDao(int logiciel_id, int version_id) {
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		EntityManager em = session.getEntityManagerFactory().createEntityManager();
-
+		LogicielVersion logicielversion=new LogicielVersion();
+		logicielversion.setLogiciel_id(logiciel_id);
+		logicielversion.setVersion_id(version_id);
+		boolean saved = false;
 		try {
-			  em.getTransaction().begin();
-			  em.persist(logiciel);
-			  em.getTransaction().commit();
+			// Save Logiciel&Version in Logiciel_Version
+			em.getTransaction().begin();
+			em.persist(logicielversion);
+			em.getTransaction().commit();
+			saved = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return saved;
+
+	}
+
+	public boolean VersionDao(Version version) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		EntityManager em = session.getEntityManagerFactory().createEntityManager();
+		boolean saved = false;
+		try {
+			em.getTransaction().begin();
+			em.persist(version);
+			em.getTransaction().commit();
+			saved = true;
 
 		} catch (Exception e) {
 
@@ -186,18 +212,84 @@ public class SettingsDao {
 		} finally {
 			session.close();
 		}
-	
-		
+		return saved;
+
 	}
 
-	public void VersionDao() {
-		// TODO Auto-generated method stub
-		
+	public boolean LogicielDao(Logiciel logciel) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		EntityManager em = session.getEntityManagerFactory().createEntityManager();
+		boolean saved = false;
+		try {
+			em.getTransaction().begin();
+			em.persist(logciel);
+			em.getTransaction().commit();
+			saved = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return saved;
+
 	}
 
-	public void LogicielDao() {
-		// TODO Auto-generated method stub
-		
+	public List getLogicielListDao() {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		List LogicielList = null;
+
+		try {
+
+			// start a transaction
+			transaction = session.beginTransaction();
+			// get an user object
+			Query query = session.createQuery("SELECT L.logiciel_id, L.nomLogiciel FROM Logiciel L");
+			LogicielList = query.list();
+
+			// commit transaction
+			transaction.commit();
+
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return LogicielList;
+	}
+
+	public List getVersionListDao() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		List VersionList = null;
+
+		try {
+
+			// start a transaction
+			transaction = session.beginTransaction();
+			// get an user object
+			Query query = session.createQuery("SELECT V.version_id, V.nomVersion FROM Version V");
+			VersionList = query.list();
+
+			// commit transaction
+			transaction.commit();
+
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return VersionList;
 	}
 
 }

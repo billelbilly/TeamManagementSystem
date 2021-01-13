@@ -999,10 +999,10 @@ div.progress {
 								<br>
 								<!-- second param menu -->
 								<div id="usersParam" class="option-heading">Logiciels et
-									Version</div>
+									Versions</div>
 								<div class="option-content is-hidden">
 								    <!-- Alert Message -->
-									<div id="alertParam" class="alert alert-success" role="alert" hidden></div>
+									<div id="alertParam"  role="alert" hidden></div>
 									
 									<div class="d-flex justify-content-around mt-3">
 										<div class="form-check form-check-inline">
@@ -1043,7 +1043,7 @@ div.progress {
 												<input name="nomLogiciel" id="nomLogiciel"
 													class="form-control" placeholder="Nom Logiciel" type="text"
 													oninvalid="this.setCustomValidity('Nom Logiciel obligatoire !')"
-													oninput="setCustomValidity('')" required />
+													oninput="setCustomValidity('')" autocomplete="off" required />
 
 											</div>
 											<div class="form-group">
@@ -1069,7 +1069,7 @@ div.progress {
 												<input name="nomVersion" id="nomVersion"
 													class="form-control" placeholder="Nom Version" type="text"
 													oninvalid="this.setCustomValidity('Nom Version obligatoire !')"
-													oninput="setCustomValidity('')" required />
+													oninput="setCustomValidity('')" autocomplete="off" required />
 
 											</div>
 											<div class="form-group">
@@ -1105,7 +1105,7 @@ div.progress {
 												<select name=listVersion id="listVersion"
 													style='width: 200px;'
 													oninvalid="this.setCustomValidity('Ajoutez des Version D\'abord !')"
-													oninput="setCustomValidity('')" required>
+													oninput="setCustomValidity('')"  required>
 
 												</select>
 											</div>

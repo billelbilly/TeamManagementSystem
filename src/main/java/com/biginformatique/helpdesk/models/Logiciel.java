@@ -23,17 +23,17 @@ public class Logiciel implements Serializable {
     @Column(name = "logiciel_id")
     private int logiciel_id;
 
-	@Column(name = "nom_logiciel")
+	@Column(name = "nom_logiciel",unique = true)
     private String nomLogiciel;
 
 
-	@ManyToMany(cascade = { CascadeType.ALL })
-	    @JoinTable(
-	        name = "logiciel_version", 
-	        joinColumns = { @JoinColumn(name = "logiciel_id") }, 
-	        inverseJoinColumns = { @JoinColumn(name = "version_id") }
-	    )
-	private List<Version> versions;
+//	@ManyToMany(cascade = { CascadeType.MERGE})
+//	    @JoinTable(
+//	        name = "logiciel_version", 
+//	        joinColumns = { @JoinColumn(name = "logiciel_id") }, 
+//	        inverseJoinColumns = { @JoinColumn(name = "version_id") }
+//	    )
+//	private List<Version> versions;
 	
 	public int getLogiciel_id() {
 		return logiciel_id;
@@ -54,14 +54,14 @@ public class Logiciel implements Serializable {
 		this.nomLogiciel = nomLogiciel;
 	}
 	
-	 public List<Version> getVersions() {
-		return versions;
-	}
-
-
-	public void setVersions(List<Version> versions) {
-		this.versions = versions;
-	}
+//	 public List<Version> getVersions() {
+//		return versions;
+//	}
+//
+//
+//	public void setVersions(List<Version> versions) {
+//		this.versions = versions;
+//	}
 	
 
 }

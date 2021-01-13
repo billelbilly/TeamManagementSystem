@@ -999,14 +999,9 @@ $(document).ready(function() {
 	$("#rating1").rating();
 	
 	//Clear Search and back to first page 
-	$("#search").on("change",function(){
-//		$("#clickClearSearchHistory").click();
-
-		if ($("#search").val()=="") {
+	$("#search").keydown(function(){
 			$(".last a").click();
 			$(".first a").click();
-		}
-		
 		
 	});
 	

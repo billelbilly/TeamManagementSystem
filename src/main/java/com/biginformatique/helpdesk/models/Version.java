@@ -20,11 +20,11 @@ public class Version implements Serializable {
     @Column(name = "version_id")
     private int version_id;
 	
-	@Column(name = "nom_version")
+	@Column(name = "nom_version",unique = true)
     private String nomVersion;
 	
-	@ManyToMany(mappedBy = "versions")
-	private List<Logiciel> projects;
+//	@ManyToMany(mappedBy = "versions")
+//	private List<Logiciel> logiciels;
 	
 
 	public int getVersion_id() {
@@ -43,15 +43,14 @@ public class Version implements Serializable {
 		this.nomVersion = nomVersion;
 	}
 
-	public List<Logiciel> getProjects() {
-		return projects;
-	}
+//	public List<Logiciel> getLogiciels() {
+//		return logiciels;
+//	}
+//
+//	public void setLogiciels(List<Logiciel> logiciels) {
+//		this.logiciels = logiciels;
+//	}
 
-	public void setProjects(List<Logiciel> projects) {
-		this.projects = projects;
-	}
-	
-	
 	
 	
 
