@@ -83,10 +83,37 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+			
+		case "/getVersionListByLogiciel":
+			try {
+				getVersionListByLogiciel(request, response);
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+			break;
 
 		default:
 			break;
 		}
+	}
+
+	private void getVersionListByLogiciel(HttpServletRequest request, HttpServletResponse response) {
+		String logicielId=request.getParameter("logiciel_id");
+		List listVersion=settingsDao.getVersionListByLogicielDao(logicielId);
+		
+		/* Send Json Response To Client */
+		String jsonlistVersion = new Gson().toJson(listVersion);
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.getWriter().write(jsonlistVersion);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void getVersionList(HttpServletRequest request, HttpServletResponse response) {

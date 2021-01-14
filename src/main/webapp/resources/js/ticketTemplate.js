@@ -6,6 +6,47 @@ $(document).ready(function() {
 		document.getElementById("semiTransparentDiv").style.display="block";	
 		}
 	
+	// Function to get list of Logiciel
+	function getLogicielList() {
+
+		$.ajax({
+			type : "GET",
+			url : "/Helpdesk/Settings",
+			data : {
+				action : "/getLogicielList"
+			},
+			// processData: false,
+			// contentType: "text",
+			dataType : "json",
+			success : function(data) {
+
+				$('#listLogiciel').empty();
+				$('#listLogiciel').append(
+						'<option>--Selectionnez--</option>');
+
+				for (var i = 0; i < data.length; i++) {
+					$('#listLogiciel').append(
+							'<option value="' + data[i][0] + '">' + data[i][1]
+									+ '</option>');
+
+				}
+
+				// Initialize select2
+				$("#listLogiciel").select2();
+
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Erreur Serveur Veuillez contactez votre administrateur !");
+			},
+		});
+
+	}
+	getLogicielList();
+
+
+
+
+	
 	function Filevalidation() {
 		
 		var fi = document.getElementById('file'); 
@@ -117,10 +158,10 @@ $(document).ready(function() {
 					var date = new Date(datetoformat);
 					switch (opt) {
 					case "ticket":
-						 var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+						 var str = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " +  date.getHours() + ":" + date.getMinutes();
 						break;
 					case "resp":
-						 var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+						 var str = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " +  date.getHours() + ":" + date.getMinutes();
 						break;
 
 					default:
@@ -1002,6 +1043,43 @@ $(document).ready(function() {
 	$("#search").keydown(function(){
 			$(".last a").click();
 			$(".first a").click();
+		
+	});
+	
+	$("#listLogiciel").on("change",function(){
+		   var logiciel_id=$("#listLogiciel").val();
+
+
+			$.ajax({
+				type : "GET",
+				url : "/Helpdesk/Settings",
+				data : {
+					logiciel_id:logiciel_id,
+					action : "/getVersionListByLogiciel"
+				},
+				// processData: false,
+				// contentType: "text",
+				dataType : "json",
+				success : function(data) {
+
+					$('#listVersion').empty();
+
+					for (var i = 0; i < data.length; i++) {
+						$('#listVersion').append(
+								'<option>' + data[i]
+										+ '</option>');
+
+					}
+
+					// Initialize select2
+					$("#listVersion").select2();
+
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Erreur Serveur Veuillez contactez votre administrateur !");
+				},
+			});
+
 		
 	});
 	

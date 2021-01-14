@@ -176,16 +176,27 @@ public class SettingsDao {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		EntityManager em = session.getEntityManagerFactory().createEntityManager();
-		LogicielVersion logicielversion=new LogicielVersion();
+		LogicielVersion logicielversion = new LogicielVersion();
 		logicielversion.setLogiciel_id(logiciel_id);
 		logicielversion.setVersion_id(version_id);
 		boolean saved = false;
+		List logicielversionExists = null;
 		try {
-			// Save Logiciel&Version in Logiciel_Version
-			em.getTransaction().begin();
-			em.persist(logicielversion);
-			em.getTransaction().commit();
-			saved = true;
+			logicielversionExists = em
+					.createQuery(
+							"FROM LogicielVersion LV WHERE LV.logiciel_id= :logiciel_id AND LV.version_id= :version_id")
+					.setParameter("logiciel_id", logiciel_id).setParameter("version_id", version_id).setMaxResults(1)
+					.getResultList();
+			if (logicielversionExists.isEmpty()) {
+				// Save Logiciel&Version in Logiciel_Version
+				em.getTransaction().begin();
+				em.persist(logicielversion);
+				em.getTransaction().commit();
+				saved = true;
+
+			} else {
+				saved = false;
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -290,6 +301,28 @@ public class SettingsDao {
 		}
 
 		return VersionList;
+	}
+
+	public List getVersionListByLogicielDao(String logicielId) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		EntityManager em = session.getEntityManagerFactory().createEntityManager();
+		int logicielIdInt=Integer.parseInt(logicielId);
+		List listVersion = null;
+
+		try {
+			listVersion = em
+					.createQuery(
+							"SELECT V.nomVersion FROM LogicielVersion LV, Version V WHERE LV.logiciel_id= :logiciel_id AND LV.version_id=V.version_id")
+					.setParameter("logiciel_id", logicielIdInt).getResultList();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return listVersion;
+
 	}
 
 }

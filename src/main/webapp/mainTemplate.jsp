@@ -388,8 +388,13 @@ body {
 	max-height: 80%;
 }
 
-div.responseScroll { //
-	background-color: lightblue;
+#newIssue .modal-md {
+	max-width: 40%;
+	max-height: 40%;
+}
+
+div.responseScroll {
+	/*background-color: lightblue;*/
 	max-height: 200px;
 	overflow: auto;
 }
@@ -413,7 +418,7 @@ div.responseScroll { //
 
 
 
-	<div class="container-md">
+	<div class="container-lg">
 		<section class="content">
 			<div class="row">
 
@@ -438,8 +443,8 @@ div.responseScroll { //
 
 
 							</div>
-							
-									<div class="btn-group">
+
+							<div class="btn-group">
 								<button id="nbr_ticket_open" type="button"
 									class="btn btn-success"></button>
 								<button id="nbr_ticket_assigned" type="button"
@@ -467,7 +472,7 @@ div.responseScroll { //
 
 
 							</div>
-							
+
 							<div class="justify-content-center pull-right">
 								<button type="button" class="btn btn-info btn-sm"
 									id="listPlanifBtn" data-toggle="modal"
@@ -483,14 +488,14 @@ div.responseScroll { //
 
 							<hr>
 
-					
+
 
 							<!-- BEGIN NEW TICKET -->
 
 							<div class="modal fade" id="newIssue" tabindex="-1" role="dialog"
 								aria-labelledby="newIssue" aria-hidden="true">
 
-								<div class="modal-dialog">
+								<div class="modal-dialog modal-md">
 									<div class="modal-content">
 										<div class="modal-header bg-blue">
 											<h4 class="modal-title pull-left">
@@ -508,33 +513,45 @@ div.responseScroll { //
 												</div>
 												<div class="form-group">
 													<input name="subject" type="text" class="form-control"
-														placeholder="Objet" required="required">
+														placeholder="Objet" oninvalid="this.setCustomValidity('Objet obligatoire !')"
+												oninput="setCustomValidity('')" required>
 												</div>
-												<div class="form-group input-group">
-													<div class="input-group-prepend">
-														<span class="input-group-text"> Sévérité </span>
-													</div>
-													<select name="severity" id="severity">
-														<option>Critique</option>
-														<option>Moyen</option>
-														<option>Normale</option>
+												<div class="d-flex justify-content-center">
+													<div class="form-group input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"> Sévérité </span>
+														</div>
+														<select name="severity" id="severity" style='width: 150px;'>
+															<option>Critique</option>
+															<option>Moyen</option>
+															<option>Normale</option>
 
-													</select>
-													
-													<div class="input-group-prepend pull-right">
-														<span class="input-group-text"> Sévérité </span>
-													</div>
-													<select name="severity" id="severity">
-														<option>Critique</option>
-														<option>Moyen</option>
-														<option>Normale</option>
+														</select>
 
-													</select>
+													</div>
+													<div class="form-group input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"> Logiciel </span>
+														</div>
+														<select name=listLogiciel id="listLogiciel" style='width: 150px;'>
+
+														</select>
+													</div>
+													<div class="form-group input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"> Version </span>
+														</div>
+														<select name=listVersion id="listVersion" style='width: 150px;'>
+
+														</select>
+													</div>
 												</div>
+
 												<div class="form-group">
 													<textarea name="detail" class="form-control"
 														placeholder="Détail du tiquet ou question"
-														style="height: 120px;" required="required"></textarea>
+														style="height: 120px;" oninvalid="this.setCustomValidity('Détails obligatoire !')"
+												oninput="setCustomValidity('')" required></textarea>
 												</div>
 												<div class="form-group">
 													<div id="bigFile" class="alert alert-danger" role="alert"
@@ -723,7 +740,8 @@ div.responseScroll { //
 						<div class="form-group">
 							<input id="action" name="action" type="text" class="form-control"
 								value="/UpdateTicket" hidden> <input type="text"
-								name="usersession" value="<%=session.getAttribute("username")%>" hidden/>
+								name="usersession" value="<%=session.getAttribute("username")%>"
+								hidden />
 						</div>
 
 						<div class="form-group">
@@ -747,7 +765,7 @@ div.responseScroll { //
 							</div>
 							<select name="etat_ticket" id="etat_ticket" required>
 								<option>créé</option>
-								<option>fermer</option>			
+								<option>fermer</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -949,8 +967,8 @@ div.responseScroll { //
 
 	</div>
 	<!-- ------------------------------------------------------------------------------------------ -->
-	
-	
+
+
 
 	<script src="resources/js/jquery-3.5.1.min.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
@@ -969,5 +987,4 @@ div.responseScroll { //
 	<script src="resources/js/mainTemplate.js"></script>
 	<script src="resources/js/jquery.twbsPagination.min.js"></script>
 	<script src="resources/js/ticketTemplate.js"></script>
-	
 </html>

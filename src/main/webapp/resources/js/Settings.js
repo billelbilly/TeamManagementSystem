@@ -37,6 +37,8 @@ function getLogicielList() {
 
 }
 
+
+
 // Function to get list of Version
 function getVersionList() {
 
@@ -70,6 +72,7 @@ function getVersionList() {
 	});
 
 }
+
 
 /**
  * Option dropdowns. Slide toggle
@@ -448,25 +451,38 @@ $("#LogicielVersionForm").submit(function(e) {
 
 		dataType : "json",
 		success : function(data) {
+	
 			$("#semiTransparentDiv").hide();
 			if (data.success === "true") {
 				$("#semiTransparentDiv").hide();
-				if (data.success === "true") {
-					$("#semiTransparentDiv").hide();
-					var isHidden = document.getElementById("alertParam")
-							.hasAttribute("hidden");
-					if (isHidden) {
-						$("#alertParam").removeAttr("hidden");
-						if ($("#alertParam").hasClass("alert alert-danger")) {
-							$("#alertParam").removeClass("alert alert-danger")
-						}
-						$("#alertParam").addClass("alert alert-success");
-						$("#alertParam").text('Succès d\'Association !');
-					
+				var isHidden = document.getElementById("alertParam")
+						.hasAttribute("hidden");
+				if (isHidden) {
+					$("#alertParam").removeAttr("hidden");
+					if ($("#alertParam").hasClass("alert alert-danger")) {
+						$("#alertParam").removeClass("alert alert-danger")
 					}
-
+					$("#alertParam").addClass("alert alert-success");
+					$("#alertParam").text(
+							'Succès d\'association !');
+					
 				}
 
+			}else {
+				$("#semiTransparentDiv").hide();
+				var isHidden = document.getElementById("alertParam")
+						.hasAttribute("hidden");
+				if (isHidden) {
+					$("#alertParam").removeAttr("hidden");
+					if ($("#alertParam").hasClass("alert alert-success")) {
+						$("#alertParam").removeClass("alert alert-success")
+					}
+					$("#alertParam").addClass("alert alert-danger");
+					$("#alertParam").text(
+							'Version déjà Affectée à ce Logiciel !');
+					
+				}
+				
 			}
 
 		},
@@ -644,6 +660,26 @@ $("#nomLogiciel").on(
 
 $("#nomVersion").on(
 		'focus',
+		function() {
+			var isHidden = document.getElementById("alertParam").hasAttribute(
+					"hidden");
+			if (!isHidden) {
+				$("#alertParam").attr("hidden", true);
+
+			}
+		});
+
+$("#listLogiciel").change(
+		function() {
+			var isHidden = document.getElementById("alertParam").hasAttribute(
+					"hidden");
+			if (!isHidden) {
+				$("#alertParam").attr("hidden", true);
+
+			}
+		});
+
+$("#listVersion").change(
 		function() {
 			var isHidden = document.getElementById("alertParam").hasAttribute(
 					"hidden");
