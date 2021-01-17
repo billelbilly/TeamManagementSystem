@@ -620,6 +620,7 @@
 
 									<form id="MailingSettingForm"
 										action="<%=request.getContextPath()%>/Settings" method="POST"
+										oninput='password2.setCustomValidity(password2.value != password.value ? "Mot de passe ne correspondent pas." : "")'
 										autocomplete="off">
 
 										<div class="form-group" hidden="1">
@@ -688,10 +689,19 @@
 												<span class="input-group-text"> <i class="fa fa-lock"></i>
 												</span>
 											</div>
-											<input name="password" id="password" class="form-control"
-												placeholder="Password" type="password"
+											<input name="password" id="password_smtp"
+												class="form-control" placeholder="Password" type="password"
 												oninvalid="this.setCustomValidity('Password obligatoire !')"
 												oninput="setCustomValidity('')" required>
+										</div>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-lock"></i>
+												</span>
+											</div>
+											<input name="password2" id="password2_smtp"
+												class="form-control" placeholder="Confirmer password"
+												type="password">
 										</div>
 
 										<div class="form-group input-group">
@@ -718,8 +728,6 @@
 										</div>
 									</form>
 								</div>
-								<!-- Put Edit Mailing parameters here -->
-								<div id="paramList"></div>
 
 							</div>
 							<br>
@@ -879,160 +887,6 @@
 
 </div>
 
-
-<!--Show Edit Settings In popup-->
-<div class="container">
-	<div class="row">
-		<div class="col-md-8">
-			<div class="modal fade" id="edit_param_modal">
-				<div class="modal-dialog modal-lg">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">
-								<i class="fa fa-cog fa-lg" aria-hidden="true"></i> Paramètres
-							</h5>
-						</div>
-						<div class="modal-body">
-
-							<div class="col-md-8 offset-2 mt-1">
-
-								<form id="EditMailingSettingForm"
-									action="<%=request.getContextPath()%>/Settings" method="POST"
-									oninput='password2.setCustomValidity(password2.value != password.value ? "Mot de passe ne correspondent pas." : "")'
-									autocomplete="off">
-
-									<div class="form-group" hidden="1">
-										<input type="text" name="action" id="action"
-											value="/EditMailSettings&Attachment" />
-									</div>
-									<div class="form-group" hidden>
-										<input type="text" name="settings_id" id="settings_id"
-											value="" />
-									</div>
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-at"></i>
-											</span>
-										</div>
-										<input name="host" id="host" class="form-control"
-											placeholder="Host" type="text"
-											oninvalid="this.setCustomValidity('Host obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-server"></i>
-											</span>
-										</div>
-										<input name="smtp" id="smtp" class="form-control"
-											placeholder="SMTP Server" type="text"
-											oninvalid="this.setCustomValidity('SMTP Server obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-plug"></i>
-											</span>
-										</div>
-										<input name="port" id="port" class="form-control"
-											placeholder="Port" type="number"
-											oninvalid="this.setCustomValidity('Port obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-envelope"></i>
-											</span>
-										</div>
-										<input name="email" id="email" class="form-control"
-											placeholder="Email" type="email"
-											oninvalid="this.setCustomValidity('Email obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-user"></i>
-											</span>
-										</div>
-										<input name="nom" id="nom" class="form-control"
-											placeholder="Nom" type="text"
-											oninvalid="this.setCustomValidity('Nom obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-lock"></i>
-											</span>
-										</div>
-										<input name="password" id="password_id" class="form-control"
-											placeholder="Password" type="password">
-									</div>
-									<!-- form-group// -->
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-lock"></i>
-											</span>
-										</div>
-										<input name="password2" id="password2_id" class="form-control"
-											placeholder="Confirmer password" type="password">
-									</div>
-
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-paperclip"></i>
-											</span>
-										</div>
-										<input name="attchpath" id="attchpath" class="form-control"
-											placeholder="Path Attachement exp: C:/Attachements"
-											type="text"
-											oninvalid="this.setCustomValidity('Path Attachement obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-
-									<!-- form-group// -->
-									<div class="form-group">
-
-										<button id="sauv" type="submit" class="btn btn-success btn-md">
-											<i class="fa fa-save"></i> Sauvgarder
-										</button>
-									</div>
-								</form>
-							</div>
-
-						</div>
-
-						<div class="modal-footer">
-
-
-							<button id="close_model" class="btn btn-danger btn-md"
-								data-dismiss="modal" style="color: white">
-								<i class="fa fa-times" aria-hidden="true"></i> Fermer
-							</button>
-
-						</div>
-
-					</div>
-
-
-				</div>
-
-
-			</div>
-
-		</div>
-
-	</div>
-
-
-</div>
 
 <!-------------------------------Add new user----------------------->
 <div class="container">
@@ -1278,27 +1132,16 @@
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/mainTemplate.js"></script>
 <script src="resources/js/popper.js"></script>
-
-<!-- Jquery Core Js -->
 <script src="resources/assets/bundles/libscripts.bundle.js"></script>
-<!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
 <script src="resources/assets/bundles/vendorscripts.bundle.js"></script>
-<!-- slimscroll, waves Scripts Plugin Js -->
-
 <script src="resources/assets/bundles/jvectormap.bundle.js"></script>
-<!-- JVectorMap Plugin Js -->
 <script src="resources/assets/bundles/sparkline.bundle.js"></script>
-<!-- Sparkline Plugin Js -->
 <script src="resources/assets/bundles/c3.bundle.js"></script>
 <script src="resources/js/bootstrap-datetimepicker.min.js"></script>
 <script src="resources/js/datepicker.js"></script>
 <script src="resources/js/datepickerForAdmin.js"></script>
 <script src="resources/assets/bundles/mainscripts.bundle.js"></script>
 <script src="resources/assets/js/pages/index.js"></script>
-<script src="resources/js/contacts/contacts.js"></script>
 <script src="resources/js/Settings.js"></script>
 <script src="resources/js/validateForms.js"></script>
 
-
-</body>
-</html>

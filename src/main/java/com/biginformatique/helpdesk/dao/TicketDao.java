@@ -24,33 +24,23 @@ public class TicketDao {
 	public void saveTicket(Ticket ticket) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		EntityManager em = session.getEntityManagerFactory().createEntityManager();
-//		Session session = HibernateUtil.getSessionFactory().openSession();
-		
-		//Transaction transaction = null;
+
 		try {
-			  em.getTransaction().begin();
-			  em.persist(ticket);
-			  em.getTransaction().commit();
-//			// start a transaction
-//			transaction = session.beginTransaction();
-//
-//			session.save(ticket);
-//			// commit transaction
-//			transaction.commit();
+			em.getTransaction().begin();
+			em.persist(ticket);
+			em.getTransaction().commit();
+
 		} catch (Exception e) {
-//			if (transaction != null) {
-//				transaction.rollback();
-//			}
+
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 	}
 
-	//This is for Tickets in Template
+	// This is for Tickets in Template
 	public List getTicketsByUserDao(User user) {
 
-		// Think how to join with user Table here to get the User who created the ticket
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		List allTickets = null;
@@ -61,7 +51,9 @@ public class TicketDao {
 
 			// start a transaction
 			transaction = session.beginTransaction();
+
 			if (user.getEtat() == 2) {
+				// if User is a Client
 				Query query = session.createQuery(
 						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user, T.Attachment, U.username FROM Ticket T, User U WHERE T.user= :user and T.user=U.user_id")
 						.setParameter("user", user);
@@ -70,12 +62,14 @@ public class TicketDao {
 				transaction.commit();
 
 			} else if (user.getEtat() == 1) {
+				// if the User is Admin
 				Query query = session.createQuery(
 						"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment, U.username FROM Ticket T, User U WHERE T.user=U.user_id");
 				allTickets = query.list();
 				// commit transaction
 				transaction.commit();
 			} else {
+				// if User is UserEntreprise
 				Query query = session.createQuery(
 						"SELECT  T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime, T.user,T.Attachment, U.username FROM Ticket T, TicketUser TU, User U"
 								+ " WHERE (T.ticket_id= TU.ticket_id AND T.AssignedTo= :username AND T.user=U.user_id)");
@@ -122,7 +116,7 @@ public class TicketDao {
 			transaction = session.beginTransaction();
 
 			Query query = session.createQuery(
-					"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime,T.AssignedTo,T.ClosedBy,U.username,T.closedDateTime,T.assignedDateTime  FROM Ticket T, User U WHERE T.user=U.user_id");
+					"SELECT T.id, T.Objet, T.Details, T.Etat,T.Severity, T.createDateTime,T.AssignedTo,T.ClosedBy,U.username,T.closedDateTime,T.assignedDateTime, L.nomLogiciel, V.nomVersion  FROM Ticket T, User U, Logiciel L, Version V WHERE T.user=U.user_id AND L.logiciel_id=T.Logiciel AND T.Version=V.version_id");
 			allTickets = query.list();
 			// commit transaction
 			transaction.commit();
@@ -166,7 +160,7 @@ public class TicketDao {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		EntityManager em = session.getEntityManagerFactory().createEntityManager();
 		Ticket ticketToUpdate = new Ticket();
-		ticketToUpdate=em.find(Ticket.class, ticket.getTicket_id());
+		ticketToUpdate = em.find(Ticket.class, ticket.getTicket_id());
 
 		try {
 			// start a transaction
@@ -180,8 +174,7 @@ public class TicketDao {
 				ticketToUpdate.setUser(ticket.getUser());
 				ticketToUpdate.setClosedBy(ticket.getClosedBy());
 				ticketToUpdate.setAttachment(ticket.getAttachment());
-				
-				ticketToUpdate=em.merge(ticketToUpdate);
+				ticketToUpdate = em.merge(ticketToUpdate);
 
 			} else {
 				ticketToUpdate.setObjet(ticket.getObjet());
@@ -190,7 +183,7 @@ public class TicketDao {
 				ticketToUpdate.setSeverity(ticket.getSeverity());
 				ticketToUpdate.setUser(ticket.getUser());
 				ticketToUpdate.setClosedBy(ticket.getClosedBy());
-				ticketToUpdate=em.merge(ticketToUpdate);
+				ticketToUpdate = em.merge(ticketToUpdate);
 
 			}
 
@@ -199,9 +192,6 @@ public class TicketDao {
 				em.getTransaction().commit();
 				return true;
 			}
-
-			// commit transaction
-			//em.getTransaction().commit();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -215,7 +205,7 @@ public class TicketDao {
 
 	public List filtreTicketDao(String filtre, User user) {
 
-		// Think how to join with user Table here to get the User who created the ticket
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		List filtreTickets = null;
@@ -325,31 +315,29 @@ public class TicketDao {
 	}
 
 	public void updateTicketStatus(Ticket ticket) {
-		
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		EntityManager em = session.getEntityManagerFactory().createEntityManager();
 		Ticket ticketToUpdate = new Ticket();
-		ticketToUpdate=ticket;
-		
+		ticketToUpdate = ticket;
+
 		try {
 			em.getTransaction().begin();
 			ticketToUpdate.setEtat("assigné");
-			ticketToUpdate=em.merge(ticketToUpdate);
-			
+			ticketToUpdate = em.merge(ticketToUpdate);
+
 			if (ticketToUpdate != null) {
 				// commit transaction
 				em.getTransaction().commit();
-				
+
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			session.close();
 		}
-			
 
 	}
-	
 
 }

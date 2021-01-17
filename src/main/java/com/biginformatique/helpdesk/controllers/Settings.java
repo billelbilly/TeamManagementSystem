@@ -56,7 +56,7 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
-			
+
 		case "/getInitialSettingsList":
 			try {
 				getInitialSettingsList(request, response);
@@ -65,7 +65,7 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
-			
+
 		case "/getLogicielList":
 			try {
 				getLogicielList(request, response);
@@ -74,7 +74,7 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
-			
+
 		case "/getVersionList":
 			try {
 				getVersionList(request, response);
@@ -83,7 +83,7 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
-			
+
 		case "/getVersionListByLogiciel":
 			try {
 				getVersionListByLogiciel(request, response);
@@ -99,9 +99,9 @@ public class Settings extends HttpServlet {
 	}
 
 	private void getVersionListByLogiciel(HttpServletRequest request, HttpServletResponse response) {
-		String logicielId=request.getParameter("logiciel_id");
-		List listVersion=settingsDao.getVersionListByLogicielDao(logicielId);
-		
+		String logicielId = request.getParameter("logiciel_id");
+		List listVersion = settingsDao.getVersionListByLogicielDao(logicielId);
+
 		/* Send Json Response To Client */
 		String jsonlistVersion = new Gson().toJson(listVersion);
 
@@ -113,7 +113,7 @@ public class Settings extends HttpServlet {
 
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private void getVersionList(HttpServletRequest request, HttpServletResponse response) {
@@ -129,7 +129,7 @@ public class Settings extends HttpServlet {
 
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private void getLogicielList(HttpServletRequest request, HttpServletResponse response) {
@@ -145,7 +145,7 @@ public class Settings extends HttpServlet {
 
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private void getInitialSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -158,11 +158,11 @@ public class Settings extends HttpServlet {
 		response.getWriter().write(jo.toString());
 
 	}
-	
+
 	private void getInitialSettingsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List settingsList=null;
+		List settingsList = null;
 		JSONObject jo = new JSONObject();
-		settingsList = settingsDao.getSettingsListDao();	
+		settingsList = settingsDao.getSettingsListDao();
 		jo.put("settings", settingsList);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
@@ -170,7 +170,6 @@ public class Settings extends HttpServlet {
 
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
@@ -182,15 +181,7 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
-			
-		case "/EditMailSettings&Attachment":
-			try {
-				EditMailAttachSettings(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			break;
-			
+
 		case "/Logiciel&Version":
 			try {
 				LogicielVersionSettings(request, response);
@@ -198,7 +189,7 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
-			
+
 		case "/Logiciel":
 			try {
 				LogicielSettings(request, response);
@@ -206,7 +197,7 @@ public class Settings extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
-			
+
 		case "/Version":
 			try {
 				VersionSettings(request, response);
@@ -219,10 +210,10 @@ public class Settings extends HttpServlet {
 			break;
 		}
 	}
-	
+
 	private void LogicielSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String nomLogiciel=request.getParameter("nomLogiciel");
-		Logiciel logiciel=new Logiciel();
+		String nomLogiciel = request.getParameter("nomLogiciel");
+		Logiciel logiciel = new Logiciel();
 		JSONObject jo = new JSONObject();
 		logiciel.setNomLogiciel(nomLogiciel);
 		if (settingsDao.LogicielDao(logiciel)) {
@@ -238,13 +229,12 @@ public class Settings extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(jo.toString());
 		}
-		
-		
+
 	}
 
 	private void VersionSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String nomVersion=request.getParameter("nomVersion");
-		Version version=new Version();
+		String nomVersion = request.getParameter("nomVersion");
+		Version version = new Version();
 		JSONObject jo = new JSONObject();
 		version.setNomVersion(nomVersion);
 		if (settingsDao.VersionDao(version)) {
@@ -260,15 +250,14 @@ public class Settings extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(jo.toString());
 		}
-		
+
 	}
 
-
 	private void LogicielVersionSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String Logiciel=request.getParameter("listLogiciel");
-		String Version=request.getParameter("listVersion");
+		String Logiciel = request.getParameter("listLogiciel");
+		String Version = request.getParameter("listVersion");
 		JSONObject jo = new JSONObject();
-		
+
 		if (settingsDao.LogicielVersionDao(Integer.parseInt(Logiciel), Integer.parseInt(Version))) {
 
 			jo.put("success", "true");
@@ -282,12 +271,10 @@ public class Settings extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(jo.toString());
 		}
-		
-		
+
 	}
 
-	private void EditMailAttachSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String settings_id = request.getParameter("settings_id");
+	private void EditMailAttachSettings(HttpServletRequest request, HttpServletResponse response, MailingAttachSettings settings) throws Exception {
 		String host = request.getParameter("host");
 		String smtp = request.getParameter("smtp");
 		String port = request.getParameter("port");
@@ -297,33 +284,32 @@ public class Settings extends HttpServlet {
 		String attchpath = request.getParameter("attchpath");
 		JSONObject jo = new JSONObject();
 		MailingAttachSettings mailingAttachSettings = new MailingAttachSettings();
-		mailingAttachSettings.setSetting_id(Integer.parseInt(settings_id));
+		mailingAttachSettings.setSetting_id(settings.getSetting_id());
 		mailingAttachSettings.setHost(host);
 		mailingAttachSettings.setSmtp(smtp);
 		mailingAttachSettings.setPort(port);
 		mailingAttachSettings.setEmail(email);
 		mailingAttachSettings.setNom(nom);
-		if(!password.equals("")) {
+		if (!password.equals("")) {
 			password = encryptPassword.encrypt(password);
 			// Encrypt password here before save it to database
 			mailingAttachSettings.setPassword(password);
 		}
-		
+
 		mailingAttachSettings.setAttchpath(attchpath);
-		if(settingsDao.EditMailAttachSettingsDao(mailingAttachSettings)) {
-		    jo.put("success", "true");
+		if (settingsDao.EditMailAttachSettingsDao(mailingAttachSettings)) {
+			jo.put("success", "true");
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(jo.toString());		
-		}else {
+			response.getWriter().write(jo.toString());
+		} else {
 			jo.put("success", "false");
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(jo.toString());		
-			
+			response.getWriter().write(jo.toString());
+
 		}
-		
-		
+
 	}
 
 	private void MailAttachSettings(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -336,28 +322,35 @@ public class Settings extends HttpServlet {
 		String attchpath = request.getParameter("attchpath");
 		JSONObject jo = new JSONObject();
 		MailingAttachSettings mailingAttachSettings = new MailingAttachSettings();
-		
+		MailingAttachSettings settings = null;
+		settings = settingsDao.getInitialSettingsDao();
 
-		mailingAttachSettings.setHost(host);
-		mailingAttachSettings.setSmtp(smtp);
-		mailingAttachSettings.setPort(port);
-		mailingAttachSettings.setEmail(email);
-		mailingAttachSettings.setNom(nom);
-		password = encryptPassword.encrypt(password);
-		// Encrypt password here before save it to database
-		mailingAttachSettings.setPassword(password);
-		mailingAttachSettings.setAttchpath(attchpath);
+		if (settings != null) {
+			EditMailAttachSettings(request, response,settings);
 
-		if (settingsDao.saveMailingAttachSettings(mailingAttachSettings)) {
-			jo.put("success", "true");
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(jo.toString());
 		} else {
-			jo.put("success", "false");
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(jo.toString());
+			mailingAttachSettings.setHost(host);
+			mailingAttachSettings.setSmtp(smtp);
+			mailingAttachSettings.setPort(port);
+			mailingAttachSettings.setEmail(email);
+			mailingAttachSettings.setNom(nom);
+			// Encrypt password here before save it to database
+			password = encryptPassword.encrypt(password);
+			mailingAttachSettings.setPassword(password);
+			mailingAttachSettings.setAttchpath(attchpath);
+
+			if (settingsDao.saveMailingAttachSettings(mailingAttachSettings)) {
+				jo.put("success", "true");
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write(jo.toString());
+			} else {
+				jo.put("success", "false");
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write(jo.toString());
+
+			}
 
 		}
 

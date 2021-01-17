@@ -125,6 +125,7 @@ function getTicketsTabulator() {
 	                "prev_title":"Page Précédente",
 	                "next":"Suivant",
 	                "next_title":"Page Suivante",
+	                "page_size":"Taille Page", //label for the page size select element
 	            },
 //	            "headerFilters":{
 //	                "default":"filter column...", //default header filter placeholder text
@@ -230,13 +231,13 @@ function getTicketsTabulator() {
 					ticket_info=`
 					 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
 					 <p>Fermé par: <strong>@${cell.getRow().getData(0)[7].toString()}</strong> le: <strong>${closingDate}</strong></p>
-					 <p>Logiciel & Version: <strong>${"pas encore"}</strong> </p>
+					 <p>Logiciel & Version: <strong>${cell.getRow().getData(0)[11].toString()}, ${cell.getRow().getData(0)[12].toString()}</strong> </p>
 					`;
 					$("#ticket_info").html(ticket_info);
 				}else if (cell.getRow().getData(0)[3].toString()=="créé") {
 					ticket_info=`
 						 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
-						 <p>Logiciel & Version: <strong>${"pas encore"}</strong> </p>
+						 <p>Logiciel & Version: <strong>${cell.getRow().getData(0)[11].toString()}, ${cell.getRow().getData(0)[12].toString()}</strong> </p>
 						`;
 						$("#ticket_info").html(ticket_info);
 					
@@ -245,7 +246,7 @@ function getTicketsTabulator() {
 					ticket_info=`
 						 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
 						 <p>Assigné à: <strong>@${cell.getRow().getData(0)[6].toString()}</strong> le: <strong>${assignDate}</strong></p>
-						 <p>Logiciel & Version: <strong>${"pas encore"}</strong> </p>
+						 <p>Logiciel & Version: <strong>${cell.getRow().getData(0)[11].toString()}, ${cell.getRow().getData(0)[12].toString()}</strong> </p>
 						`;
 						$("#ticket_info").html(ticket_info);
 				}

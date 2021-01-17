@@ -32,7 +32,7 @@ $(document).ready(function() {
 				}
 
 				// Initialize select2
-				$("#listLogiciel").select2();
+				//$("#listLogiciel").select2();
 
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -892,6 +892,38 @@ $(document).ready(function() {
 								// the Virtual DOM and improves render speed
 								// dramatically (can be any valid css height value)
 			//data:get_data, //assign data to table
+			locale:true,
+		    langs:{
+		        "fr-fr":{
+//		            "columns":{
+//		                "name":"Name", //replace the title of column name with the value "Name"
+//		            },
+		            "ajax":{
+		                "loading":"Chargement ...", //ajax loader text
+		                "error":"Erreur", //ajax error text
+		            },
+//		            "groups":{ //copy for the auto generated item count in group header
+//		                "item":"item", //the singular  for item
+//		                "items":"items", //the plural for items
+//		            },
+		            "pagination":{
+		                "first":"Premier", //text for the first page button
+		                "first_title":"Premièr Page", //tooltip text for the first page button
+		                "last":"Dernier",
+		                "last_title":"Dernièr Page",
+		                "prev":"Précédent",
+		                "prev_title":"Page Précédente",
+		                "next":"Suivant",
+		                "next_title":"Page Suivante",
+		            },
+//		            "headerFilters":{
+//		                "default":"filter column...", //default header filter placeholder text
+//		                "columns":{
+//		                    "name":"filter name...", //replace default header filter text for column name
+//		                }
+//		            }
+		        }
+		    },
 			ajaxURL : "/Helpdesk/TicketManagement",
 			ajaxParams:{action:"/getPlanifications"},
 			ajaxResponse:function(url, params, response){
@@ -1048,37 +1080,40 @@ $(document).ready(function() {
 	
 	$("#listLogiciel").on("change",function(){
 		   var logiciel_id=$("#listLogiciel").val();
+		  if (logiciel_id!=="--Selectionnez--") {
+				$.ajax({
+					type : "GET",
+					url : "/Helpdesk/Settings",
+					data : {
+						logiciel_id:logiciel_id,
+						action : "/getVersionListByLogiciel"
+					},
+					// processData: false,
+					// contentType: "text",
+					dataType : "json",
+					success : function(data) {
 
+						$('#listVersion').empty();
 
-			$.ajax({
-				type : "GET",
-				url : "/Helpdesk/Settings",
-				data : {
-					logiciel_id:logiciel_id,
-					action : "/getVersionListByLogiciel"
-				},
-				// processData: false,
-				// contentType: "text",
-				dataType : "json",
-				success : function(data) {
+						for (var i = 0; i < data.length; i++) {
+							$('#listVersion').append(
+							'<option value="' + data[i][0] + '">' + data[i][1]
+									+ '</option>');
 
-					$('#listVersion').empty();
+						}
 
-					for (var i = 0; i < data.length; i++) {
-						$('#listVersion').append(
-								'<option>' + data[i]
-										+ '</option>');
+						// Initialize select2
+						//$("#listVersion").select2();
 
-					}
-
-					// Initialize select2
-					$("#listVersion").select2();
-
-				},
-				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Erreur Serveur Veuillez contactez votre administrateur !");
-				},
-			});
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("Erreur Serveur Veuillez contactez votre administrateur !");
+					},
+				});
+			
+		}else {
+			$("#listVersion").empty();
+			}
 
 		
 	});

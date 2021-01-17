@@ -51,6 +51,12 @@ public class Ticket implements Serializable {
 	
 	@Column(name = "attachment_path")
 	private String Attachment;
+	
+	@Column(name = "logiciel_id")
+	private String Logiciel;
+	
+	@Column(name = "version_id")
+	private String Version;
 
 	@CreationTimestamp
     private LocalDateTime createDateTime;
@@ -216,6 +222,25 @@ public class Ticket implements Serializable {
 	public void setAssignedDateTime(LocalDateTime assignedDateTime) {
 		this.assignedDateTime = assignedDateTime;
 	}
+
+	public String getLogiciel() {
+		return Logiciel;
+	}
+
+	public void setLogiciel(String logiciel) {
+		Logiciel = logiciel;
+	}
+
+	public String getVersion() {
+		return Version;
+	}
+
+	public void setVersion(String version) {
+		Version = version;
+	}
+
+	
+	
 	
 	
 

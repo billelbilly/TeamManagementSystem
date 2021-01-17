@@ -56,6 +56,39 @@ function getUsersTabulator() {
 		// the Virtual DOM and improves render speed
 		// dramatically (can be any valid css height value)
 		// data:get_data, //assign data to table
+		locale:true,
+	    langs:{
+	        "fr-fr":{
+//	            "columns":{
+//	                "name":"Name", //replace the title of column name with the value "Name"
+//	            },
+	            "ajax":{
+	                "loading":"Chargement ...", //ajax loader text
+	                "error":"Erreur", //ajax error text
+	            },
+//	            "groups":{ //copy for the auto generated item count in group header
+//	                "item":"item", //the singular  for item
+//	                "items":"items", //the plural for items
+//	            },
+	            "pagination":{
+	                "first":"Premier", //text for the first page button
+	                "first_title":"Premièr Page", //tooltip text for the first page button
+	                "last":"Dernier",
+	                "last_title":"Dernièr Page",
+	                "prev":"Précédent",
+	                "prev_title":"Page Précédente",
+	                "next":"Suivant",
+	                "next_title":"Page Suivante",
+	                "page_size":"Taille Page", //label for the page size select element
+	            },
+//	            "headerFilters":{
+//	                "default":"filter column...", //default header filter placeholder text
+//	                "columns":{
+//	                    "name":"filter name...", //replace default header filter text for column name
+//	                }
+//	            }
+	        }
+	    },
 		ajaxURL : "/Helpdesk/UserManagement",
 		ajaxParams : {
 			action : "/getAllUsers"

@@ -58,3 +58,6 @@
 
 
 <jsp:include page="Footer.jsp"></jsp:include>
+<script src="resources/js/contacts/contacts.js"></script>
+</body>
+</html>

@@ -417,6 +417,8 @@ public class TicketManagement extends HttpServlet {
 		HttpSession session = request.getSession();
 		String Objet = request.getParameter("subject");
 		String Severity = request.getParameter("severity");
+		String listLogiciel= request.getParameter("listLogiciel");
+		String listVersion= request.getParameter("listVersion");
 		String Details = request.getParameter("detail");
 		Part part = request.getPart("attachment");
 		User user = null;
@@ -426,6 +428,8 @@ public class TicketManagement extends HttpServlet {
 		ticket.setObjet(Objet);
 		ticket.setSeverity(Severity);
 		ticket.setDetails(Details);
+		ticket.setLogiciel(listLogiciel);
+		ticket.setVersion(listVersion);
 
 		// get the File uploaded name
 		String fileName = part.getSubmittedFileName();

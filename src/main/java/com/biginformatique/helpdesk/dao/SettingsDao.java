@@ -313,7 +313,7 @@ public class SettingsDao {
 		try {
 			listVersion = em
 					.createQuery(
-							"SELECT V.nomVersion FROM LogicielVersion LV, Version V WHERE LV.logiciel_id= :logiciel_id AND LV.version_id=V.version_id")
+							"SELECT V.version_id, V.nomVersion FROM LogicielVersion LV, Version V WHERE LV.logiciel_id= :logiciel_id AND LV.version_id=V.version_id")
 					.setParameter("logiciel_id", logicielIdInt).getResultList();
 
 		} catch (Exception e) {

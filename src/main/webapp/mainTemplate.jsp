@@ -513,15 +513,17 @@ div.responseScroll {
 												</div>
 												<div class="form-group">
 													<input name="subject" type="text" class="form-control"
-														placeholder="Objet" oninvalid="this.setCustomValidity('Objet obligatoire !')"
-												oninput="setCustomValidity('')" required>
+														placeholder="Objet"
+														oninvalid="this.setCustomValidity('Objet obligatoire !')"
+														oninput="setCustomValidity('')" required>
 												</div>
 												<div class="d-flex justify-content-center">
 													<div class="form-group input-group">
 														<div class="input-group-prepend">
 															<span class="input-group-text"> Sévérité </span>
 														</div>
-														<select name="severity" id="severity" style='width: 150px;'>
+														<select name="severity" id="severity"
+															style='width: 150px;'>
 															<option>Critique</option>
 															<option>Moyen</option>
 															<option>Normale</option>
@@ -533,7 +535,8 @@ div.responseScroll {
 														<div class="input-group-prepend">
 															<span class="input-group-text"> Logiciel </span>
 														</div>
-														<select name=listLogiciel id="listLogiciel" style='width: 150px;'>
+														<select name=listLogiciel id="listLogiciel"
+															style='width: 150px;' required>
 
 														</select>
 													</div>
@@ -541,7 +544,10 @@ div.responseScroll {
 														<div class="input-group-prepend">
 															<span class="input-group-text"> Version </span>
 														</div>
-														<select name=listVersion id="listVersion" style='width: 150px;'>
+														<select name=listVersion id="listVersion"
+															style='width: 150px;'
+															oninvalid="this.setCustomValidity('SVP Choisissez Le Logiciel et sa Version !')"
+															oninput="setCustomValidity('')" required>
 
 														</select>
 													</div>
@@ -550,8 +556,9 @@ div.responseScroll {
 												<div class="form-group">
 													<textarea name="detail" class="form-control"
 														placeholder="Détail du tiquet ou question"
-														style="height: 120px;" oninvalid="this.setCustomValidity('Détails obligatoire !')"
-												oninput="setCustomValidity('')" required></textarea>
+														style="height: 120px;"
+														oninvalid="this.setCustomValidity('Détails obligatoire !')"
+														oninput="setCustomValidity('')" required></textarea>
 												</div>
 												<div class="form-group">
 													<div id="bigFile" class="alert alert-danger" role="alert"
@@ -975,6 +982,7 @@ div.responseScroll {
 	<script src="resources/js/xlsx.full.min.js"></script>
 	<script src="resources/js/jspdf.min.js"></script>
 	<script src="resources/js/jspdf.plugin.autotable.js"></script>
+	<!-- 	<script src="resources/js/select2.min.js" defer></script> -->
 	<script src="resources/js/moment.min.js"></script>
 	<script src="resources/js/tabulator.min.js"></script>
 	<script src="resources/js/datepicker.js"></script>
@@ -987,4 +995,5 @@ div.responseScroll {
 	<script src="resources/js/mainTemplate.js"></script>
 	<script src="resources/js/jquery.twbsPagination.min.js"></script>
 	<script src="resources/js/ticketTemplate.js"></script>
+</body>
 </html>
