@@ -42,9 +42,9 @@ $(document).ready(function () {
 //		                "items":"items", //the plural for items
 //		            },
 		            "pagination":{
-		                "first":"Premier", //text for the first page button
+		                "first":"Début", //text for the first page button
 		                "first_title":"Premièr Page", //tooltip text for the first page button
-		                "last":"Dernier",
+		                "last":"Fin",
 		                "last_title":"Dernièr Page",
 		                "prev":"Précédent",
 		                "prev_title":"Page Précédente",

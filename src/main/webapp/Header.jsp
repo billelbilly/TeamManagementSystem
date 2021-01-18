@@ -158,10 +158,10 @@ div.progress {
 				<li><a href="mainTemplate.jsp"><i
 						class="zmdi zmdi-folder-star-alt"></i><span>Tiquets</span></a></li>
 
-				<li><a href="/Helpdesk/Users&Contacts.jsp"><i
+				<li><a href="Users&Contacts.jsp"><i
 						class="zmdi zmdi-account-box-mail"></i><span>Utilisateurs &
 							Contacts</span></a></li>
-				<li><a href="javascript:void(0);"><i
+				<li><a href="Statistics.jsp"><i
 						class="zmdi zmdi-chart"></i><span>Statistiques</span></a></li>
 
 				<li><a data-toggle="modal" data-target="#Settings"
