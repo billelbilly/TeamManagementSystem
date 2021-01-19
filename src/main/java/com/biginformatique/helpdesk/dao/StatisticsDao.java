@@ -15,27 +15,24 @@ public class StatisticsDao {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
-		 int[] nbrTickets = new int[3];
-		int nbrFermer=0;
-		int nbrAssign=0;
-		int nbropen=0;
-		
+		int[] nbrTickets = new int[3];
+		int nbrFermer = 0;
+		int nbrAssign = 0;
+		int nbropen = 0;
+
 		try {
 			// start a transaction
 			transaction = session.beginTransaction();
-			Query query = session.createQuery(
-					"FROM Ticket T WHERE T.Etat='fermer'");
+			Query query = session.createQuery("FROM Ticket T WHERE T.Etat='fermer'");
 			nbrFermer = query.getResultList().size();
-			query = session.createQuery(
-					"FROM Ticket T WHERE T.Etat='assigné'");
+			query = session.createQuery("FROM Ticket T WHERE T.Etat='assigné'");
 			nbrAssign = query.getResultList().size();
-			query = session.createQuery(
-					"FROM Ticket T WHERE T.Etat='créé'");
+			query = session.createQuery("FROM Ticket T WHERE T.Etat='créé'");
 			nbropen = query.getResultList().size();
-			nbrTickets[0]=nbrFermer;
-			nbrTickets[1]=nbrAssign;
-			nbrTickets[2]=nbropen;
-			
+			nbrTickets[0] = nbrFermer;
+			nbrTickets[1] = nbrAssign;
+			nbrTickets[2] = nbropen;
+
 			// commit transaction
 			transaction.commit();
 		} catch (Exception e) {
@@ -48,6 +45,48 @@ public class StatisticsDao {
 		}
 		return nbrTickets;
 
+	}
+
+	public int[] getNumTicByVersionDao(String logicielId, String versionId) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		int[] nbrTickets = new int[3];
+		int nbrFermer = 0;
+		int nbrAssign = 0;
+		int nbropen = 0;
+
+		try {
+			// start a transaction
+			transaction = session.beginTransaction();
+			Query query = session.createQuery(
+					"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Version= :version_id AND T.Etat='fermer'")
+					.setParameter("logiciel_id", logicielId).setParameter("version_id", versionId);
+			nbrFermer = query.getResultList().size();
+			query = session.createQuery(
+					"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Version= :version_id AND T.Etat='assigné'")
+					.setParameter("logiciel_id", logicielId).setParameter("version_id", versionId);
+			nbrAssign = query.getResultList().size();
+			query = session
+					.createQuery(
+							"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Version= :version_id AND T.Etat='créé'")
+					.setParameter("logiciel_id", logicielId).setParameter("version_id", versionId);
+			nbropen = query.getResultList().size();
+			nbrTickets[0] = nbrFermer;
+			nbrTickets[1] = nbrAssign;
+			nbrTickets[2] = nbropen;
+
+			// commit transaction
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return nbrTickets;
 	}
 
 }

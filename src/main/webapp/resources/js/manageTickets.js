@@ -365,10 +365,11 @@ $("#DeleteTicketForm").submit(function(e) {
 		success : function(data) {
 			$("#semiTransparentDiv").hide();
 			if (data.success) {
-				getTicketsTabulator();
-				$('.modal').modal('hide');
-				$("body").removeClass("modal-open");
-				$("div.modal-backdrop").remove();
+//				getTicketsTabulator();
+//				$('.modal').modal('hide');
+//				$("body").removeClass("modal-open");
+//				$("div.modal-backdrop").remove();
+				location.reload(); 
 
 			} else {
 				alert("Delete Ticket Failed !");

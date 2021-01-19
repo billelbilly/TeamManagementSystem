@@ -1127,7 +1127,7 @@
 <script src="resources/js/select2.min.js" defer></script>
 <script src="resources/js/tabulator.min.js"></script>
 <script src="resources/js/flash.min.js"></script>
-<script src="resources/js/manageTickets.js"></script>
+<!-- <script src="resources/js/manageTickets.js"></script> -->
 <script src="resources/js/manageUsers.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/mainTemplate.js"></script>
@@ -1144,6 +1144,5 @@
 <script src="resources/assets/js/pages/index.js"></script>
 <script src="resources/js/Settings.js"></script>
 <script src="resources/js/validateForms.js"></script>
-<script src="resources/js/chart.js@2.8.0"></script>
-<script src="resources/js/statistics.js"></script>
+
 

@@ -34,7 +34,7 @@ function getLogicielListChart() {
 getLogicielListChart();
 
 
-function successCallBack(data) {
+function pieCallBack(data) {
 	//BEGIN PIE CHART ============================================
 	var pieCtx = document.getElementById('pie_chart');
 	var pieData=data.nbrTickets;
@@ -93,6 +93,86 @@ function successCallBack(data) {
 	//END PIE CHART ============================================
 
 }
+
+function barCallBack(data) {
+	var hasStyle = document.getElementById("bar_chart")
+	.hasAttribute("style");
+	if (hasStyle) {
+		$("#bar_chart").remove();
+		$(".chartjs-size-monitor").remove();
+		$("#barchart_div").append("<canvas id='bar_chart' class='chartjs_graph'></canvas>");	
+	}
+	//BEGIN BAR CHART ============================================
+	var barChart;
+	var barCtx = document.getElementById('bar_chart');
+	var barData=data.nbrTickets;
+	
+	
+	 barChart = new Chart(barCtx, {
+	    type: 'bar',
+	    data: {
+	        labels: ['Fermés', 'Assignés', 'Créés'],
+	        datasets: [{
+	            data: barData,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.5)',
+	                'rgba(54, 162, 235, 0.5)',
+	                'rgba(75, 192, 192, 0.5)',
+	       
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(75, 192, 192, 1)',
+	              
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	    	 legend: {
+	    	        display: false
+	    	    },
+	        responsive: true,
+	        scales: {
+	          xAxes: [{
+	            ticks: {
+	              maxRotation: 90,
+	              minRotation: 40
+	            },
+	              gridLines: {
+	              display:false,
+	            }
+	          },
+	          ],
+	          yAxes: [{
+	            ticks: {
+	              beginAtZero: true,
+	              stepSize: 1,
+//	              callback:function(value) {
+//	                   if (value>5) {
+//						value=0;
+//						return value;
+//					}else {
+//						return value;
+//					}
+//	                     
+//	               }
+	            },
+	            scaleLabel: {
+	                display: true,
+	                labelString: 'Nombre Tiquets',
+	               
+	              }
+	          }]
+	        }
+
+	    }
+	});
+	 barChart.clear();
+	//END BAR CHART ============================================
+	
+}
 	$.ajax({
 		type : "GET",
 		url : "/Helpdesk/Statistics",
@@ -100,14 +180,14 @@ function successCallBack(data) {
 			action : "/getNumberTickets"
 		},
 		dataType : "json",
-		success : successCallBack,
+		success : pieCallBack,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("Erreur Serveur Veuillez Contacter Votre Administrateur !");
 		},
 	});
 	
 	$("#listLogicielChart").on("change",function(){
-		   var logiciel_id=$("#listLogicielChart").val();
+		  var logiciel_id=$("#listLogicielChart").val();
 		  if (logiciel_id!=="--Selectionnez--") {
 				$.ajax({
 					type : "GET",
@@ -116,18 +196,18 @@ function successCallBack(data) {
 						logiciel_id:logiciel_id,
 						action : "/getVersionListByLogiciel"
 					},
-					// processData: false,
-					// contentType: "text",
+					
 					dataType : "json",
 					success : function(data) {
 
 						$('#listVersionChart').empty();
+						$('#listVersionChart').append(
+						'<option>--Selectionnez--</option>');
 
 						for (var i = 0; i < data.length; i++) {
 							$('#listVersionChart').append(
 							'<option value="' + data[i][0] + '">' + data[i][1]
 									+ '</option>');
-
 						}
 
 						// Initialize select2
@@ -139,10 +219,28 @@ function successCallBack(data) {
 					},
 				});
 				
-				//Here put Ajax To Fill the Bar Chart
-				var version_id=$("#listVersionChart").val();
-				console.log("Logiciel: "+logiciel_id);
-				console.log("Version: "+version_id);
+				$("#listVersionChart").on("change",function(){
+					var version_id=$("#listVersionChart").val();
+					if (logiciel_id!=="--Selectionnez--") {
+						$.ajax({
+							type : "GET",
+							url : "/Helpdesk/Statistics",
+							data : {
+								logiciel_id:logiciel_id,
+								version_id:version_id,
+								action : "/getNumTicByVersion"
+							},
+							dataType : "json",
+							success : barCallBack,
+							error : function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("Erreur Serveur Veuillez Contacter Votre Administrateur !");
+							},
+						});
+					}else {
+						$("#listVersionChart").empty();
+					}
+					
+				});
 			
 		}else {
 			$("#listVersionChart").empty();

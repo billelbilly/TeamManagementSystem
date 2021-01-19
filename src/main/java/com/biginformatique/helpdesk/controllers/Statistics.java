@@ -37,7 +37,7 @@ public class Statistics extends HttpServlet {
 		ticketuserDao = new TicketUserDao();
 		userDao = new UserDao();
 		planifDao = new PlanificationsDao();
-		statisticsDao= new StatisticsDao();
+		statisticsDao = new StatisticsDao();
 
 	}
 
@@ -49,7 +49,17 @@ public class Statistics extends HttpServlet {
 			try {
 				getNumberTickets(request, response);
 			} catch (Exception e) {
-				
+
+				e.printStackTrace();
+			}
+
+			break;
+
+		case "/getNumTicByVersion":
+			try {
+				getNumTicByVersion(request, response);
+			} catch (Exception e) {
+
 				e.printStackTrace();
 			}
 
@@ -59,8 +69,21 @@ public class Statistics extends HttpServlet {
 
 	}
 
+	private void getNumTicByVersion(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String logicielId = request.getParameter("logiciel_id");
+		String versionId = request.getParameter("version_id");
+		int[] nbrTickets = statisticsDao.getNumTicByVersionDao(logicielId, versionId);
+		JSONObject jo = new JSONObject();
+		jo.put("nbrTickets", nbrTickets);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(jo.toString());
+
+	}
+
 	private void getNumberTickets(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int[] nbrTickets= statisticsDao.getNumberTicketsDao();
+
+		int[] nbrTickets = statisticsDao.getNumberTicketsDao();
 		JSONObject jo = new JSONObject();
 		jo.put("nbrTickets", nbrTickets);
 		response.setContentType("application/json");

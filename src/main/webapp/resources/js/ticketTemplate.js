@@ -1069,7 +1069,7 @@ $(document).ready(function() {
 	
 
 	// initialize with defaults
-	$("#rating1").rating();
+//	$("#rating1").rating();
 	
 	//Clear Search and back to first page 
 	$("#search").keydown(function(){

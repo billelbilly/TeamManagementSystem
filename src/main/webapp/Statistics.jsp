@@ -54,7 +54,7 @@
 							</select> 
 							
 						</div>
-						<div class="body">
+						<div id="barchart_div" class="body">
 							<canvas id="bar_chart" class="chartjs_graph"></canvas>
 						</div>
 					</div>
@@ -196,5 +196,7 @@
 </section>
 
 <jsp:include page="Footer.jsp"></jsp:include>
+<script src="resources/js/chart.js@2.8.0"></script>
+<script src="resources/js/statistics.js"></script>
 </body>
 </html>
