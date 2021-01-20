@@ -118,7 +118,7 @@ $(document).ready(function() {
 	});
 
 	
-	var qs=$('input#search').quicksearch('ul.list-group li');
+	var qs=$('input.search').quicksearch('ul.list-group li');
 	
 	
 	
@@ -475,8 +475,7 @@ $(document).ready(function() {
 				});
 	
 			//********************************************************************************************//	
-
-				
+		
 
 			});
 			qs.cache();

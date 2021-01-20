@@ -96,5 +96,6 @@
 
 <jsp:include page="Footer.jsp"></jsp:include>
 <script src="resources/js/manageTickets.js"></script>
+<script src="resources/js/Settings.js"></script>
 </body>
 </html>

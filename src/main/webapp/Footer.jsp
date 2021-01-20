@@ -1121,15 +1121,264 @@
 </div>
 <!-- ------------------------------------------------------------------------------------------ -->
 
+<!-- <!------------------------------- Liste des Planifications -----------------------> -->
+<!-- <div class="container"> -->
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-md-8"> -->
+<!-- 			<div class="modal fade" id="planifList"> -->
+
+<!-- 				<div class="modal-dialog modal-lg"> -->
+<!-- 					<div class="modal-content"> -->
+<!-- 						<div class="modal-header"> -->
+
+<!-- 							<h5 class="modal-title"> -->
+<!-- 								<i class="fa fa-calendar fa-lg" aria-hidden="true"></i> Liste -->
+<!-- 								des Planifications -->
+<!-- 							</h5> -->
+
+
+<!-- 						</div> -->
+
+<!-- 						<div class="modal-body"> -->
+<!-- 							<div class="mb-1"> -->
+<!-- 								<button id="download-xlsx" class="btn btn-success btn-sm">Télécharger -->
+<!-- 									XLSX</button> -->
+<!-- 								<button id="download-pdf" class="btn btn-danger btn-sm">Télécharger -->
+<!-- 									PDF</button> -->
+<!-- 							</div> -->
+
+<!-- 							<div id="listPlanif"></div> -->
+
+<!-- 						</div> -->
+
+<!-- 						<div class="modal-footer"> -->
+
+
+<!-- 							<button id="close_model" class="btn btn-danger btn-md" -->
+<!-- 								data-dismiss="modal" style="color: white"> -->
+<!-- 								<i class="fa fa-times" aria-hidden="true"></i> Fermer -->
+<!-- 							</button> -->
+
+<!-- 						</div> -->
+
+<!-- 					</div> -->
+
+
+<!-- 				</div> -->
+
+
+<!-- 			</div> -->
+
+<!-- 		</div> -->
+
+<!-- 	</div> -->
+
+
+<!-- </div> -->
+<!-- <!-- ------------------------------------------------------------------------------------------ --> -->
+
+<!-- ----------------------------------------Update Ticket----------------------------------------- -->
+<div class="modal fade" id="updateIssue" tabindex="-1" role="dialog"
+	aria-labelledby="newIssue" aria-hidden="true">
+
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-blue">
+				<h4 class="modal-title text-dark pull-left">
+					<i class="fa fa-edit"></i> Editer Tiquet
+				</h4>
+			</div>
+			<form id="updateTicketForm"
+				action="<%=request.getContextPath()%>/TicketManagement"
+				method="post" enctype="multipart/form-data">
+				<div class="modal-body">
+					<div class="form-group">
+						<input id="ticket_id" name="ticket_id" type="text"
+							class="form-control" value="" hidden>
+					</div>
+					<div class="form-group">
+						<input id="action" name="action" type="text" class="form-control"
+							value="/UpdateTicket" hidden> <input type="text"
+							name="usersession" value="<%=session.getAttribute("username")%>"
+							hidden />
+					</div>
+
+					<div class="form-group">
+						<input id="objet" name="subject" type="text" class="form-control"
+							placeholder="Objet" required="required">
+					</div>
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> Sévérité </span>
+						</div>
+						<select name="severity" id="severity">
+							<option>Critique</option>
+							<option>Moyen</option>
+							<option>Normale</option>
+
+						</select>
+					</div>
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> Etat Tiquet </span>
+						</div>
+						<select name="etat_ticket" id="etat_ticket" required>
+							<option>créé</option>
+							<option>fermer</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<textarea id="detail" name="detail" class="form-control"
+							placeholder="Détail du tiquet ou question" style="height: 120px;"
+							required="required"></textarea>
+					</div>
+					<div class="form-group">
+						<div id="bigFileUpdate" class="alert alert-danger" role="alert"
+							hidden></div>
+						<input id="fileUpdate" type="file" name="attachment">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">
+						<i class="fa fa-times"></i> Annuler
+					</button>
+					<button id="saveTicketUpdate" type="submit"
+						class="btn btn-primary pull-right">
+						<i class="fa fa-pencil"></i> Update
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- --------------------------------------------------------------------------------------------------- -->
+
+<!-------------------------------Planification Ticket----------------------->
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="modal fade" id="PlanifModal">
+
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">
+								<i class="fa fa-calendar fa-lg" aria-hidden="true"></i>
+								Planification
+							</h5>
+
+						</div>
+
+						<div class="modal-body">
+							<div class="col-md-8 offset-2">
+								<form id="planifForm"
+									action="<%=request.getContextPath()%>/TicketManagement"
+									method="POST" autocomplete="off">
+
+									<div class="form-group">
+										<input type="text" name="ticket_id" id="ticket_id" value=""
+											hidden />
+									</div>
+									<div class="form-group">
+										<input type="text" name="action" id="action"
+											value="/PlanifyTicket" hidden />
+									</div>
+									<!-- Here put Planification DatePickers -->
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control date-input"
+											id="date_debut_planif" name="date_debut_planif"
+											placeholder="Date Début Planification" required>
+
+									</div>
+
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control date-input"
+											id="date_fin_planif" name="date_fin_planif"
+											placeholder="Date Fin Planification" required>
+
+									</div>
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control date-input"
+											id="date_debut_realise" name="date_debut_realise"
+											placeholder="Date Début Réalisation">
+
+									</div>
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control date-input"
+											id="date_fin_realise" name="date_fin_realise"
+											placeholder="Date Fin Réalisation">
+
+									</div>
+									<div class="form-group">
+										<textarea name="observation" class="form-control"
+											id="observation" placeholder="Observation"
+											style="height: 120px;"></textarea>
+									</div>
+
+									<button type="submit" class="btn btn-info btn-md">
+										<i class="fa fa-check"></i> Planifier
+									</button>
+								</form>
+							</div>
+
+
+
+						</div>
+
+						<div class="modal-footer">
+
+
+							<button id="close_model" class="btn btn-danger btn-md"
+								data-dismiss="modal" style="color: white">
+								<i class="fa fa-times" aria-hidden="true"></i> Annuler
+							</button>
+
+						</div>
+
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</div>
+<!-- ------------------------------------------------------------------------------------------ -->
 
 <script src="resources/js/jquery-3.5.1.min.js"></script>
+<script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/moment.min.js"></script>
 <script src="resources/js/select2.min.js" defer></script>
 <script src="resources/js/tabulator.min.js"></script>
 <script src="resources/js/flash.min.js"></script>
 <!-- <script src="resources/js/manageTickets.js"></script> -->
 <script src="resources/js/manageUsers.js"></script>
-<script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/mainTemplate.js"></script>
 <script src="resources/js/popper.js"></script>
 <script src="resources/assets/bundles/libscripts.bundle.js"></script>
@@ -1142,7 +1391,7 @@
 <script src="resources/js/datepickerForAdmin.js"></script>
 <script src="resources/assets/bundles/mainscripts.bundle.js"></script>
 <script src="resources/assets/js/pages/index.js"></script>
-<script src="resources/js/Settings.js"></script>
+<!-- <script src="resources/js/Settings.js"></script> -->
 <script src="resources/js/validateForms.js"></script>
 
 

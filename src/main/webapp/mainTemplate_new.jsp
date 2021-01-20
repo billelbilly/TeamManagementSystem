@@ -18,6 +18,9 @@
 	href="resources/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css"
+	href="resources/css/tabulator_bootstrap4.min.css">
+
+<link rel="stylesheet" type="text/css"
 	href="resources/css/select2.min.css">
 
 <link rel="stylesheet" type="text/css"
@@ -42,7 +45,6 @@
 
 
 <style type="text/css">
-
 
 /* Response Css*/
 .comment-wrapper .card-body {
@@ -91,6 +93,10 @@ div.responseScroll {
 	/*background-color: lightblue;*/
 	max-height: 200px;
 	overflow: auto;
+}
+
+.btn-simple {
+	display: none;
 }
 </style>
 
@@ -155,306 +161,351 @@ div.responseScroll {
 						</div>
 					</div>
 				</li>
-
-
+				
 			</ul>
 		</div>
 	</aside>
-	
+
 	<section class="content">
-	
-							<div class="btn-group">
-								<button id="nbr_ticket_open" type="button"
-									class="btn btn-success"></button>
-								<button id="nbr_ticket_assigned" type="button"
-									class="btn btn-info"></button>
-								<button id="nbr_ticket_closed" type="button"
-									class="btn btn-danger"></button>
-							</div>
 
-							<div class="btn-group">
 
-								<div class="input-group-prepend">
-									<span class="input-group-text"> Filtrer Par: </span> <select
-										name=filtreTicket id="filtreTicket">
-										<option>...</option>
-										<option value="créé">Crées</option>
-										<option value="fermer">Fermer</option>
-										<option value="assigné">Assignés</option>
-									</select>
+
+		<div class="">
+			<div class="btn-group">
+				<button id="nbr_ticket_open" type="button" class="btn btn-success"></button>
+				<button id="nbr_ticket_assigned" type="button" class="btn btn-info"></button>
+				<button id="nbr_ticket_closed" type="button" class="btn btn-danger"></button>
+			</div>
+			<span>Filtrer par: </span> <select name=filtreTicket
+				id="filtreTicket">
+				<option>...</option>
+				<option value="créé">Crées</option>
+				<option value="fermer">Fermer</option>
+				<option value="assigné">Assignés</option>
+			</select>
+
+
+
+			<div class="justify-content-center pull-right">
+
+				<input class="search" type="text" name="search"
+					placeholder="Recherche" autofocus="autofocus">
+
+				<button type="button" class="btn btn-info btn-sm" id="listPlanifBtn"
+					data-toggle="modal" data-target="#planifList" hidden>
+					<i class="fa fa-history"></i> Liste Planification
+				</button>
+				<button type="button" class="btn btn-success btn-sm"
+					data-toggle="modal" data-target="#newIssue">
+					<i class="fa fa-pencil"></i> Nouveau Tiquet
+				</button>
+			</div>
+		</div>
+
+
+		<hr>
+
+		<!-- BEGIN TICKET -->
+		<div class="col-md-8 offset-2">
+			<div class="">
+				<div class="">
+
+					<!-- BEGIN NEW TICKET -->
+
+					<div class="modal fade" id="newIssue" tabindex="-1" role="dialog"
+						aria-labelledby="newIssue" aria-hidden="true">
+
+						<div class="modal-dialog modal-md">
+							<div class="modal-content">
+								<div class="modal-header bg-blue">
+									<h4 class="modal-title text-dark pull-left">
+										<i class="fa fa-pencil"></i> Crée Nouveau Tiquet
+									</h4>
 								</div>
-
-								<div class="input-group-prepend ml-3">
-									<input type="text" name="search" value="" id="search"
-										placeholder="Recherche" autofocus />
-								</div>
-
-
-							</div>
-
-							<div class="justify-content-center pull-right">
-								<button type="button" class="btn btn-info btn-sm"
-									id="listPlanifBtn" data-toggle="modal"
-									data-target="#planifList" hidden>
-									<i class="fa fa-history"></i> Liste Planification
-								</button>
-								<button type="button" class="btn btn-success btn-sm"
-									data-toggle="modal" data-target="#newIssue">
-									<i class="fa fa-pencil"></i> Nouveau Tiquet
-								</button>
-							</div>
-
-
-							<hr>
-
-			<!-- BEGIN TICKET -->
-				<div class="col-md-8 offset-2">
-					<div class="">
-						<div class="">
-							
-
-
-
-
-							<!-- BEGIN NEW TICKET -->
-
-							<div class="modal fade" id="newIssue" tabindex="-1" role="dialog"
-								aria-labelledby="newIssue" aria-hidden="true">
-
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-header bg-blue">
-											<h4 class="modal-title pull-left">
-												<i class="fa fa-pencil"></i> Crée Nouvau Tiquet
-											</h4>
+								<form id="ticketForm"
+									action="<%=request.getContextPath()%>/TicketManagement"
+									method="post" enctype="multipart/form-data" autocomplete="off">
+									<div class="modal-body">
+										<div class="form-group" hidden>
+											<input type="text" name="action" id="action"
+												value="/CreateTicket" />
 										</div>
-										<form id="ticketForm"
-											action="<%=request.getContextPath()%>/TicketManagement"
-											method="post" enctype="multipart/form-data"
-											autocomplete="off">
+										<div class="form-group">
+											<input name="subject" type="text" class="form-control"
+												placeholder="Objet"
+												oninvalid="this.setCustomValidity('Objet obligatoire !')"
+												oninput="setCustomValidity('')" required>
+										</div>
+										<div class="d-flex justify-content-center">
+											<div class="form-group input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> Sévérité </span>
+												</div>
+												<select name="severity" id="severity" style='width: 150px;'>
+													<option>Critique</option>
+													<option>Moyen</option>
+													<option>Normale</option>
+
+												</select>
+
+											</div>
+											<div class="form-group input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> Logiciel </span>
+												</div>
+												<select name=listLogiciel id="listLogiciel"
+													style='width: 150px;' required>
+
+												</select>
+											</div>
+											<div class="form-group input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> Version </span>
+												</div>
+												<select name=listVersion id="listVersion"
+													style='width: 150px;'
+													oninvalid="this.setCustomValidity('SVP Choisissez Le Logiciel et sa Version !')"
+													oninput="setCustomValidity('')" required>
+
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<textarea name="detail" class="form-control"
+												placeholder="Détail du tiquet ou question"
+												style="height: 120px;"
+												oninvalid="this.setCustomValidity('Détails obligatoire !')"
+												oninput="setCustomValidity('')" required></textarea>
+										</div>
+										<div class="form-group">
+											<div id="bigFile" class="alert alert-danger" role="alert"
+												hidden></div>
+											<input id="file" type="file" name="attachment">
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger"
+											data-dismiss="modal">
+											<i class="fa fa-times"></i> Annuler
+										</button>
+										<button id="saveTicket" type="submit"
+											class="btn btn-primary pull-right">
+											<i class="fa fa-pencil"></i> Créer
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<!-- END NEW TICKET -->
+
+					<div class="padding"></div>
+
+					<div id="clickClearSearchHistory" class="row">
+						<!-- BEGIN TICKET CONTENT -->
+						<div class="col-md-8 offset-2">
+							<div class="ticket_list"></div>
+
+
+							<ul class="list-group fa-padding">
+
+							</ul>
+
+							<nav aria-label="Page navigation example">
+								<ul class="pagination justify-content-center mt-3">
+
+								</ul>
+							</nav>
+
+
+
+							<!-- BEGIN DETAIL TICKET -->
+							<div class="modal fade" id="issue" tabindex="-1" role="dialog"
+								aria-labelledby="issue" aria-hidden="true">
+								<div class="modal-wrapper">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header bg-blue">
+												<!-- <button type="button" class="close" data-dismiss="modal" -->
+												<!-- aria-hidden="true">×</button> -->
+												<h4 class="modal-title text-dark">
+													<i class="fa fa-info-circle"></i> Détails du Ticket
+												</h4>
+											</div>
+
 											<div class="modal-body">
-												<div class="form-group" hidden>
-													<input type="text" name="action" id="action"
-														value="/CreateTicket" />
-												</div>
-												<div class="form-group">
-													<input name="subject" type="text" class="form-control"
-														placeholder="Objet"
-														oninvalid="this.setCustomValidity('Objet obligatoire !')"
-														oninput="setCustomValidity('')" required>
-												</div>
-												<div class="d-flex justify-content-center">
-													<div class="form-group input-group">
-														<div class="input-group-prepend">
-															<span class="input-group-text"> Sévérité </span>
-														</div>
-														<select name="severity" id="severity"
-															style='width: 150px;'>
-															<option>Critique</option>
-															<option>Moyen</option>
-															<option>Normale</option>
 
-														</select>
+												<!-- Ticket Details -->
+												<div class="row">
+													<div class="col-md-2">
+														<img src="assets/img/user/avatar01.png" class="img-circle"
+															alt="" width="50">
+													</div>
+													<div id="ticket_detail_header" class="col-md-10"></div>
+												</div>
+												<!-- End Ticket Details -->
+												<!-- Ticket response comments -->
+												<hr>
+												<div class="row bootstrap snippets bootdeys">
+													<div class="col-md-12">
+														<div class="comment-wrapper">
+															<div class="card border-primary">
+																<div class="card-header bg-primary">
+																	<span class="text-white">Réponses</span>
+																	<div class="pull-right">
+																		<label for="sele" class="text-white">Filtrer
+																			Par:</label> <select id="filtreResponses"
+																			name="filtreResponses">
+																			<option>Récents</option>
+																			<option>Best Rated</option>
+																		</select>
+
+																	</div>
+
+																</div>
+																<div class="card-body">
+																	<button id="add_response"
+																		class="btn btn-primary btn-sm" type="button"
+																		data-toggle="collapse" data-target="#this"
+																		aria-expanded="false" style="margin-bottom: 2px;">
+																		Ajouter Réponse <i class="fa fa-caret-square-o-down"
+																			aria-hidden="true"></i>
+																	</button>
+																	<form id="responseForm"
+																		action="<%=request.getContextPath()%>/ResponseManagement"
+																		method="post" autocomplete="off">
+																		<div id="this" class="collapse"
+																			style="margin-bottom: 50px">
+																			<div class="form-group" hidden>
+																				<input type="text" name="ticket_id" id="ticket_id"
+																					value="" /> <input type="text" name="usersession"
+																					id="usersession"
+																					value="<%=session.getAttribute("username")%>"
+																					hidden="1" /> <input type="text" name="action"
+																					id="action" value="/CreateResponse" />
+																			</div>
+
+																			<textarea id="responseDetail" name="response"
+																				class="form-control mb-1"
+																				placeholder="Ajouter une Réponse..." rows="3"
+																				required></textarea>
+																			<span id="respBtn"></span>
+
+																			<button type="submit"
+																				class="btn btn-primary pull-right">Poster</button>
+																		</div>
+																	</form>
+																	<div class="clearfix"></div>
+
+																	<div class="response_list mt-3"></div>
+
+																	<div class="responseScroll">
+																		<ul class="media-list">
+
+
+																		</ul>
+																	</div>
+
+																</div>
+															</div>
+														</div>
 
 													</div>
-													<div class="form-group input-group">
-														<div class="input-group-prepend">
-															<span class="input-group-text"> Logiciel </span>
-														</div>
-														<select name=listLogiciel id="listLogiciel"
-															style='width: 150px;' required>
-
-														</select>
-													</div>
-													<div class="form-group input-group">
-														<div class="input-group-prepend">
-															<span class="input-group-text"> Version </span>
-														</div>
-														<select name=listVersion id="listVersion"
-															style='width: 150px;'
-															oninvalid="this.setCustomValidity('SVP Choisissez Le Logiciel et sa Version !')"
-															oninput="setCustomValidity('')" required>
-
-														</select>
-													</div>
 												</div>
 
-												<div class="form-group">
-													<textarea name="detail" class="form-control"
-														placeholder="Détail du tiquet ou question"
-														style="height: 120px;"
-														oninvalid="this.setCustomValidity('Détails obligatoire !')"
-														oninput="setCustomValidity('')" required></textarea>
-												</div>
-												<div class="form-group">
-													<div id="bigFile" class="alert alert-danger" role="alert"
-														hidden></div>
-													<input id="file" type="file" name="attachment">
-												</div>
+												<!-- End Ticket response comments -->
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-danger"
 													data-dismiss="modal">
-													<i class="fa fa-times"></i> Annuler
-												</button>
-												<button id="saveTicket" type="submit"
-													class="btn btn-primary pull-right">
-													<i class="fa fa-pencil"></i> Créer
+													<i class="fa fa-times"></i> Fermer
 												</button>
 											</div>
-										</form>
-									</div>
-								</div>
-							</div>
 
-							<!-- END NEW TICKET -->
-
-							<div class="padding"></div>
-
-							<div id="clickClearSearchHistory" class="row">
-								<!-- BEGIN TICKET CONTENT -->
-								<div class="col-md-6 offset-3">
-									<div class="ticket_list"></div>
-
-
-									<ul class="list-group fa-padding">
-
-									</ul>
-
-									<nav aria-label="Page navigation example">
-										<ul class="pagination justify-content-center mt-3">
-
-										</ul>
-									</nav>
-
-
-
-									<!-- BEGIN DETAIL TICKET -->
-									<div class="modal fade" id="issue" tabindex="-1" role="dialog"
-										aria-labelledby="issue" aria-hidden="true">
-										<div class="modal-wrapper">
-											<div class="modal-dialog modal-lg">
-												<div class="modal-content">
-													<div class="modal-header bg-blue">
-														<!-- <button type="button" class="close" data-dismiss="modal" -->
-														<!-- aria-hidden="true">×</button> -->
-														<h4 class="modal-title">
-															<i class="fa fa-info-circle"></i> Détails du Ticket
-														</h4>
-													</div>
-
-													<div class="modal-body">
-
-														<!-- Ticket Details -->
-														<div class="row">
-															<div class="col-md-2">
-																<img src="assets/img/user/avatar01.png"
-																	class="img-circle" alt="" width="50">
-															</div>
-															<div id="ticket_detail_header" class="col-md-10"></div>
-														</div>
-														<!-- End Ticket Details -->
-														<!-- Ticket response comments -->
-														<hr>
-														<div class="row bootstrap snippets bootdeys">
-															<div class="col-md-12">
-																<div class="comment-wrapper">
-																	<div class="card border-primary">
-																		<div class="card-header bg-primary">
-																			<span class="text-white">Réponses</span>
-																			<div class="pull-right">
-																				<label for="sele" class="text-white">Filtrer
-																					Par:</label> <select id="filtreResponses"
-																					name="filtreResponses">
-																					<option>Récents</option>
-																					<option>Best Rated</option>
-																				</select>
-
-																			</div>
-
-																		</div>
-																		<div class="card-body">
-																			<button id="add_response"
-																				class="btn btn-primary btn-sm" type="button"
-																				data-toggle="collapse" data-target="#this"
-																				aria-expanded="false" style="margin-bottom: 2px;">
-																				Ajouter Réponse <i class="fa fa-caret-square-o-down"
-																					aria-hidden="true"></i>
-																			</button>
-																			<form id="responseForm"
-																				action="<%=request.getContextPath()%>/ResponseManagement"
-																				method="post" autocomplete="off">
-																				<div id="this" class="collapse"
-																					style="margin-bottom: 50px">
-																					<div class="form-group" hidden>
-																						<input type="text" name="ticket_id" id="ticket_id"
-																							value="" /> <input type="text"
-																							name="usersession" id="usersession"
-																							value="<%=session.getAttribute("username")%>"
-																							hidden="1" /> <input type="text" name="action"
-																							id="action" value="/CreateResponse" />
-																					</div>
-
-																					<textarea id="responseDetail" name="response"
-																						class="form-control mb-1"
-																						placeholder="Ajouter une Réponse..." rows="3"
-																						required></textarea>
-																					<span id="respBtn"></span>
-
-																					<button type="submit"
-																						class="btn btn-primary pull-right">Poster</button>
-																				</div>
-																			</form>
-																			<div class="clearfix"></div>
-
-																			<div class="response_list mt-3"></div>
-
-																			<div class="responseScroll">
-																				<ul class="media-list">
-
-
-																				</ul>
-																			</div>
-
-																		</div>
-																	</div>
-																</div>
-
-															</div>
-														</div>
-
-														<!-- End Ticket response comments -->
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-danger"
-															data-dismiss="modal">
-															<i class="fa fa-times"></i> Fermer
-														</button>
-													</div>
-
-												</div>
-											</div>
 										</div>
 									</div>
-									<!-- END DETAIL TICKET -->
 								</div>
-								<!-- END TICKET CONTENT -->
 							</div>
+							<!-- END DETAIL TICKET -->
 						</div>
+						<!-- END TICKET CONTENT -->
 					</div>
 				</div>
-				<!-- END TICKET -->
+			</div>
+		</div>
+		<!-- END TICKET -->
 
 
 
 
-	<div id="semiTransparentDiv"></div>
-</section>
+		<div id="semiTransparentDiv"></div>
+	</section>
+	<!------------------------------- Liste des Planifications ----------------------->
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="modal fade" id="planifList">
+
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+
+							<h5 class="modal-title">
+								<i class="fa fa-calendar fa-lg" aria-hidden="true"></i> Liste
+								des Planifications
+							</h5>
+
+
+						</div>
+
+						<div class="modal-body">
+							<div class="mb-1">
+								<button id="download-xlsx" class="btn btn-success btn-sm">Télécharger
+									XLSX</button>
+								<button id="download-pdf" class="btn btn-danger btn-sm">Télécharger
+									PDF</button>
+							</div>
+
+							<div id="listPlanif"></div>
+
+						</div>
+
+						<div class="modal-footer">
+
+
+							<button id="close_model" class="btn btn-danger btn-md"
+								data-dismiss="modal" style="color: white">
+								<i class="fa fa-times" aria-hidden="true"></i> Fermer
+							</button>
+
+						</div>
+
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</div>
+<!-- ------------------------------------------------------------------------------------------ -->
 	
+
 	<jsp:include page="Footer.jsp"></jsp:include>
 	<script src="resources/js/bootstrap-toggle.min.js"></script>
 	<script src="resources/js/jquery.quicksearch.js"></script>
 	<script src="resources/js/jquery.twbsPagination.min.js"></script>
+	<script src="resources/js/xlsx.full.min.js"></script>
+	<script src="resources/js/jspdf.min.js"></script>
+	<script src="resources/js/jspdf.plugin.autotable.js"></script>
 	<script src="resources/js/ticketTemplate.js"></script>
 </body>
 </html>

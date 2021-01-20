@@ -155,7 +155,7 @@ div.progress {
 				</li>
 				<li class="active open"><a href="panneauAdmin_new.jsp"><i
 						class="zmdi zmdi-home"></i><span>Tableau de Bord</span></a></li>
-				<li><a href="mainTemplate.jsp"><i
+				<li><a href="mainTemplate_new.jsp"><i
 						class="zmdi zmdi-folder-star-alt"></i><span>Tiquets</span></a></li>
 
 				<li><a href="Users&Contacts.jsp"><i

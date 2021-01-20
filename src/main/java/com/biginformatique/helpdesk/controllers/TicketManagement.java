@@ -380,13 +380,6 @@ public class TicketManagement extends HttpServlet {
 		pass = decryptPassword.decrypt(pass);
 
 		if (ticketuserDao.saveTicketUserDao(ticketuser)) {
-			// Send Email Notification here
-			try {
-				EmailUtility.sendEmail(smtp, port, email, name, pass, recipient, subject, content);
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
 
 			// Change Ticket Status to Assigned
 			Ticket ticket = ticketDao.getTicketById(ticketId);
@@ -401,8 +394,14 @@ public class TicketManagement extends HttpServlet {
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(jo.toString());
-		} else {
+			// Send Email Notification here
+			try {
+				EmailUtility.sendEmail(smtp, port, email, name, pass, recipient, subject, content);
+			} catch (Exception e) {
 
+				e.printStackTrace();
+			}
+		} else {
 			jo.put("success", "false");
 			jo.put("id", ticketId);
 			response.setContentType("application/json");
@@ -417,8 +416,8 @@ public class TicketManagement extends HttpServlet {
 		HttpSession session = request.getSession();
 		String Objet = request.getParameter("subject");
 		String Severity = request.getParameter("severity");
-		String listLogiciel= request.getParameter("listLogiciel");
-		String listVersion= request.getParameter("listVersion");
+		String listLogiciel = request.getParameter("listLogiciel");
+		String listVersion = request.getParameter("listVersion");
 		String Details = request.getParameter("detail");
 		Part part = request.getPart("attachment");
 		User user = null;
@@ -554,7 +553,7 @@ public class TicketManagement extends HttpServlet {
 		if (etatTicket.equals("fermer")) {
 			ticket.setClosedBy(userSession);
 		}
-		
+
 		ticketDao.updateTicketDao(ticket);
 		JSONObject jo = new JSONObject();
 		jo.put("success", "true");
