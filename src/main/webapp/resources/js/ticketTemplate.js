@@ -119,6 +119,7 @@ $(document).ready(function() {
 
 	
 	var qs=$('input.search').quicksearch('ul.list-group li');
+	var search_response=$('input.search_response').quicksearch('ul.media-list li');
 	
 	
 	
@@ -158,10 +159,10 @@ $(document).ready(function() {
 					var date = new Date(datetoformat);
 					switch (opt) {
 					case "ticket":
-						 var str = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " +  date.getHours() + ":" + date.getMinutes();
+						 var str = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " +  String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0');
 						break;
 					case "resp":
-						 var str = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " +  date.getHours() + ":" + date.getMinutes();
+						 var str = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " +  String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0');
 						break;
 
 					default:
@@ -206,13 +207,15 @@ $(document).ready(function() {
 				
 				$('.list-group').append(item);
 				
-				//get user permission here if UserEntreprise show Planification Button	
+				//get user permission here if UserEntreprise/Admin show Planification Button
 			
 			    if ($("#userPermission").val()==3 || $("#userPermission").val()==1) {
 			    	$("#listPlanifBtn").removeAttr("hidden");
 			    	if (ticket[3]!=="fermer") {
 			    		$("#planif-"+ticket[0]+"").removeAttr("hidden");
 					}
+			    	
+			    	
 			    	
 				}
 				switch (ticket[4]) {
@@ -260,6 +263,7 @@ $(document).ready(function() {
 				// ***************//
 				
 				$("#"+ticket[0]+"").click(function (e) {
+					var search_response=$('input.search_response').quicksearch('ul.media-list li');
 					
 					
 					var ticket_id=$((e.target)).attr('id');
@@ -334,6 +338,7 @@ $(document).ready(function() {
 									$( ".media-list" ).append(ticket_response);
 									
 								});
+								search_response.cache();
 							}else {
 
 								$('.response_list').append('<div class="alert alert-warning" role="alert">Pas de Réponses pour le moment !</div>');
@@ -405,8 +410,7 @@ $(document).ready(function() {
 					var ticket_id=$((e.target)).attr('id');
 					ticket_id=""+ticket_id+"";
 					ticket_id = ticket_id.replace(/[^0-9]/g,'');
-					$(".modal #ticket_id").val(ticket_id);
-					
+					$(".modal #ticket_id").val(ticket_id);	
 					$("#date_debut_planif").val('');
 				    $("#date_fin_planif").val('');
 				    $("#date_debut_realise").val('');
@@ -479,6 +483,7 @@ $(document).ready(function() {
 
 			});
 			qs.cache();
+			
 			
 	        /////////////************* Pagination Tickets List Here *************//////////////
 	 	    
@@ -569,10 +574,22 @@ $(document).ready(function() {
 
 	
 	// /******** Check UserPermission ***************///
-	if($("#userPermission").val() !=1){
-		$("#back").hide();
-		$(".d-flex").removeClass("justify-content-between");
-		$(".d-flex").addClass("justify-content-end");	
+//	if($("#userPermission").val() !=1){
+//		$("#back").hide();
+//		$(".d-flex").removeClass("justify-content-between");
+//		$(".d-flex").addClass("justify-content-end");	
+//	}
+	if ($("#userPermission").val()==1) {
+		tabsToAdd=`<li class="active open"><a href="panneauAdmin_new.jsp"><i
+		class="zmdi zmdi-home"></i><span>Tableau de Bord</span></a></li>		
+		<li><a href="Users&Contacts.jsp"><i
+				class="zmdi zmdi-account-box-mail"></i><span>Utilisateurs &
+					Contacts</span></a></li>
+		<li><a href="Statistics.jsp"><i
+				class="zmdi zmdi-chart"></i><span>Statistiques</span></a></li>`;
+		$("ul.list").append(tabsToAdd);
+		
+		
 	}
 	// /*********************************************///
 	
@@ -965,7 +982,7 @@ $(document).ready(function() {
 				field : "2",
 				formatter : "datetime",
 				formatterParams : {		
-					outputFormat : "DD/MM/YYYY",
+					outputFormat : "YYYY-MM-DD",
 					invalidPlaceholder : "(PAS DE DATE)",
 				},
 				headerFilter : true,
@@ -975,7 +992,7 @@ $(document).ready(function() {
 				field : "3",
 				formatter : "datetime",
 				formatterParams : {		
-					outputFormat : "DD/MM/YYYY",
+					outputFormat : "YYYY-MM-DD",
 					invalidPlaceholder : "(PAS DE DATE)",
 				},
 				headerFilter : true,
@@ -985,7 +1002,7 @@ $(document).ready(function() {
 				field : "4",
 				formatter : "datetime",
 				formatterParams : {		
-					outputFormat : "DD/MM/YYYY",
+					outputFormat : "YYYY-MM-DD",
 					invalidPlaceholder : "(PAS DE DATE)",
 				},
 				headerFilter : true,
@@ -996,7 +1013,7 @@ $(document).ready(function() {
 				field : "5",
 				formatter : "datetime",
 				formatterParams : {		
-					outputFormat : "DD/MM/YYYY",
+					outputFormat : "YYYY-MM-DD",
 					invalidPlaceholder : "(PAS DE DATE)",
 				},
 				headerFilter : true,
@@ -1117,8 +1134,15 @@ $(document).ready(function() {
 		
 	});
 	
-	
 
+	/**
+	   * Option dropdowns. Slide toggle
+	   */
+	  $(".option-heading").on('click', function() {
+	    $(this).toggleClass('is-active').next(".option-content").stop().slideToggle(500);
+	  });
+	  
+	
 	
 
 });

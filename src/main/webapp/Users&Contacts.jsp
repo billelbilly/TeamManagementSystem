@@ -1,5 +1,11 @@
 <jsp:include page="Header.jsp"></jsp:include>
+<%
+		response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+		if (session.getAttribute("username") == null) {
 
+			response.sendRedirect("index.jsp");
+		}
+	%>
 
 <!-- Main Content -->
 
@@ -59,5 +65,6 @@
 
 <jsp:include page="Footer.jsp"></jsp:include>
 <script src="resources/js/contacts/contacts.js"></script>
+<script src="resources/js/Settings.js"></script>
 </body>
 </html>

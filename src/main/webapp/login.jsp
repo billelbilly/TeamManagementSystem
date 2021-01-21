@@ -66,8 +66,8 @@
 					</div>
 
 					<div class="text-center p-t-12">
-						<span class="txt1"> Oblie </span> <a class="txt2" href="/Helpdesk/ResetPassword.jsp">
-							Username / Password? </a>
+						<span class="txt1"> Récupération/Changement </span> <a class="txt2" href="/Helpdesk/ResetPassword.jsp">
+							Password? </a>
 					</div>
 
 					<div class="text-center p-t-136">

@@ -11,8 +11,7 @@
 <meta name="description"
 	content="Responsive Bootstrap 4 and web Application ui kit.">
 <title>PanneauAdmin</title>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<!-- Favicon-->
+
 
 <link rel="stylesheet" type="text/css"
 	href="resources/css/bootstrap.min.css">
@@ -38,8 +37,6 @@
 <link rel="stylesheet" type="text/css"
 	href="resources/css/bootstrap-datetimepicker.min.css">
 
-<link rel="stylesheet" type="text/css"
-	href="resources/css/bootstrap-toggle.min.css">
 
 
 
@@ -50,6 +47,7 @@
 .comment-wrapper .card-body {
 	max-height: 650px;
 	overflow: auto;
+	border: solid #0275d8 3px;
 }
 
 .comment-wrapper .media-list .media img {
@@ -96,6 +94,23 @@ div.responseScroll {
 }
 
 .btn-simple {
+	display: none;
+}
+
+.option-heading:before {
+	content: "\25bc";
+}
+
+.option-heading:hover {
+	cursor: pointer;
+}
+
+.option-heading.is-active:before {
+	content: "\25b2";
+}
+
+/* Helpers */
+.is-hidden {
 	display: none;
 }
 </style>
@@ -161,7 +176,7 @@ div.responseScroll {
 						</div>
 					</div>
 				</li>
-				
+
 			</ul>
 		</div>
 	</aside>
@@ -217,7 +232,7 @@ div.responseScroll {
 
 						<div class="modal-dialog modal-md">
 							<div class="modal-content">
-								<div class="modal-header bg-blue">
+								<div class="modal-header bg-primary">
 									<h4 class="modal-title text-dark pull-left">
 										<i class="fa fa-pencil"></i> Crée Nouveau Tiquet
 									</h4>
@@ -327,7 +342,7 @@ div.responseScroll {
 								<div class="modal-wrapper">
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
-											<div class="modal-header bg-blue">
+											<div class="modal-header bg-primary">
 												<!-- <button type="button" class="close" data-dismiss="modal" -->
 												<!-- aria-hidden="true">×</button> -->
 												<h4 class="modal-title text-dark">
@@ -355,29 +370,25 @@ div.responseScroll {
 																<div class="card-header bg-primary">
 																	<span class="text-white">Réponses</span>
 																	<div class="pull-right">
-																		<label for="sele" class="text-white">Filtrer
-																			Par:</label> <select id="filtreResponses"
-																			name="filtreResponses">
-																			<option>Récents</option>
-																			<option>Best Rated</option>
-																		</select>
+																		<input class="search_response" type="text" name="search"
+																			placeholder="Recherche" autofocus="autofocus">
+<!-- 																		<label for="sele" class="text-white">Filtrer -->
+<!-- 																			Par:</label> <select id="filtreResponses" -->
+<!-- 																			name="filtreResponses"> -->
+<!-- 																			<option>Récents</option> -->
+<!-- 																			<option>Best Rated</option> -->
+<!-- 																		</select> -->
 
 																	</div>
 
 																</div>
 																<div class="card-body">
-																	<button id="add_response"
-																		class="btn btn-primary btn-sm" type="button"
-																		data-toggle="collapse" data-target="#this"
-																		aria-expanded="false" style="margin-bottom: 2px;">
-																		Ajouter Réponse <i class="fa fa-caret-square-o-down"
-																			aria-hidden="true"></i>
-																	</button>
-																	<form id="responseForm"
-																		action="<%=request.getContextPath()%>/ResponseManagement"
-																		method="post" autocomplete="off">
-																		<div id="this" class="collapse"
-																			style="margin-bottom: 50px">
+																	<div class="option-heading">Ajouter Réponse</div>
+																	<div class="option-content is-hidden">
+																		<form id="responseForm"
+																			action="<%=request.getContextPath()%>/ResponseManagement"
+																			method="post" autocomplete="off">
+
 																			<div class="form-group" hidden>
 																				<input type="text" name="ticket_id" id="ticket_id"
 																					value="" /> <input type="text" name="usersession"
@@ -390,16 +401,18 @@ div.responseScroll {
 																			<textarea id="responseDetail" name="response"
 																				class="form-control mb-1"
 																				placeholder="Ajouter une Réponse..." rows="3"
-																				required></textarea>
+																				oninvalid="this.setCustomValidity('SVP Ajoutez Une Réponse !')"
+																				oninput="setCustomValidity('')" required></textarea>
 																			<span id="respBtn"></span>
 
 																			<button type="submit"
 																				class="btn btn-primary pull-right">Poster</button>
-																		</div>
-																	</form>
-																	<div class="clearfix"></div>
 
-																	<div class="response_list mt-3"></div>
+																		</form>
+																	</div>
+
+
+																	<div class="response_list mt-5"></div>
 
 																	<div class="responseScroll">
 																		<ul class="media-list">
@@ -443,32 +456,154 @@ div.responseScroll {
 		<div id="semiTransparentDiv"></div>
 	</section>
 	<!------------------------------- Liste des Planifications ----------------------->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="modal fade" id="planifList">
+
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+
+								<h5 class="modal-title">
+									<i class="fa fa-calendar fa-lg" aria-hidden="true"></i> Liste
+									des Planifications
+								</h5>
+
+
+							</div>
+
+							<div class="modal-body">
+								<div class="mb-1">
+									<button id="download-xlsx" class="btn btn-success btn-sm">Télécharger
+										XLSX</button>
+									<button id="download-pdf" class="btn btn-danger btn-sm">Télécharger
+										PDF</button>
+								</div>
+
+								<div id="listPlanif"></div>
+
+							</div>
+
+							<div class="modal-footer">
+
+
+								<button id="close_model" class="btn btn-danger btn-md"
+									data-dismiss="modal" style="color: white">
+									<i class="fa fa-times" aria-hidden="true"></i> Fermer
+								</button>
+
+							</div>
+
+						</div>
+
+
+					</div>
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+	<!-- ------------------------------------------------------------------------------------------ -->
+
+<!-------------------------------Planification Ticket----------------------->
 <div class="container">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="modal fade" id="planifList">
+			<div class="modal fade" id="PlanifModal">
 
-				<div class="modal-dialog modal-lg">
+				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-
 							<h5 class="modal-title">
-								<i class="fa fa-calendar fa-lg" aria-hidden="true"></i> Liste
-								des Planifications
+								<i class="fa fa-calendar fa-lg" aria-hidden="true"></i>
+								Planification
 							</h5>
-
 
 						</div>
 
 						<div class="modal-body">
-							<div class="mb-1">
-								<button id="download-xlsx" class="btn btn-success btn-sm">Télécharger
-									XLSX</button>
-								<button id="download-pdf" class="btn btn-danger btn-sm">Télécharger
-									PDF</button>
+							<div class="col-md-8 offset-2">
+								<form id="planifForm"
+									action="<%=request.getContextPath()%>/TicketManagement"
+									method="POST" autocomplete="off">
+
+									<div class="form-group">
+										<input type="text" name="ticket_id" id="ticket_id" value=""
+											hidden />
+									</div>
+									<div class="form-group">
+										<input type="text" name="action" id="action"
+											value="/PlanifyTicket" hidden />
+									</div>
+									<!-- Here put Planification DatePickers -->
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control date-input"
+											id="date_debut_planif" name="date_debut_planif"
+											placeholder="Date Début Planification"
+											oninvalid="this.setCustomValidity('Date Obligatoire!')"
+											oninput="setCustomValidity('')" required>
+
+									</div>
+
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control date-input"
+											id="date_fin_planif" name="date_fin_planif"
+											placeholder="Date Fin Planification"
+											oninvalid="this.setCustomValidity('Date Obligatoire!')"
+											oninput="setCustomValidity('')" required>
+
+									</div>
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control date-input"
+											id="date_debut_realise" name="date_debut_realise"
+											placeholder="Date Début Réalisation">
+
+									</div>
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control date-input"
+											id="date_fin_realise" name="date_fin_realise"
+											placeholder="Date Fin Réalisation">
+
+									</div>
+									<div class="form-group">
+										<textarea name="observation" class="form-control"
+											id="observation" placeholder="Observation"
+											style="height: 120px;"></textarea>
+									</div>
+
+									<button id="planifTicketByUserOrAdmin" type="submit" class="btn btn-info btn-md">
+										<i class="fa fa-check"></i> Planifier
+									</button>
+								</form>
 							</div>
 
-							<div id="listPlanif"></div>
+
 
 						</div>
 
@@ -477,7 +612,7 @@ div.responseScroll {
 
 							<button id="close_model" class="btn btn-danger btn-md"
 								data-dismiss="modal" style="color: white">
-								<i class="fa fa-times" aria-hidden="true"></i> Fermer
+								<i class="fa fa-times" aria-hidden="true"></i> Annuler
 							</button>
 
 						</div>
@@ -497,15 +632,15 @@ div.responseScroll {
 
 </div>
 <!-- ------------------------------------------------------------------------------------------ -->
-	
 
 	<jsp:include page="Footer.jsp"></jsp:include>
-	<script src="resources/js/bootstrap-toggle.min.js"></script>
 	<script src="resources/js/jquery.quicksearch.js"></script>
 	<script src="resources/js/jquery.twbsPagination.min.js"></script>
 	<script src="resources/js/xlsx.full.min.js"></script>
 	<script src="resources/js/jspdf.min.js"></script>
 	<script src="resources/js/jspdf.plugin.autotable.js"></script>
 	<script src="resources/js/ticketTemplate.js"></script>
+	<script src="resources/js/ValidatePlanificationDates.js"></script>
+
 </body>
 </html>

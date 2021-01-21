@@ -271,12 +271,11 @@ function getTicketsTabulator() {
 		}, {
 			title : "Date Création",
 			field : "5",
-			sorter:"date",
 			headerFilter : true,
 			headerFilterPlaceholder:"Recherche",
 			formatter : "datetime",
 			formatterParams : {		
-				outputFormat : "DD/MM/YYYY",
+				outputFormat : "YYYY-MM-DD",
 				invalidPlaceholder : "(invalid date format)",
 			}
 		}, {

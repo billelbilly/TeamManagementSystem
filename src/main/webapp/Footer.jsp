@@ -1121,7 +1121,7 @@
 </div>
 <!-- ------------------------------------------------------------------------------------------ -->
 
-<!-- <!------------------------------- Liste des Planifications -----------------------> -->
+<!------------------------------- Liste des Planifications ----------------------->
 <!-- <div class="container"> -->
 <!-- 	<div class="row"> -->
 <!-- 		<div class="col-md-8"> -->
@@ -1175,7 +1175,7 @@
 
 
 <!-- </div> -->
-<!-- <!-- ------------------------------------------------------------------------------------------ --> -->
+<!-- ------------------------------------------------------------------------------------------ -->
 
 <!-- ----------------------------------------Update Ticket----------------------------------------- -->
 <div class="modal fade" id="updateIssue" tabindex="-1" role="dialog"
@@ -1254,121 +1254,125 @@
 <!-- --------------------------------------------------------------------------------------------------- -->
 
 <!-------------------------------Planification Ticket----------------------->
-<div class="container">
-	<div class="row">
-		<div class="col-md-8">
-			<div class="modal fade" id="PlanifModal">
+<!-- <div class="container"> -->
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-md-8"> -->
+<!-- 			<div class="modal fade" id="PlanifModal"> -->
 
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">
-								<i class="fa fa-calendar fa-lg" aria-hidden="true"></i>
-								Planification
-							</h5>
+<!-- 				<div class="modal-dialog"> -->
+<!-- 					<div class="modal-content"> -->
+<!-- 						<div class="modal-header"> -->
+<!-- 							<h5 class="modal-title"> -->
+<!-- 								<i class="fa fa-calendar fa-lg" aria-hidden="true"></i> -->
+<!-- 								Planification -->
+<!-- 							</h5> -->
 
-						</div>
+<!-- 						</div> -->
 
-						<div class="modal-body">
-							<div class="col-md-8 offset-2">
-								<form id="planifForm"
-									action="<%=request.getContextPath()%>/TicketManagement"
-									method="POST" autocomplete="off">
+<!-- 						<div class="modal-body"> -->
+<!-- 							<div class="col-md-8 offset-2"> -->
+<!-- 								<form id="planifForm" -->
+<%-- 									action="<%=request.getContextPath()%>/TicketManagement" --%>
+<!-- 									method="POST" autocomplete="off"> -->
 
-									<div class="form-group">
-										<input type="text" name="ticket_id" id="ticket_id" value=""
-											hidden />
-									</div>
-									<div class="form-group">
-										<input type="text" name="action" id="action"
-											value="/PlanifyTicket" hidden />
-									</div>
-									<!-- Here put Planification DatePickers -->
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-calendar" aria-hidden="true"></i>
-											</span>
-										</div>
-										<input type="text" class="form-control date-input"
-											id="date_debut_planif" name="date_debut_planif"
-											placeholder="Date Début Planification" required>
+<!-- 									<div class="form-group"> -->
+<!-- 										<input type="text" name="ticket_id" id="ticket_id" value="" -->
+<!-- 											hidden /> -->
+<!-- 									</div> -->
+<!-- 									<div class="form-group"> -->
+<!-- 										<input type="text" name="action" id="action" -->
+<!-- 											value="/PlanifyTicket" hidden /> -->
+<!-- 									</div> -->
+<!-- 									Here put Planification DatePickers -->
+<!-- 									<div class="form-group input-group"> -->
+<!-- 										<div class="input-group-prepend"> -->
+<!-- 											<span class="input-group-text"> <i -->
+<!-- 												class="fa fa-calendar" aria-hidden="true"></i> -->
+<!-- 											</span> -->
+<!-- 										</div> -->
+<!-- 										<input type="text" class="form-control date-input" -->
+<!-- 											id="date_debut_planif" name="date_debut_planif" -->
+<!-- 											placeholder="Date Début Planification" -->
+<!-- 											oninvalid="this.setCustomValidity('Date Obligatoire!')" -->
+<!-- 											oninput="setCustomValidity('')" required> -->
 
-									</div>
+<!-- 									</div> -->
 
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-calendar" aria-hidden="true"></i>
-											</span>
-										</div>
-										<input type="text" class="form-control date-input"
-											id="date_fin_planif" name="date_fin_planif"
-											placeholder="Date Fin Planification" required>
+<!-- 									<div class="form-group input-group"> -->
+<!-- 										<div class="input-group-prepend"> -->
+<!-- 											<span class="input-group-text"> <i -->
+<!-- 												class="fa fa-calendar" aria-hidden="true"></i> -->
+<!-- 											</span> -->
+<!-- 										</div> -->
+<!-- 										<input type="text" class="form-control date-input" -->
+<!-- 											id="date_fin_planif" name="date_fin_planif" -->
+<!-- 											placeholder="Date Fin Planification" -->
+<!-- 											oninvalid="this.setCustomValidity('Date Obligatoire!')" -->
+<!-- 											oninput="setCustomValidity('')" required> -->
 
-									</div>
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-calendar" aria-hidden="true"></i>
-											</span>
-										</div>
-										<input type="text" class="form-control date-input"
-											id="date_debut_realise" name="date_debut_realise"
-											placeholder="Date Début Réalisation">
+<!-- 									</div> -->
+<!-- 									<div class="form-group input-group"> -->
+<!-- 										<div class="input-group-prepend"> -->
+<!-- 											<span class="input-group-text"> <i -->
+<!-- 												class="fa fa-calendar" aria-hidden="true"></i> -->
+<!-- 											</span> -->
+<!-- 										</div> -->
+<!-- 										<input type="text" class="form-control date-input" -->
+<!-- 											id="date_debut_realise" name="date_debut_realise" -->
+<!-- 											placeholder="Date Début Réalisation"> -->
 
-									</div>
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-calendar" aria-hidden="true"></i>
-											</span>
-										</div>
-										<input type="text" class="form-control date-input"
-											id="date_fin_realise" name="date_fin_realise"
-											placeholder="Date Fin Réalisation">
+<!-- 									</div> -->
+<!-- 									<div class="form-group input-group"> -->
+<!-- 										<div class="input-group-prepend"> -->
+<!-- 											<span class="input-group-text"> <i -->
+<!-- 												class="fa fa-calendar" aria-hidden="true"></i> -->
+<!-- 											</span> -->
+<!-- 										</div> -->
+<!-- 										<input type="text" class="form-control date-input" -->
+<!-- 											id="date_fin_realise" name="date_fin_realise" -->
+<!-- 											placeholder="Date Fin Réalisation"> -->
 
-									</div>
-									<div class="form-group">
-										<textarea name="observation" class="form-control"
-											id="observation" placeholder="Observation"
-											style="height: 120px;"></textarea>
-									</div>
+<!-- 									</div> -->
+<!-- 									<div class="form-group"> -->
+<!-- 										<textarea name="observation" class="form-control" -->
+<!-- 											id="observation" placeholder="Observation" -->
+<!-- 											style="height: 120px;"></textarea> -->
+<!-- 									</div> -->
 
-									<button type="submit" class="btn btn-info btn-md">
-										<i class="fa fa-check"></i> Planifier
-									</button>
-								</form>
-							</div>
-
-
-
-						</div>
-
-						<div class="modal-footer">
+<!-- 									<button type="submit" class="btn btn-info btn-md"> -->
+<!-- 										<i class="fa fa-check"></i> Planifier -->
+<!-- 									</button> -->
+<!-- 								</form> -->
+<!-- 							</div> -->
 
 
-							<button id="close_model" class="btn btn-danger btn-md"
-								data-dismiss="modal" style="color: white">
-								<i class="fa fa-times" aria-hidden="true"></i> Annuler
-							</button>
 
-						</div>
+<!-- 						</div> -->
 
-					</div>
+<!-- 						<div class="modal-footer"> -->
 
 
-				</div>
+<!-- 							<button id="close_model" class="btn btn-danger btn-md" -->
+<!-- 								data-dismiss="modal" style="color: white"> -->
+<!-- 								<i class="fa fa-times" aria-hidden="true"></i> Annuler -->
+<!-- 							</button> -->
+
+<!-- 						</div> -->
+
+<!-- 					</div> -->
 
 
-			</div>
-
-		</div>
-
-	</div>
+<!-- 				</div> -->
 
 
-</div>
+<!-- 			</div> -->
+
+<!-- 		</div> -->
+
+<!-- 	</div> -->
+
+
+<!-- </div> -->
 <!-- ------------------------------------------------------------------------------------------ -->
 
 <script src="resources/js/jquery-3.5.1.min.js"></script>

@@ -94,10 +94,10 @@ $(document).ready(function () {
 						
 						break;
 					case "2":
-						window.location.href = "/Helpdesk/mainTemplate.jsp";
+						window.location.href = "/Helpdesk/mainTemplate_new.jsp";
 						break;
 					case "3":
-						window.location.href = "/Helpdesk/mainTemplate.jsp";
+						window.location.href = "/Helpdesk/mainTemplate_new.jsp";
 						break;
 					case "-1":
 						flash('Nom Utilisateur incorrect', {
