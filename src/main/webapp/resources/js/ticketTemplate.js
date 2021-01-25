@@ -374,12 +374,12 @@ $(document).ready(function() {
 					$(".modal #severity").val(ticket[4]);
 					
 					if (ticket[3]=="assigné") {
-						$("#etat_ticket").remove("option");
-						$("#etat_ticket").html("<option>fermer</otion><option>assigné</option>");
+						$(".modal #etat_ticket").remove("option");
+						$(".modal #etat_ticket").html("<option>fermer</otion><option>assigné</option>");
 						$(".modal #etat_ticket").val(ticket[3]);
 					} else {
-						$("#etat_ticket").remove("option");
-						$("#etat_ticket").html("<option>créé</otion><option>fermer</option>");
+						$(".modal #etat_ticket").remove("option");
+						$(".modal #etat_ticket").html("<option>créé</otion><option>fermer</option>");
 						$(".modal #etat_ticket").val(ticket[3]);
 
 					}
@@ -415,8 +415,16 @@ $(document).ready(function() {
 				    $("#date_fin_planif").val('');
 				    $("#date_debut_realise").val('');
 				    $("#date_fin_realise").val('');
-				    $("#date_fin_realise").val('');
 				    $("#observation").val('');
+				    $('#date_debut_planif').attr('placeholder', 'Date Début Planification');
+				    $('#date_fin_planif').attr('placeholder', 'Date Fin Planification');
+				    $('#date_debut_realise').attr('placeholder', 'Date Début Réalisation');
+				    $('#date_fin_realise').attr('placeholder', 'Date Fin Réalisation');
+				    $("#date_debut_planif").css("border", "");
+					$("#date_fin_planif").css("border", "");
+					$("#date_debut_realise").css("border", "");
+					$("#date_fin_realise").css("border", "");
+				    
 				    showLoader();
 					//Initialize The Form
 					

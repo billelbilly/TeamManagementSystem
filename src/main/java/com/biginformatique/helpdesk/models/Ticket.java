@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
@@ -35,6 +36,7 @@ public class Ticket implements Serializable {
 	private String Objet;
 
 	@Column(name = "details")
+	@Type(type="text")
 	private String Details;
 
 	@Column(name = "etat")

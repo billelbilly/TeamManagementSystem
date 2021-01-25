@@ -95,13 +95,11 @@ function pieCallBack(data) {
 }
 
 function barCallBack(data) {
-	var hasStyle = document.getElementById("bar_chart")
-	.hasAttribute("style");
-	if (hasStyle) {
-		$("#bar_chart").remove();
-		$(".chartjs-size-monitor").remove();
-		$("#barchart_div").append("<canvas id='bar_chart' class='chartjs_graph'></canvas>");	
-	}
+	
+
+	$("#bar_chart").remove();
+	$("#barchart_div").append("<canvas id='bar_chart' class='chartjs_graph'></canvas>");	
+
 	//BEGIN BAR CHART ============================================
 	var barChart;
 	var barCtx = document.getElementById('bar_chart');

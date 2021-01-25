@@ -89,9 +89,25 @@
 	max-height: 40%;
 }
 
+#newIssueOfTableView .modal-md{
+	max-width: 40%;
+	max-height: 40%;
+}
+
 div.responseScroll {
 	/*background-color: lightblue;*/
 	max-height: 200px;
+	overflow: auto;
+}
+
+div#ticket_detail_header {
+	/*background-color: lightblue;*/
+ 	max-width: 80%; 
+	overflow: auto;
+}
+div#ticket_detail_headerOfTableView{
+	/*background-color: lightblue;*/
+	max-width: 80%;
 	overflow: auto;
 }
 
@@ -252,11 +268,11 @@ input[type=radio]:hover {
 
 				<button type="button" class="btn btn-info btn-sm" id="listPlanifBtnOfTableView"
 					data-toggle="modal" data-target="#planifList" hidden>
-					<i class="fa fa-history"></i> Liste Planification
+					<i class="fa fa-history"></i> Planification
 				</button>
 				<button type="button" class="btn btn-success btn-sm"
 					data-toggle="modal" data-target="#newIssueOfTableView">
-					<i class="fa fa-pencil"></i> Nouveau Tiquet
+					<i class="fa fa-pencil"></i> Nouveau
 				</button>
 			</div>
 		</div>
@@ -286,11 +302,11 @@ input[type=radio]:hover {
 
 				<button type="button" class="btn btn-info btn-sm" id="listPlanifBtn"
 					data-toggle="modal" data-target="#planifList" hidden>
-					<i class="fa fa-history"></i> Liste Planification
+					<i class="fa fa-history"></i> Planification
 				</button>
 				<button type="button" class="btn btn-success btn-sm"
 					data-toggle="modal" data-target="#newIssue">
-					<i class="fa fa-pencil"></i> Nouveau Tiquet
+					<i class="fa fa-pencil"></i> Nouveau
 				</button>
 			</div>
 			<hr>
@@ -802,13 +818,13 @@ input[type=radio]:hover {
 		</div>
 	</div>
 	<!-- ------------------------------------------------------------------------------------------ -->
-<!-- ----------------------------------------Update Ticket----------------------------------------- -->
+<!-- ----------------------------------------Update Ticket of Table View----------------------------------------- -->
 <div class="modal fade" id="updateIssueOfTableView" tabindex="-1" role="dialog"
 	aria-labelledby="newIssue" aria-hidden="true">
 
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header bg-blue">
+			<div class="modal-header bg-primary">
 				<h4 class="modal-title text-dark pull-left">
 					<i class="fa fa-edit"></i> Editer Tiquet
 				</h4>
@@ -888,7 +904,7 @@ input[type=radio]:hover {
 								<i class="fa fa-pencil"></i> Crée Nouveau Tiquet
 							</h4>
 						</div>
-						<form id="ticketForm"
+						<form id="ticketFormOfTableView"
 							action="<%=request.getContextPath()%>/TicketManagement"
 							method="post" enctype="multipart/form-data" autocomplete="off">
 							<div class="modal-body">
@@ -928,7 +944,7 @@ input[type=radio]:hover {
 										<div class="input-group-prepend">
 											<span class="input-group-text"> Version </span>
 										</div>
-										<select name=listVersion id="listVersion"
+										<select name=listVersion id="listVersionOfTableView"
 											style='width: 150px;'
 											oninvalid="this.setCustomValidity('SVP Choisissez Le Logiciel et sa Version !')"
 											oninput="setCustomValidity('')" required>
@@ -966,6 +982,7 @@ input[type=radio]:hover {
 			</div>
 			<!-- ------------------------------------------------------------------------------------ -->
 
+
 	<jsp:include page="Footer.jsp"></jsp:include>
 	<script src="resources/js/jquery.quicksearch.js"></script>
 	<script src="resources/js/jquery.twbsPagination.min.js"></script>
@@ -973,7 +990,7 @@ input[type=radio]:hover {
 	<script src="resources/js/jspdf.min.js"></script>
 	<script src="resources/js/jspdf.plugin.autotable.js"></script>
 	<script src="resources/js/ticketTemplate.js"></script>
-	<script src="resources/js/ValidatePlanificationDates.js"></script>
+<!-- 	<script src="resources/js/ValidatePlanificationDates.js"></script> -->
 	<script src="resources/js/mainTemplate_new.js"></script>
 
 

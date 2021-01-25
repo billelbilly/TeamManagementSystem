@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 
 @Entity
 @Table(name = "contacts")
@@ -29,6 +31,7 @@ public class Contact implements Serializable{
 	private String Objet;
 	
 	@Column(name = "message")
+	@Type(type="text")
 	private String Message;
 	
 	

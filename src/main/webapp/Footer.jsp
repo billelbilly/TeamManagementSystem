@@ -1397,5 +1397,7 @@
 <script src="resources/assets/js/pages/index.js"></script>
 <!-- <script src="resources/js/Settings.js"></script> -->
 <script src="resources/js/validateForms.js"></script>
+<script src="resources/js/ValidatePlanificationDates.js"></script>
+
 
 
