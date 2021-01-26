@@ -47,7 +47,7 @@ public class StatisticsDao {
 
 	}
 
-	public int[] getNumTicByVersionDao(String logicielId, String versionId) {
+	public int[] getNumTicByLogicielDao(String logicielId) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		int[] nbrTickets = new int[3];
@@ -59,17 +59,17 @@ public class StatisticsDao {
 			// start a transaction
 			transaction = session.beginTransaction();
 			Query query = session.createQuery(
-					"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Version= :version_id AND T.Etat='fermer'")
-					.setParameter("logiciel_id", logicielId).setParameter("version_id", versionId);
+					"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Etat='fermer'")
+					.setParameter("logiciel_id", logicielId);
 			nbrFermer = query.getResultList().size();
 			query = session.createQuery(
-					"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Version= :version_id AND T.Etat='assigné'")
-					.setParameter("logiciel_id", logicielId).setParameter("version_id", versionId);
+					"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Etat='assigné'")
+					.setParameter("logiciel_id", logicielId);
 			nbrAssign = query.getResultList().size();
 			query = session
 					.createQuery(
-							"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Version= :version_id AND T.Etat='créé'")
-					.setParameter("logiciel_id", logicielId).setParameter("version_id", versionId);
+							"FROM Ticket T WHERE T.Logiciel= :logiciel_id AND T.Etat='créé'")
+					.setParameter("logiciel_id", logicielId);
 			nbropen = query.getResultList().size();
 			nbrTickets[0] = nbrFermer;
 			nbrTickets[1] = nbrAssign;

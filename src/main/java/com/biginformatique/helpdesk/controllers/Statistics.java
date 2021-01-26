@@ -55,9 +55,9 @@ public class Statistics extends HttpServlet {
 
 			break;
 
-		case "/getNumTicByVersion":
+		case "/getNumTicByLogiciel":
 			try {
-				getNumTicByVersion(request, response);
+				getNumTicByLogiciel(request, response);
 			} catch (Exception e) {
 
 				e.printStackTrace();
@@ -69,10 +69,9 @@ public class Statistics extends HttpServlet {
 
 	}
 
-	private void getNumTicByVersion(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	private void getNumTicByLogiciel(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String logicielId = request.getParameter("logiciel_id");
-		String versionId = request.getParameter("version_id");
-		int[] nbrTickets = statisticsDao.getNumTicByVersionDao(logicielId, versionId);
+		int[] nbrTickets = statisticsDao.getNumTicByLogicielDao(logicielId);
 		JSONObject jo = new JSONObject();
 		jo.put("nbrTickets", nbrTickets);
 		response.setContentType("application/json");

@@ -94,24 +94,20 @@ function pieCallBack(data) {
 
 }
 
-function barCallBack(data) {
+function pieCallBackByLogiciel(data) {
 	
-
-	$("#bar_chart").remove();
-	$("#barchart_div").append("<canvas id='bar_chart' class='chartjs_graph'></canvas>");	
-
-	//BEGIN BAR CHART ============================================
-	var barChart;
-	var barCtx = document.getElementById('bar_chart');
-	var barData=data.nbrTickets;
+	$("#pie_by_logiciel").remove();
+	$("#pie_by_logiciel_div").append("<canvas id='pie_by_logiciel' class='chartjs_graph'></canvas>");	
 	
-	
-	 barChart = new Chart(barCtx, {
-	    type: 'bar',
+	//BEGIN PIE CHART ============================================
+	var pieCtx = document.getElementById('pie_by_logiciel');
+	var pieData=data.nbrTickets;
+	var pieChart = new Chart(pieCtx, {
+	    type: 'pie',
 	    data: {
 	        labels: ['Fermés', 'Assignés', 'Créés'],
 	        datasets: [{
-	            data: barData,
+	            data: pieData,
 	            backgroundColor: [
 	                'rgba(255, 99, 132, 0.5)',
 	                'rgba(54, 162, 235, 0.5)',
@@ -128,49 +124,116 @@ function barCallBack(data) {
 	        }]
 	    },
 	    options: {
-	    	 legend: {
-	    	        display: false
-	    	    },
-	        responsive: true,
-	        scales: {
-	          xAxes: [{
-	            ticks: {
-	              maxRotation: 90,
-	              minRotation: 40
-	            },
-	              gridLines: {
-	              display:false,
-	            }
-	          },
-	          ],
-	          yAxes: [{
-	            ticks: {
-	              beginAtZero: true,
-	              stepSize: 1,
-//	              callback:function(value) {
-//	                   if (value>5) {
-//						value=0;
-//						return value;
-//					}else {
-//						return value;
-//					}
-//	                     
-//	               }
-	            },
-	            scaleLabel: {
-	                display: true,
-	                labelString: 'Nombre Tiquets',
-	               
-	              }
-	          }]
-	        }
-
+	      //Boolean - Whether we should show a stroke on each segment
+	      segmentShowStroke: true,
+	    
+	      //String - The colour of each segment stroke
+	      segmentStrokeColor: "#fff",
+	    
+	      //Number - The width of each segment stroke
+	      segmentStrokeWidth: 1,
+	    
+	      //Number - The percentage of the chart that we cut out of the middle
+	      percentageInnerCutout: 0, // This is 0 for Pie charts
+	    
+	      //Number - Amount of animation steps
+	      animationSteps: 100,
+	    
+	      //String - Animation easing effect
+	      animationEasing: "easeOutExpo",
+	    
+	      //Boolean - Whether we animate the rotation of the Doughnut
+	      animateRotate: true,
+	    
+	      //Boolean - Whether we animate scaling the Doughnut from the centre
+	      animateScale: false,
+	    
+	      //String - A legend template
+	     // legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+	    
+	       
 	    }
 	});
-	 barChart.clear();
-	//END BAR CHART ============================================
-	
+	//END PIE CHART ============================================
+
 }
+
+//function barCallBack(data) {
+//	
+//
+//	$("#bar_chart").remove();
+//	$("#barchart_div").append("<canvas id='bar_chart' class='chartjs_graph'></canvas>");	
+//
+//	//BEGIN BAR CHART ============================================
+//	var barChart;
+//	var barCtx = document.getElementById('bar_chart');
+//	var barData=data.nbrTickets;
+//
+//	 barChart = new Chart(barCtx, {
+//	    type: 'bar',
+//	    data: {
+//	        labels: ['Fermés', 'Assignés', 'Créés'],
+//	        datasets: [{
+//	            data: barData,
+//	            backgroundColor: [
+//	                'rgba(255, 99, 132, 0.5)',
+//	                'rgba(54, 162, 235, 0.5)',
+//	                'rgba(75, 192, 192, 0.5)',
+//	       
+//	            ],
+//	            borderColor: [
+//	                'rgba(255, 99, 132, 1)',
+//	                'rgba(54, 162, 235, 1)',
+//	                'rgba(75, 192, 192, 1)',
+//	              
+//	            ],
+//	            borderWidth: 1
+//	        }]
+//	    },
+//	    options: {
+//	    	 legend: {
+//	    	        display: false
+//	    	    },
+//	        responsive: true,
+//	        scales: {
+//	          xAxes: [{
+//	            ticks: {
+//	              maxRotation: 90,
+//	              minRotation: 40
+//	            },
+//	              gridLines: {
+//	              display:false,
+//	            }
+//	          },
+//	          ],
+//	          yAxes: [{
+//	            ticks: {
+//	              beginAtZero: true,
+//	              stepSize: 1,
+////	              callback:function(value) {
+////	                   if (value>5) {
+////						value=0;
+////						return value;
+////					}else {
+////						return value;
+////					}
+////	                     
+////	               }
+//	            },
+//	            scaleLabel: {
+//	                display: true,
+//	                labelString: 'Nombre Tiquets',
+//	               
+//	              }
+//	          }]
+//	        }
+//
+//	    }
+//	});
+//	 barChart.clear();
+//	//END BAR CHART ============================================
+//	
+//}
 	$.ajax({
 		type : "GET",
 		url : "/Helpdesk/Statistics",
@@ -187,64 +250,27 @@ function barCallBack(data) {
 	$("#listLogicielChart").on("change",function(){
 		  var logiciel_id=$("#listLogicielChart").val();
 		  if (logiciel_id!=="--Selectionnez--") {
-				$.ajax({
-					type : "GET",
-					url : "/Helpdesk/Settings",
-					data : {
-						logiciel_id:logiciel_id,
-						action : "/getVersionListByLogiciel"
-					},
-					
-					dataType : "json",
-					success : function(data) {
-
-						$('#listVersionChart').empty();
-						$('#listVersionChart').append(
-						'<option>--Selectionnez--</option>');
-
-						for (var i = 0; i < data.length; i++) {
-							$('#listVersionChart').append(
-							'<option value="' + data[i][0] + '">' + data[i][1]
-									+ '</option>');
-						}
-
-						// Initialize select2
-						$("#listVersionChart").select2();
-
-					},
-					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						alert("Erreur Serveur Veuillez contactez votre administrateur !");
-					},
-				});
+	
+					$.ajax({
+						type : "GET",
+						url : "/Helpdesk/Statistics",
+						data : {
+							logiciel_id:logiciel_id,
+							action : "/getNumTicByLogiciel"
+						},
+						dataType : "json",
+						success : pieCallBackByLogiciel,
+						error : function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("Erreur Serveur Veuillez Contacter Votre Administrateur !");
+						},
+					});
 				
-				$("#listVersionChart").on("change",function(){
-					var version_id=$("#listVersionChart").val();
-					if (logiciel_id!=="--Selectionnez--") {
-						$.ajax({
-							type : "GET",
-							url : "/Helpdesk/Statistics",
-							data : {
-								logiciel_id:logiciel_id,
-								version_id:version_id,
-								action : "/getNumTicByVersion"
-							},
-							dataType : "json",
-							success : barCallBack,
-							error : function(XMLHttpRequest, textStatus, errorThrown) {
-								alert("Erreur Serveur Veuillez Contacter Votre Administrateur !");
-							},
-						});
-					}else {
-						$("#listVersionChart").empty();
-					}
-					
-				});
 			
 		}else {
-			$("#listVersionChart").empty();
-			}
-
-		
+			$("#pie_by_logiciel").remove();
+			
+		}
+		  
 	});
 	
 

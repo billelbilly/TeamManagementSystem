@@ -12,7 +12,7 @@
 							<em><i class="fa fa-edit"
 								style="font-size: 30px; color: green; width: 10%; height: 10%"></i>
 								Editer User</em>
-							<div class="mt-3">
+							<div class="col-md-8 offset-2 mt-3">
 								<form id="editForm"
 									action="<%=request.getContextPath()%>/UserManagement"
 									method="POST" autocomplete="off"
@@ -41,6 +41,8 @@
 											placeholder="Nom" type="text" required="required">
 									</div>
 									<!-- form-group// -->
+									<div id="emailAlertEditUser" class="alert alert-danger" role="alert"
+										hidden></div>
 									<div class="form-group input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text"> <i
@@ -58,8 +60,10 @@
 										</div>
 
 										<input name="phone" id="phone_id" class="form-control"
-											placeholder="Téléphone" type="text" required="required">
+											placeholder="Téléphone" type="text">
 									</div>
+									<div id="usernameAlertEditUser" class="alert alert-danger" role="alert"
+										hidden></div>
 									<div class="form-group input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text"> <i class="fa fa-user"></i>
@@ -87,7 +91,8 @@
 										<input name="password2" id="password2_id" class="form-control"
 											placeholder="Confirmer password" type="password">
 									</div>
-									<div class="form-group input-group">
+									
+									<div id="date_expiration_compte_Edit" class="form-group input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text"> <i
 												class="fa fa-calendar" aria-hidden="true"></i>
@@ -96,18 +101,8 @@
 										<input type="text" class="form-control"
 											id="date_expiration_compte_EditUser"
 											name="date_expiration_compte"
-											placeholder="Date Expération du Compte" required>
+											placeholder="Date Expération du Compte">
 
-									</div>
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">Type</span>
-										</div>
-										<select name=userType id="userType_id">
-											<option value="1">Admin</option>
-											<option value="2">Client</option>
-											<option value="3">User Entreprise</option>
-										</select>
 									</div>
 									<!-- form-group// -->
 									<div class="form-group">
@@ -146,6 +141,177 @@
 
 
 </div>
+
+<!-------------------------------Add new user----------------------->
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="modal fade" id="registerModal">
+
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">
+								<i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Ajouter
+								nouveau utilisateur
+							</h5>
+
+						</div>
+
+						<div class="modal-body">
+							<div id="successAlert" class="alert alert-success" role="alert"
+								hidden></div>
+							<div class="col-md-8 offset-2">
+
+								<form id="registerForm"
+									action="<%=request.getContextPath()%>/UserManagement"
+									method="post" autocomplete="off"
+									oninput='password2.setCustomValidity(password2.value != password.value ? "Mot de passe ne correspondent pas." : "")'>
+									<div class="form-group" hidden="1">
+										<input type="text" name="action" id="action" value="/register" />
+									</div>
+
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i class="fa fa-user"></i>
+											</span>
+										</div>
+										<input name="firstName" id="prenomRegister_id"
+											class="form-control" placeholder="Prénom" type="text"
+											oninvalid="this.setCustomValidity('Prénom obligatoire !')"
+											oninput="setCustomValidity('')" required>
+									</div>
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i class="fa fa-user"></i>
+											</span>
+										</div>
+										<input name="lastName" id="nomRegister_id"
+											class="form-control" placeholder="Nom" type="text"
+											oninvalid="this.setCustomValidity('Nom obligatoire !')"
+											oninput="setCustomValidity('')" required>
+									</div>
+									<!-- form-group// -->
+									<div id="emailAlert" class="alert alert-danger" role="alert"
+										hidden></div>
+									<div class="form-group input-group">
+
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-envelope"></i>
+											</span>
+										</div>
+
+										<input name="email" id="emailRegister_id" class="form-control"
+											placeholder="adresse Email" type="email"
+											oninvalid="this.setCustomValidity('Email obligatoire !')"
+											oninput="setCustomValidity('')" required>
+									</div>
+									<!-- form-group// -->
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i class="fa fa-phone"></i>
+											</span>
+										</div>
+
+										<input name="phone" id="phoneRegister_id" class="form-control"
+											placeholder="Téléphone" type="text">
+									</div>
+									<div id="usernameAlert" class="alert alert-danger" role="alert"
+										hidden></div>
+									<div class="form-group input-group">
+
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i class="fa fa-user"></i>
+											</span>
+										</div>
+
+										<input name="username" id="usernameRegister_id"
+											class="form-control" placeholder="Username" type="text"
+											oninvalid="this.setCustomValidity('Username obligatoire !')"
+											oninput="setCustomValidity('')" required>
+									</div>
+									<!-- form-group// -->
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i class="fa fa-lock"></i>
+											</span>
+										</div>
+										<input name="password" id="passwordRegister_id"
+											class="form-control" placeholder="Password" type="password"
+											required>
+									</div>
+									<!-- form-group// -->
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i class="fa fa-lock"></i>
+											</span>
+										</div>
+										<input name="password2" id="password2Register_id"
+											class="form-control" placeholder="Confirmer password"
+											type="password" required>
+									</div>
+									<!-- form-group// -->
+									
+									<div class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">Type</span>
+										</div>
+										<select name="userType" id="userTypeRegister_id" required>
+											<option value="1">Admin</option>
+											<option value="2">Client</option>
+											<option value="3">User Entreprise</option>
+										</select>
+									</div>
+									<!-- Here put Expiration DatePickers -->
+									<div id="date_expiration_compte_Register" class="form-group input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"> <i
+												class="fa fa-calendar" aria-hidden="true"></i>
+											</span>
+										</div>
+										<input type="text" class="form-control"
+											id="date_expiration_compte" name="date_expiration_compte"
+											placeholder="Date Expiration du Compte">
+
+									</div>
+
+									<div class="form-group">
+										<button type="submit" class="btn btn-success">Submit</button>
+									</div>
+
+								</form>
+							</div>
+
+
+
+						</div>
+
+						<div class="modal-footer">
+
+
+							<button id="closeAddUser" class="btn btn-danger btn-md"
+								data-dismiss="modal" style="color: white">
+								<i class="fa fa-times" aria-hidden="true"></i> Annuler
+							</button>
+
+						</div>
+
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</div>
+<!-- ------------------------------------------------------------------------------------------ -->
 
 
 
@@ -888,178 +1054,6 @@
 </div>
 
 
-<!-------------------------------Add new user----------------------->
-<div class="container">
-	<div class="row">
-		<div class="col-md-8">
-			<div class="modal fade" id="registerModal">
-
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">
-								<i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Ajouter
-								nouveau utilisateur
-							</h5>
-
-						</div>
-
-						<div class="modal-body">
-							<div id="successAlert" class="alert alert-success" role="alert"
-								hidden></div>
-							<div class="col-md-8 offset-2">
-
-								<form id="registerForm"
-									action="<%=request.getContextPath()%>/UserManagement"
-									method="post" autocomplete="off"
-									oninput='password2.setCustomValidity(password2.value != password.value ? "Mot de passe ne correspondent pas." : "")'>
-									<div class="form-group" hidden="1">
-										<input type="text" name="action" id="action" value="/register" />
-									</div>
-
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-user"></i>
-											</span>
-										</div>
-										<input name="firstName" id="prenomRegister_id"
-											class="form-control" placeholder="Prénom" type="text"
-											oninvalid="this.setCustomValidity('Prénom obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-user"></i>
-											</span>
-										</div>
-										<input name="lastName" id="nomRegister_id"
-											class="form-control" placeholder="Nom" type="text"
-											oninvalid="this.setCustomValidity('Nom obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-									<!-- form-group// -->
-									<div id="emailAlert" class="alert alert-danger" role="alert"
-										hidden></div>
-									<div class="form-group input-group">
-
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-envelope"></i>
-											</span>
-										</div>
-
-										<input name="email" id="emailRegister_id" class="form-control"
-											placeholder="adresse Email" type="email"
-											oninvalid="this.setCustomValidity('Email obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-									<!-- form-group// -->
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-phone"></i>
-											</span>
-										</div>
-
-										<input name="phone" id="phoneRegister_id" class="form-control"
-											placeholder="Téléphone" type="text"
-											oninvalid="this.setCustomValidity('Téléphone obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-									<div id="usernameAlert" class="alert alert-danger" role="alert"
-										hidden></div>
-									<div class="form-group input-group">
-
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-user"></i>
-											</span>
-										</div>
-
-										<input name="username" id="usernameRegister_id"
-											class="form-control" placeholder="Username" type="text"
-											oninvalid="this.setCustomValidity('Username obligatoire !')"
-											oninput="setCustomValidity('')" required>
-									</div>
-									<!-- form-group// -->
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-lock"></i>
-											</span>
-										</div>
-										<input name="password" id="passwordRegister_id"
-											class="form-control" placeholder="Password" type="password"
-											required>
-									</div>
-									<!-- form-group// -->
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i class="fa fa-lock"></i>
-											</span>
-										</div>
-										<input name="password2" id="password2Register_id"
-											class="form-control" placeholder="Confirmer password"
-											type="password" required>
-									</div>
-									<!-- form-group// -->
-									<!-- Here put Expiration DatePickers -->
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"> <i
-												class="fa fa-calendar" aria-hidden="true"></i>
-											</span>
-										</div>
-										<input type="text" class="form-control"
-											id="date_expiration_compte" name="date_expiration_compte"
-											placeholder="Date Expération du Compte" required>
-
-									</div>
-									<div class="form-group input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">Type</span>
-										</div>
-										<select name="userType" id="userType_id" required>
-											<option value="1">Admin</option>
-											<option value="2">Client</option>
-											<option value="3">User Entreprise</option>
-										</select>
-									</div>
-
-									<div class="form-group">
-										<button type="submit" class="btn btn-success">Submit</button>
-									</div>
-
-								</form>
-							</div>
-
-
-
-						</div>
-
-						<div class="modal-footer">
-
-
-							<button id="closeAddUser" class="btn btn-danger btn-md"
-								data-dismiss="modal" style="color: white">
-								<i class="fa fa-times" aria-hidden="true"></i> Annuler
-							</button>
-
-						</div>
-
-					</div>
-
-
-				</div>
-
-
-			</div>
-
-		</div>
-
-	</div>
-
-
-</div>
-<!-- ------------------------------------------------------------------------------------------ -->
-
 <!------------------------------- Liste des Utilisateurs ----------------------->
 <div class="container">
 	<div class="row">
@@ -1382,7 +1376,7 @@
 <script src="resources/js/tabulator.min.js"></script>
 <script src="resources/js/flash.min.js"></script>
 <!-- <script src="resources/js/manageTickets.js"></script> -->
-<script src="resources/js/manageUsers.js"></script>
+<!-- <script src="resources/js/manageUsers.js"></script> -->
 <script src="resources/js/mainTemplate.js"></script>
 <script src="resources/js/popper.js"></script>
 <script src="resources/assets/bundles/libscripts.bundle.js"></script>
@@ -1396,8 +1390,9 @@
 <script src="resources/assets/bundles/mainscripts.bundle.js"></script>
 <script src="resources/assets/js/pages/index.js"></script>
 <!-- <script src="resources/js/Settings.js"></script> -->
-<script src="resources/js/validateForms.js"></script>
+<!-- <script src="resources/js/validateForms.js"></script> -->
 <script src="resources/js/ValidatePlanificationDates.js"></script>
+
 
 
 

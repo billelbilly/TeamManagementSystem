@@ -49,20 +49,16 @@
 					<div class="card">
 						<div class="header">
 							<h2>
-								<strong>nombre tiquets </strong>de chaque logiciel par version
+								<strong>nombre tiquets </strong>de chaque logiciel
 							</h2>
 							<select name=listLogiciel id="listLogicielChart" style='width: 200px;'>
 							
 
 							</select>
-							<select name=listVersion id="listVersionChart" style='width: 200px;'>
-							
-
-							</select> 
 							
 						</div>
-						<div id="barchart_div" class="body">
-							<canvas id="bar_chart" class="chartjs_graph"></canvas>
+						<div id="pie_by_logiciel_div" class="body">
+							<canvas id="pie_by_logiciel" class="chartjs_graph"></canvas>
 						</div>
 					</div>
 				</div>

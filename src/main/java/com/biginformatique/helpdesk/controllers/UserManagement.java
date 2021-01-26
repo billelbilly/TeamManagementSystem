@@ -163,7 +163,9 @@ public class UserManagement extends HttpServlet {
 		int user_email[] = new int[2];
 		LocalDate dateExpiration = null;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+		if (sdateExpiration!="") {
+			dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+		}
 		
 
 		User user = new User(Integer.parseInt(typeUser));
@@ -226,32 +228,35 @@ public class UserManagement extends HttpServlet {
 		String email = request.getParameter("email");
 		String phone = request.getParameter("phone");
 		String username = request.getParameter("username");
-		String typeUser = request.getParameter("userType");
+//		String typeUser = request.getParameter("userType");
 		String password = request.getParameter("password");
 		String sdateExpiration = request.getParameter("date_expiration_compte");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate dateExpiration=null;
 		// Test here if Date Strings are not null
-		LocalDate dateExpiration = LocalDate.parse(sdateExpiration, formatter);
-		User user=null;
-		int user_email[] = new int[2];
-		switch (typeUser) {
-		case "1":// admin
-			 user = new User(1);
-
-			break;
-		case "2":// client
-			 user = new User(2);
-
-			break;
-		
-		case "3":// utilisateur entreprise
-			 user = new User(3);
-
-			break;
-
-		default:
-			break;
+		if (sdateExpiration!="") {
+			dateExpiration = LocalDate.parse(sdateExpiration, formatter);
 		}
+		User user=new User();
+		int user_email[] = new int[2];
+//		switch (typeUser) {
+//		case "1":// admin
+//			 user = new User(1);
+//
+//			break;
+//		case "2":// client
+//			 user = new User(2);
+//
+//			break;
+//		
+//		case "3":// utilisateur entreprise
+//			 user = new User(3);
+//
+//			break;
+//
+//		default:
+//			break;
+//		}
 		user.setId(Integer.parseInt(userId));
 		user.setFirstName(firstName);
 		user.setLastName(lastName);

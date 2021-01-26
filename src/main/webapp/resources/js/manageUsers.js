@@ -1,17 +1,3 @@
-var validateIcon = function(cell, formatterParams) {
-	if (cell.getRow().getData(0)[6] == 0) {
-		var id = cell.getRow().getData(0)[0].toString();
-		return '<button id='
-				+ id
-				+ ' class=" open_modal btn btn-success btn-sm" data-toggle="modal" data-target="#validate_user_modal" data-id='
-				+ id
-				+ ' data-toggle="tooltip" title="Validater User"><i class="fa fa-check fa-sm" style="color:white"></i> Valider</button>'
-
-	} else {
-		return '<img src="resources/images/Check_24x24.png" alt="IMG">';
-	}
-
-};
 
 var deleteUser = function(cell, formatterParams) {
 	var id = cell.getRow().getData(0)[0].toString();
@@ -148,17 +134,7 @@ function getUsersTabulator() {
 					field : "6",
 					visible : false,
 				},
-				// {
-				// formatter:validateIcon, align:"center",title:
-				// "Validé",headerSort: false, cellClick:function(e, cell){
-				//				
-				// var id=cell.getRow().getData(0)[0].toString();
-				// $(".modal-body #username_id").val(id);
-				//	            
-				//			
-				// }
-				// },
-
+				
 				{
 					formatter : deleteUser,
 					align : "center",
@@ -177,19 +153,42 @@ function getUsersTabulator() {
 					width : 51,
 					headerSort : false,
 					cellClick : function(e, cell) {
+						var phone_id="";
+						var dateExpiration="";
 						var user_id = cell.getRow().getData(0)[0].toString();
 						var prenom_id = cell.getRow().getData(0)[1].toString();
 						var nom_id = cell.getRow().getData(0)[2].toString();
 						var email_id = cell.getRow().getData(0)[3].toString();
-						var phone_id = cell.getRow().getData(0)[4].toString();
+						if (cell.getRow().getData(0)[4]!=null) {
+							phone_id = cell.getRow().getData(0)[4].toString();
+						}
+						
+						var isHidden = document.getElementById("date_expiration_compte_EditUser")
+						.hasAttribute("required");
+						if (isHidden) {
+						$("#date_expiration_compte_EditUser").removeAttr("required");	
+						$("#date_expiration_compte_EditUser").css("border", "");
+					                  }
+						
+						if (cell.getRow().getData(0)[7]!=null) {
+							dateExpiration = cell.getRow().getData(0)[7];
+							dateExpiration=String(dateExpiration.day).padStart(2, '0')+
+							"/"+String(dateExpiration.month).padStart(2, '0')+
+							"/"+dateExpiration.year;
+						}
+						
 						var username_id = cell.getRow().getData(0)[5]
 								.toString();
 						var userType_id = cell.getRow().getData(0)[6]
 								.toString();
-						var dateExpiration = cell.getRow().getData(0)[7];
-						dateExpiration=String(dateExpiration.day).padStart(2, '0')+
-						"/"+String(dateExpiration.month).padStart(2, '0')+
-						"/"+dateExpiration.year;
+
+						if (userType_id==2) {
+							$("#date_expiration_compte_Edit").show();
+							$("#date_expiration_compte_EditUser").attr("required",true);
+						} else {
+							$("#date_expiration_compte_Edit").hide();
+						}
+								
 
 						$(".modal-body #user_id").val(user_id);
 						$(".modal-body #prenom_id").val(prenom_id);
@@ -317,7 +316,6 @@ $("#DeleteUserForm").submit(function(e) {
 			$("#semiTransparentDiv").hide();
 			if (data.success) {
 				getUsersTabulator();
-				getTicketsTabulator();
 				$('.modal').modal('hide');
 				$("body").removeClass("modal-open");
 				$("div.modal-backdrop").remove();
@@ -351,80 +349,42 @@ $("#editForm").submit(function(e) {
 		dataType : "text",
 		success : function(data) {
 			$("#semiTransparentDiv").hide();
+		
 
 			if (data == "userupdated") {
-				getUsersTabulator();
 				$('.modal').modal('hide');
 				$("body").removeClass("modal-open");
 				$("div.modal-backdrop").remove();
-				// location.reload(true);
+				getUsersTabulator();
 			} else if (data == "usernameexist") {
-				$("input").change(function() {
+						
+				$('#username_id').on('input', function() {
 					$("#username_id").css("border", "");
-				}).trigger("change");
-				$("#username_id").css("border", "1px solid red");
-				flash('Utilisateur existe déjà !', {
-
-					// background color
-					'bgColor' : 'red',
-
-					// text color
-					'ftColor' : 'white',
-
-					// or 'top'
-					'vPosition' : 'top',
-
-					// or 'left'
-					'hPosition' : 'right',
-
-					// duration of animation
-					'fadeIn' : 400,
-					'fadeOut' : 400,
-
-					// click to close
-					'clickable' : true,
-
-					// auto hides after a duration time
-					'autohide' : true,
-
-					// timout
-					'duration' : 4000
-
+					var isHidden = document.getElementById("usernameAlertEditUser").hasAttribute("hidden");
+                	if (!isHidden) {
+                		$("#usernameAlertEditUser").attr("hidden",true);
+					}
+					
 				});
+				$("#username_id").css("border", "1px solid red");
+            	$("#usernameAlertEditUser").removeAttr("hidden");
+            	$("#usernameAlertEditUser").text('Username existe déjà !');
+
 
 			} else if (data == "emailexist") {
-				$("input").change(function() {
+				$("#semiTransparentDiv").hide();
+				$('#email_id').on('input', function() {
 					$("#email_id").css("border", "");
-				}).trigger("change");
-				$("#email_id").css("border", "1px solid red");
-				flash('Email Exist déjà !', {
-
-					// background color
-					'bgColor' : 'red',
-
-					// text color
-					'ftColor' : 'white',
-
-					// or 'top'
-					'vPosition' : 'top',
-
-					// or 'left'
-					'hPosition' : 'right',
-
-					// duration of animation
-					'fadeIn' : 400,
-					'fadeOut' : 400,
-
-					// click to close
-					'clickable' : true,
-
-					// auto hides after a duration time
-					'autohide' : true,
-
-					// timout
-					'duration' : 4000
-
+					var isHidden = document.getElementById("emailAlertEditUser").hasAttribute("hidden");
+                	if (!isHidden) {
+                		$("#emailAlertEditUser").attr("hidden",true);
+					}
+					
 				});
+				$("#email_id").css("border", "1px solid red");
+            	$("#emailAlertEditUser").removeAttr("hidden");
+            	$("#emailAlertEditUser").text('Email existe déjà !');
+	
 			} else {
 				alert("Update User Failed !")
 			}
@@ -438,9 +398,108 @@ $("#editForm").submit(function(e) {
 });
 
 
+$("#registerForm").submit(function (e) {
+	e.preventDefault(); // avoid to execute the actual submit of the form.
+
+	var form = $(this);
+	var url = form.attr("action");
+	var form_data = $("#registerForm").serialize();
+	showLoader();
+
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: form_data, // serializes the form's elements.
+		processData: false,
+		//contentType: "text",
+		dataType: "text",
+		success: function (data) {
+			$("#semiTransparentDiv").hide();
+			
+			if (data=="usersaved") {
+				var isHidden = document.getElementById("successAlert").hasAttribute("hidden");
+            	if (isHidden) {
+            		$("#successAlert").removeAttr("hidden");
+                	$("#successAlert").text('Utilisateur Ajouté Avec Succès !');
+				}
+				$("#semiTransparentDiv").hide();
+				$('#prenomRegister_id').val('');
+				$('#nomRegister_id').val('');
+				$('#emailRegister_id').val('');
+				$('#phoneRegister_id').val('');
+				$('#usernameRegister_id').val('');
+				$('#passwordRegister_id').val('');
+				$('#password2Register_id').val('');	
+				getUsersTabulator();
+				
+			}
+			else if (data=="usernameexist") {
+				$("#semiTransparentDiv").hide();					
+				$('#usernameRegister_id').on('input', function() {
+					$("#usernameRegister_id").css("border", "");
+					var isHidden = document.getElementById("usernameAlert").hasAttribute("hidden");
+                	if (!isHidden) {
+                		$("#usernameAlert").attr("hidden",true);
+					}
+					
+				});
+				$("#usernameRegister_id").css("border", "1px solid red");
+            	$("#usernameAlert").removeAttr("hidden");
+            	$("#usernameAlert").text('Username existe déjà !');
+				
+			}else{
+				$("#semiTransparentDiv").hide();
+				$('#emailRegister_id').on('input', function() {
+					$("#emailRegister_id").css("border", "");
+					var isHidden = document.getElementById("emailAlert").hasAttribute("hidden");
+                	if (!isHidden) {
+                		$("#emailAlert").attr("hidden",true);
+					}
+					
+				});
+				$("#emailRegister_id").css("border", "1px solid red");
+            	$("#emailAlert").removeAttr("hidden");
+            	$("#emailAlert").text('Email existe déjà !');
+
+			}
+			
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown) {
+			$("#semiTransparentDiv").hide();
+			alert("Erreur Serveur Veuillez contacter votre administrateur !");
+		},
+	});
+});
+
+
+
 //Show List of Users Div here
 $("#gestionUtilisateur").on("click",function(){
 	$("#usersListDiv").removeAttr("hidden");
 
 })
+
+// Hide or Show Expiration field depending on user Type
+$("#date_expiration_compte_Register").hide();
+$("#date_expiration_compte_Edit").hide();
+$("#userTypeRegister_id").on("change",function(){
+	var userType=$("#userTypeRegister_id").val();
+	
+	if (userType==2) {
+		$("#date_expiration_compte_Register").show();
+		$("#date_expiration_compte").attr("required",true);
+	} else {
+		$("#date_expiration_compte").val('');
+		var isHidden = document.getElementById("date_expiration_compte")
+		.hasAttribute("required");
+		if (isHidden) {
+		$("#date_expiration_compte").removeAttr("required");		
+	}
+		$("#date_expiration_compte_Register").hide();
+	}
+	
+})
+
+	
+
 
