@@ -10,7 +10,7 @@
 	name="viewport">
 <meta name="description"
 	content="Responsive Bootstrap 4 and web Application ui kit.">
-<title>PanneauAdmin</title>
+<title>Gestion Tiquets</title>
 
 
 <link rel="stylesheet" type="text/css"

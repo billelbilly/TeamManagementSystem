@@ -1,6 +1,10 @@
 package com.biginformatique.helpdesk.dao;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -48,16 +52,22 @@ public class UserDao {
 					.setParameter("userName", userName).uniqueResult();
 
 			if (user != null && verifyHash(password, user.getPassword())) {
-				LocalDate dateExpiration = user.getDateExpiration();
+				Date dateExpiration = user.getDateExpiration();
 				if (dateExpiration != null) {
-					LocalDate currentDate = LocalDate.now();
-					int resultComparaison = currentDate.compareTo(dateExpiration);
+					Date currentdate = new Date(System.currentTimeMillis());
+					
+			
+//					LocalDate currentDate = Date.now();
+//					Date date = Date.valueOf(LocalDate.now());
+					int resultComparaison = currentdate.compareTo(dateExpiration);
 					if (resultComparaison > 0) {
 						// date expiration
 						return 0;
 					} else {
 						return user.getEtat();
 					}
+				}else {
+					return user.getEtat();
 				}
 
 			} else if (user == null) {

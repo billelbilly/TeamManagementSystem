@@ -30,7 +30,7 @@
 											</span>
 										</div>
 										<input name="firstName" id="prenom_id" class="form-control"
-											placeholder="Prénom" type="text" required="required">
+											placeholder="Prénom" type="text">
 									</div>
 									<div class="form-group input-group">
 										<div class="input-group-prepend">
@@ -38,7 +38,7 @@
 											</span>
 										</div>
 										<input name="lastName" id="nom_id" class="form-control"
-											placeholder="Nom" type="text" required="required">
+											placeholder="Nom" type="text">
 									</div>
 									<!-- form-group// -->
 									<div id="emailAlertEditUser" class="alert alert-danger" role="alert"
@@ -50,7 +50,8 @@
 											</span>
 										</div>
 										<input name="email" id="email_id" class="form-control"
-											placeholder="addresse Email" type="email" required="required">
+											placeholder="addresse Email" type="email" oninvalid="this.setCustomValidity('Email obligatoire !')"
+											oninput="setCustomValidity('')" required="required">
 									</div>
 									<!-- form-group// -->
 									<div class="form-group input-group">
@@ -70,7 +71,8 @@
 											</span>
 										</div>
 										<input name="username" id="username_id" class="form-control"
-											placeholder="Username" type="text" required="required">
+											placeholder="Username" type="text" oninvalid="this.setCustomValidity('Username obligatoire !')"
+											oninput="setCustomValidity('')" required="required">
 									</div>
 
 									<!-- form-group// -->
@@ -177,9 +179,7 @@
 											</span>
 										</div>
 										<input name="firstName" id="prenomRegister_id"
-											class="form-control" placeholder="Prénom" type="text"
-											oninvalid="this.setCustomValidity('Prénom obligatoire !')"
-											oninput="setCustomValidity('')" required>
+											class="form-control" placeholder="Prénom" type="text">
 									</div>
 									<div class="form-group input-group">
 										<div class="input-group-prepend">
@@ -187,9 +187,7 @@
 											</span>
 										</div>
 										<input name="lastName" id="nomRegister_id"
-											class="form-control" placeholder="Nom" type="text"
-											oninvalid="this.setCustomValidity('Nom obligatoire !')"
-											oninput="setCustomValidity('')" required>
+											class="form-control" placeholder="Nom" type="text">
 									</div>
 									<!-- form-group// -->
 									<div id="emailAlert" class="alert alert-danger" role="alert"
@@ -312,73 +310,6 @@
 
 </div>
 <!-- ------------------------------------------------------------------------------------------ -->
-
-
-
-
-<!--Validate User-->
-<div class="container">
-	<div class="row">
-		<div class="col-md-8">
-			<div class="modal fade" id="validate_user_modal">
-
-				<div class="modal-dialog">
-					<div class="modal-content">
-
-						<div class="modal-body">
-
-							<em><i class="fa fa-check"
-								style="font-size: 30px; color: green; width: 10%; height: 10%"></i>
-								Validez l'utilisateur en tant que ?</em>
-							<form id="validateForm"
-								action="<%=request.getContextPath()%>/UserManagement"
-								method="POST" autocomplete="off">
-
-								<div class="form-group" hidden="1">
-									<input type="text" name="usernameId" id="username_id" value="" />
-								</div>
-								<div class="form-group" hidden="1">
-									<input type="text" name="action" id="action"
-										value="/ValidateUser" />
-								</div>
-								<div class="form-group mt-3">
-									<select name=userType>
-										<option selected="selected">Client</option>
-										<option>Admin</option>
-										<option>User Entreprise</option>
-
-
-									</select>
-								</div>
-								<button type="submit" class="btn btn-success btn-md">
-									<i class="fa fa-check"></i> Valider
-								</button>
-							</form>
-
-						</div>
-
-						<div class="modal-footer">
-
-							<button class="btn btn-danger btn-md" data-dismiss="modal"
-								style="color: white">
-								<i class="fa fa-times" aria-hidden="true"></i> Annuler
-							</button>
-
-						</div>
-
-					</div>
-
-				</div>
-
-
-			</div>
-
-		</div>
-
-	</div>
-
-
-</div>
 
 <!--Delete User-->
 <div class="container">

@@ -1,8 +1,11 @@
 package com.biginformatique.helpdesk.controllers;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -161,10 +164,17 @@ public class UserManagement extends HttpServlet {
 		String typeUser = request.getParameter("userType");
 		String sdateExpiration = request.getParameter("date_expiration_compte");
 		int user_email[] = new int[2];
-		LocalDate dateExpiration = null;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		Date dateExpiration = null;
+		//SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
 		if (sdateExpiration!="") {
-			dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+			//dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+			  try {
+				dateExpiration=new SimpleDateFormat("dd/MM/yyyy").parse(sdateExpiration);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+			
 		}
 		
 
@@ -231,11 +241,18 @@ public class UserManagement extends HttpServlet {
 //		String typeUser = request.getParameter("userType");
 		String password = request.getParameter("password");
 		String sdateExpiration = request.getParameter("date_expiration_compte");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dateExpiration=null;
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		Date dateExpiration=null;
 		// Test here if Date Strings are not null
 		if (sdateExpiration!="") {
-			dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+			//dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+			  try {
+				dateExpiration=new SimpleDateFormat("dd/MM/yyyy").parse(sdateExpiration);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+			
 		}
 		User user=new User();
 		int user_email[] = new int[2];

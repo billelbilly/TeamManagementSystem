@@ -153,15 +153,24 @@ function getUsersTabulator() {
 					width : 51,
 					headerSort : false,
 					cellClick : function(e, cell) {
+						$("#password_id").val('');
+						$("#password2_id").val('');
 						var phone_id="";
 						var dateExpiration="";
 						var user_id = cell.getRow().getData(0)[0].toString();
-						var prenom_id = cell.getRow().getData(0)[1].toString();
-						var nom_id = cell.getRow().getData(0)[2].toString();
+						var prenom_id = "";
+						var nom_id = "";
 						var email_id = cell.getRow().getData(0)[3].toString();
 						if (cell.getRow().getData(0)[4]!=null) {
 							phone_id = cell.getRow().getData(0)[4].toString();
 						}
+						if (cell.getRow().getData(0)[1]!=null) {
+							prenom_id = cell.getRow().getData(0)[1].toString();
+						}
+						if (cell.getRow().getData(0)[2]!=null) {
+							nom_id = cell.getRow().getData(0)[2].toString();
+						}
+						
 						
 						var isHidden = document.getElementById("date_expiration_compte_EditUser")
 						.hasAttribute("required");
