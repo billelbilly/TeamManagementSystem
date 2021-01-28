@@ -110,11 +110,13 @@ public class UserManagement extends HttpServlet {
 
 	protected void getUsers(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		List allUsers = userDao.getAllUsers();
-		/* Send Json Response To Client */
-		String json = new Gson().toJson(allUsers);
+		JSONObject jo = new JSONObject();
+		// get each ticket username Creator as json object and send
+		// it to the Client Side
+		jo.put("users", allUsers);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(json);
+		response.getWriter().write(jo.toString());
 
 	}
 
@@ -164,16 +166,16 @@ public class UserManagement extends HttpServlet {
 		String typeUser = request.getParameter("userType");
 		String sdateExpiration = request.getParameter("date_expiration_compte");
 		int user_email[] = new int[2];
-		Date dateExpiration = null;
-		//SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
+		LocalDate dateExpiration = null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		if (sdateExpiration!="") {
-			//dateExpiration = LocalDate.parse(sdateExpiration, formatter);
-			  try {
-				dateExpiration=new SimpleDateFormat("dd/MM/yyyy").parse(sdateExpiration);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}  
+			dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+//			  try {
+//				dateExpiration=new SimpleDateFormat("dd/MM/yyyy").parse(sdateExpiration);
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}  
 			
 		}
 		
@@ -241,17 +243,17 @@ public class UserManagement extends HttpServlet {
 //		String typeUser = request.getParameter("userType");
 		String password = request.getParameter("password");
 		String sdateExpiration = request.getParameter("date_expiration_compte");
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Date dateExpiration=null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate dateExpiration=null;
 		// Test here if Date Strings are not null
 		if (sdateExpiration!="") {
-			//dateExpiration = LocalDate.parse(sdateExpiration, formatter);
-			  try {
-				dateExpiration=new SimpleDateFormat("dd/MM/yyyy").parse(sdateExpiration);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}  
+			dateExpiration = LocalDate.parse(sdateExpiration, formatter);
+//			  try {
+//				dateExpiration=new SimpleDateFormat("dd/MM/yyyy").parse(sdateExpiration);
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}  
 			
 		}
 		User user=new User();

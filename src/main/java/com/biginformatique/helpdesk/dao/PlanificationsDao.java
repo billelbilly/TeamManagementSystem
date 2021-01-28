@@ -8,7 +8,7 @@ import org.hibernate.query.Query;
 
 import com.biginformatique.helpdesk.models.Planification;
 import com.biginformatique.helpdesk.models.Ticket;
-
+import com.biginformatique.helpdesk.models.User;
 import com.biginformatique.helpdesk.util.HibernateUtil;
 
 public class PlanificationsDao {
@@ -39,7 +39,7 @@ public class PlanificationsDao {
 		return false;
 	}
 
-	public List getPlanificationsDao() {
+	public List getPlanificationsDao(User user) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		List listPlanifications = null;
@@ -48,14 +48,26 @@ public class PlanificationsDao {
 
 			// start a transaction
 			transaction = session.beginTransaction();
+			if (user.getEtat() == 1) {
+				Query query = session.createQuery(
+						"SELECT T.ticket_id, U.username, P.dateDebutPlanif, P.dateFinPlanif, P.dateDebutRealise, P.dateFinRealise,T.Etat,P.Observation FROM Planification P, Ticket T, User U "
+						+ "WHERE P.ticket=T.ticket_id AND T.user=U.user_id");
+				listPlanifications = query.list();
+				// commit transaction
+				transaction.commit();
+				
+			} else {
+				Query query = session.createQuery(
+						"SELECT T.ticket_id, U.username, P.dateDebutPlanif, P.dateFinPlanif, P.dateDebutRealise, P.dateFinRealise,T.Etat,P.Observation FROM Planification P, Ticket T, User U, TicketUser TU "
+						+ "WHERE P.ticket=T.ticket_id AND T.ticket_id= TU.ticket_id AND T.AssignedTo= :username AND T.user=U.user_id")
+						.setParameter("username", user.getUsername());
+				listPlanifications = query.list();
+				// commit transaction
+				transaction.commit();
+
+			}
 			
 			
-			//JOIN with Ticket and User to get ticket_id and username
-			Query query = session.createQuery(
-					"SELECT T.ticket_id, U.username, P.dateDebutPlanif, P.dateFinPlanif, P.dateDebutRealise, P.dateFinRealise,T.Etat,P.Observation FROM Planification P, Ticket T, User U WHERE P.ticket=T.ticket_id AND T.user=U.user_id");
-			listPlanifications = query.list();
-			// commit transaction
-			transaction.commit();
 
 		} catch (Exception e) {
 			if (transaction != null) {

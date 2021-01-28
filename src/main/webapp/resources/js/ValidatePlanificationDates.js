@@ -25,7 +25,7 @@ $("#date_debut_planif").on("change",function(){
 	$("#date_fin_realise").css("border", "");
 //	debugger;
 	
-	if (dateDebutPlanif !="" && dateFinPlanif !="" && dateDebutRealise !="" && dateFinRealise !="" ) {
+	
 		if (process(dateFinPlanif) < process(dateDebutPlanif)) {
 			$("#date_fin_planif").css("border", "1px solid red");
 			$("#date_fin_planif").val('');
@@ -39,40 +39,7 @@ $("#date_debut_planif").on("change",function(){
 			$("#date_fin_realise").attr("placeholder", "Date invalide");
 			$("#planifTicketByUserOrAdmin").attr('disabled', true);
 		}
-		
-		else if (process(dateDebutRealise) < process(dateFinPlanif)) {
-			$("#date_debut_realise").css("border", "1px solid red");
-			$("#date_debut_realise").val('');
-			$("#date_debut_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		
-	}else {
-		if (dateDebutPlanif !="" && dateFinPlanif !="") {
-			if (process(dateFinPlanif) < process(dateDebutPlanif)) {
-			$("#date_fin_planif").css("border", "1px solid red");
-			$("#date_fin_planif").val('');
-			$("#date_fin_planif").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		} 
-		
-		if (dateDebutRealise !="" && dateFinRealise !="") {
-			if (process(dateFinRealise) < process(dateDebutRealise)) {
-			$("#date_fin_realise").css("border", "1px solid red");
-			$("#date_fin_realise").val('');
-			$("#date_fin_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		} 
-		
 
-	}
-
-	
 	
 });
 
@@ -93,7 +60,7 @@ $("#date_fin_planif").on("change",function(){
 	$("#date_fin_realise").css("border", "");
 //	debugger;
 	
-	if (dateDebutPlanif !="" && dateFinPlanif !="" && dateDebutRealise !="" && dateFinRealise !="" ) {
+	
 		if (process(dateFinPlanif) < process(dateDebutPlanif)) {
 			$("#date_fin_planif").css("border", "1px solid red");
 			$("#date_fin_planif").val('');
@@ -107,38 +74,6 @@ $("#date_fin_planif").on("change",function(){
 			$("#date_fin_realise").attr("placeholder", "Date invalide");
 			$("#planifTicketByUserOrAdmin").attr('disabled', true);
 		}
-		
-		else if (process(dateDebutRealise) < process(dateFinPlanif)) {
-			$("#date_debut_realise").css("border", "1px solid red");
-			$("#date_debut_realise").val('');
-			$("#date_debut_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		
-	}else {
-		if (dateDebutPlanif !="" && dateFinPlanif !="") {
-			if (process(dateFinPlanif) < process(dateDebutPlanif)) {
-			$("#date_fin_planif").css("border", "1px solid red");
-			$("#date_fin_planif").val('');
-			$("#date_fin_planif").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		} 
-		
-		if (dateDebutRealise !="" && dateFinRealise !="") {
-			if (process(dateFinRealise) < process(dateDebutRealise)) {
-			$("#date_fin_realise").css("border", "1px solid red");
-			$("#date_fin_realise").val('');
-			$("#date_fin_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		} 
-		
-
-	}
 	
 });
 
@@ -159,7 +94,7 @@ $("#date_debut_realise").on("change",function(){
 	$("#date_fin_realise").css("border", "");
 //	debugger;
 	
-	if (dateDebutPlanif !="" && dateFinPlanif !="" && dateDebutRealise !="" && dateFinRealise !="" ) {
+	
 		if (process(dateFinPlanif) < process(dateDebutPlanif)) {
 			$("#date_fin_planif").css("border", "1px solid red");
 			$("#date_fin_planif").val('');
@@ -173,39 +108,6 @@ $("#date_debut_realise").on("change",function(){
 			$("#date_fin_realise").attr("placeholder", "Date invalide");
 			$("#planifTicketByUserOrAdmin").attr('disabled', true);
 		}
-		
-		else if (process(dateDebutRealise) < process(dateFinPlanif)) {
-			$("#date_debut_realise").css("border", "1px solid red");
-			$("#date_debut_realise").val('');
-			$("#date_debut_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		
-	}else {
-		if (dateDebutPlanif !="" && dateFinPlanif !="") {
-			if (process(dateFinPlanif) < process(dateDebutPlanif)) {
-			$("#date_fin_planif").css("border", "1px solid red");
-			$("#date_fin_planif").val('');
-			$("#date_fin_planif").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		} 
-		
-		if (dateDebutRealise !="" && dateFinRealise !="") {
-			if (process(dateFinRealise) < process(dateDebutRealise)) {
-			$("#date_fin_realise").css("border", "1px solid red");
-			$("#date_fin_realise").val('');
-			$("#date_fin_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		} 
-		
-
-	}
-
 	
 });
 
@@ -226,51 +128,17 @@ $("#date_fin_realise").on("change",function(){
 	$("#date_fin_realise").css("border", "");
 //	debugger;
 	
-	if (dateDebutPlanif !="" && dateFinPlanif !="" && dateDebutRealise !="" && dateFinRealise !="" ) {
-		if (process(dateFinPlanif) < process(dateDebutPlanif)) {
-			$("#date_fin_planif").css("border", "1px solid red");
-			$("#date_fin_planif").val('');
-			$("#date_fin_planif").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-		
-		else if (process(dateFinRealise) < process(dateDebutRealise)) {
-			$("#date_fin_realise").css("border", "1px solid red");
-			$("#date_fin_realise").val('');
-			$("#date_fin_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-		
-		else if (process(dateDebutRealise) < process(dateFinPlanif)) {
-			$("#date_debut_realise").css("border", "1px solid red");
-			$("#date_debut_realise").val('');
-			$("#date_debut_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		
-	}else {
-		if (dateDebutPlanif !="" && dateFinPlanif !="") {
-			if (process(dateFinPlanif) < process(dateDebutPlanif)) {
-			$("#date_fin_planif").css("border", "1px solid red");
-			$("#date_fin_planif").val('');
-			$("#date_fin_planif").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		} 
-		
-		if (dateDebutRealise !="" && dateFinRealise !="") {
-			if (process(dateFinRealise) < process(dateDebutRealise)) {
-			$("#date_fin_realise").css("border", "1px solid red");
-			$("#date_fin_realise").val('');
-			$("#date_fin_realise").attr("placeholder", "Date invalide");
-			$("#planifTicketByUserOrAdmin").attr('disabled', true);
-		}
-			
-		} 
-		
-
+	if (process(dateFinPlanif) < process(dateDebutPlanif)) {
+		$("#date_fin_planif").css("border", "1px solid red");
+		$("#date_fin_planif").val('');
+		$("#date_fin_planif").attr("placeholder", "Date invalide");
+		$("#planifTicketByUserOrAdmin").attr('disabled', true);
 	}
-
+	
+	else if (process(dateFinRealise) < process(dateDebutRealise)) {
+		$("#date_fin_realise").css("border", "1px solid red");
+		$("#date_fin_realise").val('');
+		$("#date_fin_realise").attr("placeholder", "Date invalide");
+		$("#planifTicketByUserOrAdmin").attr('disabled', true);
+	}
 });

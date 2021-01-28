@@ -83,10 +83,10 @@ function getUsersTabulator() {
 			// url - the URL of the request
 			// params - the parameters passed with the request
 			// response - the JSON object returned in the body of the response.
+			
 
 
-
-			return response; // return the tableData property of a response
+			return response.users; // return the tableData property of a response
 								// json object
 		},
 		ajaxError : function(xhr, textStatus, errorThrown) {
@@ -130,9 +130,15 @@ function getUsersTabulator() {
 					headerFilterPlaceholder : "Recherche",
 				},
 				{
-					title : "Type User",
-					field : "6",
-					visible : false,
+					title : "Date Expiration",
+					field : "7",
+					headerFilter : true,
+					headerFilterPlaceholder:"Recherche",
+					formatter : "datetime",
+					formatterParams : {		
+						outputFormat : "YYYY-MM-DD",
+						invalidPlaceholder : "",
+					}
 				},
 				
 				{
@@ -180,10 +186,9 @@ function getUsersTabulator() {
 					                  }
 						
 						if (cell.getRow().getData(0)[7]!=null) {
+							console.log("Date Expiration: "+cell.getRow().getData(0)[7])
 							dateExpiration = cell.getRow().getData(0)[7];
-							dateExpiration=String(dateExpiration.day).padStart(2, '0')+
-							"/"+String(dateExpiration.month).padStart(2, '0')+
-							"/"+dateExpiration.year;
+							dateExpiration=getFormattedDate(dateExpiration);
 						}
 						
 						var username_id = cell.getRow().getData(0)[5]

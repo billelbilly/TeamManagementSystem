@@ -147,7 +147,9 @@ public class TicketManagement extends HttpServlet {
 	}
 
 	private void getPlanifications(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List planifications = planifDao.getPlanificationsDao();
+		String username = request.getParameter("usersession");
+		User user = userDao.getUserByUsername(username);
+		List planifications = planifDao.getPlanificationsDao(user);
 
 		JSONObject jo = new JSONObject();
 		jo.put("planifList", planifications);

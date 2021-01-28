@@ -52,14 +52,12 @@ public class UserDao {
 					.setParameter("userName", userName).uniqueResult();
 
 			if (user != null && verifyHash(password, user.getPassword())) {
-				Date dateExpiration = user.getDateExpiration();
+				LocalDate dateExpiration = user.getDateExpiration();
 				if (dateExpiration != null) {
-					Date currentdate = new Date(System.currentTimeMillis());
-					
-			
-//					LocalDate currentDate = Date.now();
-//					Date date = Date.valueOf(LocalDate.now());
-					int resultComparaison = currentdate.compareTo(dateExpiration);
+					//Date currentdate = new Date(System.currentTimeMillis());
+		
+					LocalDate currentDate = LocalDate.now();
+					int resultComparaison = currentDate.compareTo(dateExpiration);
 					if (resultComparaison > 0) {
 						// date expiration
 						return 0;

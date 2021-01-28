@@ -949,7 +949,7 @@ $(document).ready(function() {
 		        }
 		    },
 			ajaxURL : "/Helpdesk/TicketManagement",
-			ajaxParams:{action:"/getPlanifications"},
+			ajaxParams:{action:"/getPlanifications",usersession: $("#usersession").val(),},
 			ajaxResponse:function(url, params, response){
 		        //url - the URL of the request
 		        //params - the parameters passed with the request

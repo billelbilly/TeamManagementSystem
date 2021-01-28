@@ -68,7 +68,7 @@ public class User implements Serializable {
     private int Etat;
     
     @Column(name = "dateExpiration")
-    private Date dateExpiration;
+    private LocalDate dateExpiration;
     
     @OneToMany(fetch = FetchType.EAGER ,mappedBy="user")
     @Fetch(value = FetchMode.SUBSELECT)
@@ -155,11 +155,11 @@ public class User implements Serializable {
         this.password = password;
     }
     
-    public Date getDateExpiration() {
+    public LocalDate getDateExpiration() {
 		return dateExpiration;
 	}
 
-	public void setDateExpiration(Date dateExpiration) {
+	public void setDateExpiration(LocalDate dateExpiration) {
 		this.dateExpiration = dateExpiration;
 	}
 
