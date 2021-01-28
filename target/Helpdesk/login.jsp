@@ -32,7 +32,6 @@
 </head>
 <body>
 
-
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -67,14 +66,14 @@
 					</div>
 
 					<div class="text-center p-t-12">
-						<span class="txt1"> Oblie </span> <a class="txt2" href="/Helpdesk/ResetPassword.jsp">
-							Username / Password? </a>
+						<span class="txt1"> Récupération/Changement </span> <a class="txt2" href="/Helpdesk/ResetPassword.jsp">
+							Password? </a>
 					</div>
 
 					<div class="text-center p-t-136">
-						<a class="txt2" href="/Helpdesk/register.jsp"> Créer un Compte
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-						</a>
+<!-- 						<a class="txt2" href="/Helpdesk/register.jsp"> Créer un Compte -->
+<!-- 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i> -->
+<!-- 						</a> -->
 					</div>
 				</form>
 			</div>

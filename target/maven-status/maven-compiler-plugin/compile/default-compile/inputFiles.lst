@@ -1,7 +1,9 @@
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\util\CharacterEncodingFilter.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\User.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\dao\TicketUserDao.java
+C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\dao\StatisticsDao.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\dao\UserDao.java
+C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\LogicielVersion.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\Ticket.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\controllers\DownloadAttachment.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\dao\TicketDao.java
@@ -10,9 +12,11 @@ C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpd
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\controllers\TicketManagement.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\util\EmailUtility.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\dao\ResponseDao.java
+C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\controllers\Statistics.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\TicketUser.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\controllers\Settings.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\dao\ContactsDao.java
+C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\Logiciel.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\MailingAttachSettings.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\util\EncryptDecryptPassword.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\Planification.java
@@ -24,4 +28,5 @@ C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpd
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\controllers\Login.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\controllers\ResponseManagement.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\Contact.java
+C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\Version.java
 C:\Users\Billy\Desktop\Helpdesk\Helpdesk\src\main\java\com\biginformatique\helpdesk\models\Response.java

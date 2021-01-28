@@ -388,8 +388,13 @@ body {
 	max-height: 80%;
 }
 
-div.responseScroll { //
-	background-color: lightblue;
+#newIssue .modal-md {
+	max-width: 40%;
+	max-height: 40%;
+}
+
+div.responseScroll {
+	/*background-color: lightblue;*/
 	max-height: 200px;
 	overflow: auto;
 }
@@ -402,24 +407,24 @@ div.responseScroll { //
 		response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
 		if (session.getAttribute("username") == null) {
 
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("index.jsp");
 		}
 	%>
 	<!-- Send user Session To Server -->
 	<input type="text" name="usersession" id="usersession"
-		value="<%=session.getAttribute("username")%>" hidden="1" />
+		value="<%=session.getAttribute("username")%>" hidden />
 	<input type="text" name="userPermission" id="userPermission"
-		value="<%=session.getAttribute("userPermission")%>" hidden="1" />
+		value="<%=session.getAttribute("userPermission")%>" hidden />
 
 
 
-	<div class="container-md">
+	<div class="container-lg">
 		<section class="content">
 			<div class="row">
 
 				<!-- BEGIN TICKET -->
 				<div class="col-md-8 offset-2">
-					<div class="grid support-content">
+					<div class="grid support-content rounded">
 						<div class="grid-body">
 							<div class="d-flex justify-content-between">
 
@@ -439,12 +444,11 @@ div.responseScroll { //
 
 							</div>
 
-
-							<hr>
-
 							<div class="btn-group">
 								<button id="nbr_ticket_open" type="button"
-									class="btn btn-success active"></button>
+									class="btn btn-success"></button>
+								<button id="nbr_ticket_assigned" type="button"
+									class="btn btn-info"></button>
 								<button id="nbr_ticket_closed" type="button"
 									class="btn btn-danger"></button>
 							</div>
@@ -455,8 +459,9 @@ div.responseScroll { //
 									<span class="input-group-text"> Filtrer Par: </span> <select
 										name=filtreTicket id="filtreTicket">
 										<option>...</option>
-										<option value="open">Ouvert</option>
+										<option value="créé">Crées</option>
 										<option value="fermer">Fermer</option>
+										<option value="assigné">Assignés</option>
 									</select>
 								</div>
 
@@ -468,7 +473,6 @@ div.responseScroll { //
 
 							</div>
 
-							<!-- BEGIN NEW TICKET -->
 							<div class="justify-content-center pull-right">
 								<button type="button" class="btn btn-info btn-sm"
 									id="listPlanifBtn" data-toggle="modal"
@@ -482,10 +486,16 @@ div.responseScroll { //
 							</div>
 
 
+							<hr>
+
+
+
+							<!-- BEGIN NEW TICKET -->
+
 							<div class="modal fade" id="newIssue" tabindex="-1" role="dialog"
 								aria-labelledby="newIssue" aria-hidden="true">
 
-								<div class="modal-dialog">
+								<div class="modal-dialog modal-md">
 									<div class="modal-content">
 										<div class="modal-header bg-blue">
 											<h4 class="modal-title pull-left">
@@ -503,26 +513,56 @@ div.responseScroll { //
 												</div>
 												<div class="form-group">
 													<input name="subject" type="text" class="form-control"
-														placeholder="Objet" required="required">
+														placeholder="Objet"
+														oninvalid="this.setCustomValidity('Objet obligatoire !')"
+														oninput="setCustomValidity('')" required>
 												</div>
-												<div class="form-group input-group">
-													<div class="input-group-prepend">
-														<span class="input-group-text"> Sévérité </span>
-													</div>
-													<select name="severity" id="severity">
-														<option>Critique</option>
-														<option>Moyen</option>
-														<option>Normale</option>
+												<div class="d-flex justify-content-center">
+													<div class="form-group input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"> Sévérité </span>
+														</div>
+														<select name="severity" id="severity"
+															style='width: 150px;'>
+															<option>Critique</option>
+															<option>Moyen</option>
+															<option>Normale</option>
 
-													</select>
+														</select>
+
+													</div>
+													<div class="form-group input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"> Logiciel </span>
+														</div>
+														<select name=listLogiciel id="listLogiciel"
+															style='width: 150px;' required>
+
+														</select>
+													</div>
+													<div class="form-group input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"> Version </span>
+														</div>
+														<select name=listVersion id="listVersion"
+															style='width: 150px;'
+															oninvalid="this.setCustomValidity('SVP Choisissez Le Logiciel et sa Version !')"
+															oninput="setCustomValidity('')" required>
+
+														</select>
+													</div>
 												</div>
+
 												<div class="form-group">
 													<textarea name="detail" class="form-control"
 														placeholder="Détail du tiquet ou question"
-														style="height: 120px;" required="required"></textarea>
+														style="height: 120px;"
+														oninvalid="this.setCustomValidity('Détails obligatoire !')"
+														oninput="setCustomValidity('')" required></textarea>
 												</div>
 												<div class="form-group">
-													<div id="bigFile" class="alert alert-danger" role="alert" hidden></div>
+													<div id="bigFile" class="alert alert-danger" role="alert"
+														hidden></div>
 													<input id="file" type="file" name="attachment">
 												</div>
 											</div>
@@ -531,7 +571,8 @@ div.responseScroll { //
 													data-dismiss="modal">
 													<i class="fa fa-times"></i> Annuler
 												</button>
-												<button id="saveTicket" type="submit" class="btn btn-primary pull-right">
+												<button id="saveTicket" type="submit"
+													class="btn btn-primary pull-right">
 													<i class="fa fa-pencil"></i> Créer
 												</button>
 											</div>
@@ -544,9 +585,9 @@ div.responseScroll { //
 
 							<div class="padding"></div>
 
-							<div class="row">
+							<div id="clickClearSearchHistory" class="row">
 								<!-- BEGIN TICKET CONTENT -->
-								<div class="col-md-12">
+								<div class="col-md-6 offset-3">
 									<div class="ticket_list"></div>
 
 
@@ -705,7 +746,9 @@ div.responseScroll { //
 						</div>
 						<div class="form-group">
 							<input id="action" name="action" type="text" class="form-control"
-								value="/UpdateTicket" hidden>
+								value="/UpdateTicket" hidden> <input type="text"
+								name="usersession" value="<%=session.getAttribute("username")%>"
+								hidden />
 						</div>
 
 						<div class="form-group">
@@ -727,10 +770,9 @@ div.responseScroll { //
 							<div class="input-group-prepend">
 								<span class="input-group-text"> Etat Tiquet </span>
 							</div>
-							<select name="etat_ticket" id="etat_ticket">
-								<option>open</option>
+							<select name="etat_ticket" id="etat_ticket" required>
+								<option>créé</option>
 								<option>fermer</option>
-
 							</select>
 						</div>
 						<div class="form-group">
@@ -739,7 +781,8 @@ div.responseScroll { //
 								style="height: 120px;" required="required"></textarea>
 						</div>
 						<div class="form-group">
-                            <div id="bigFileUpdate" class="alert alert-danger" role="alert" hidden></div>
+							<div id="bigFileUpdate" class="alert alert-danger" role="alert"
+								hidden></div>
 							<input id="fileUpdate" type="file" name="attachment">
 						</div>
 					</div>
@@ -747,7 +790,8 @@ div.responseScroll { //
 						<button type="button" class="btn btn-danger" data-dismiss="modal">
 							<i class="fa fa-times"></i> Annuler
 						</button>
-						<button id="saveTicketUpdate" type="submit" class="btn btn-primary pull-right">
+						<button id="saveTicketUpdate" type="submit"
+							class="btn btn-primary pull-right">
 							<i class="fa fa-pencil"></i> Update
 						</button>
 					</div>
@@ -938,6 +982,7 @@ div.responseScroll { //
 	<script src="resources/js/xlsx.full.min.js"></script>
 	<script src="resources/js/jspdf.min.js"></script>
 	<script src="resources/js/jspdf.plugin.autotable.js"></script>
+	<!-- 	<script src="resources/js/select2.min.js" defer></script> -->
 	<script src="resources/js/moment.min.js"></script>
 	<script src="resources/js/tabulator.min.js"></script>
 	<script src="resources/js/datepicker.js"></script>
@@ -948,5 +993,7 @@ div.responseScroll { //
 	<script src="resources/js/bootstrap-toggle.min.js"></script>
 	<script src="resources/js/bootstrap4-rating-input.min.js"></script>
 	<script src="resources/js/mainTemplate.js"></script>
+	<script src="resources/js/jquery.twbsPagination.min.js"></script>
 	<script src="resources/js/ticketTemplate.js"></script>
+</body>
 </html>

@@ -4,22 +4,31 @@
  *  detail => cell.getRow().getData(0)[2]
  *  etat => cell.getRow().getData(0)[3]
  *  Severity => cell.getRow().getData(0)[4]
- *  date => cell.getRow().getData(0)[5]
+ *  creation date => cell.getRow().getData(0)[5]
  *  AssignedTo => cell.getRow().getData(0)[6]
+ *  ClosedBy => cell.getRow().getData(0)[7]
+ *  Creator => cell.getRow().getData(0)[8]
+ *  Closing Date=> cell.getRow().getData(0)[9]
+ *  assigned Date => cell.getRow().getData(0)[10]
  */
 
 function showLoader() {
 document.getElementById("semiTransparentDiv").style.display="block";	
 }
-var deleteTicket = function(cell, formatterParams) {
-	var id = cell.getRow().getData(0)[0].toString();
-	return '<button id='
-			+ id
-			+ ' class=" open_modal btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_ticket_modal" data-id='
-			+ id
-			+ ' data-toggle="tooltip" title="Supprimer Tiquet"><i class="fa fa-trash fa-sm" style="color:white"></i></button>'
-
-};
+function getFormattedDate(datetoformat) {
+	var date = new Date(datetoformat);
+	var formatedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" +String(date.getMinutes()).padStart(2, '0');
+	return formatedDate;	
+}
+//var deleteTicket = function(cell, formatterParams) {
+//	var id = cell.getRow().getData(0)[0].toString();
+//	return '<button id='
+//			+ id
+//			+ ' class=" open_modal btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_ticket_modal" data-id='
+//			+ id
+//			+ ' data-toggle="tooltip" title="Supprimer Tiquet"><i class="fa fa-trash fa-sm" style="color:white"></i></button>'
+//
+//};
 
 var assignTicket = function(cell, formatterParams) {
 	var id = cell.getRow().getData(0)[0].toString();
@@ -92,6 +101,41 @@ function getTicketsTabulator() {
 		// the Virtual DOM and improves render speed
 		// dramatically (can be any valid css height value)
 		// data:get_data, //assign data to table
+		
+		locale:true,
+	    langs:{
+	        "fr-fr":{
+//	            "columns":{
+//	                "name":"Name", //replace the title of column name with the value "Name"
+//	            },
+	            "ajax":{
+	                "loading":"Chargement ...", //ajax loader text
+	                "error":"Erreur", //ajax error text
+	            },
+//	            "groups":{ //copy for the auto generated item count in group header
+//	                "item":"item", //the singular  for item
+//	                "items":"items", //the plural for items
+//	            },
+	            "pagination":{
+	                "first":"Début", //text for the first page button
+	                "first_title":"Premièr Page", //tooltip text for the first page button
+	                "last":"Fin",
+	                "last_title":"Dernièr Page",
+	                "prev":"Précédent",
+	                "prev_title":"Page Précédente",
+	                "next":"Suivant",
+	                "next_title":"Page Suivante",
+	                "page_size":"Taille Page", //label for the page size select element
+	            },
+//	            "headerFilters":{
+//	                "default":"filter column...", //default header filter placeholder text
+//	                "columns":{
+//	                    "name":"filter name...", //replace default header filter text for column name
+//	                }
+//	            }
+	        }
+	    },
+	    
 		ajaxURL : "/Helpdesk/TicketManagement",
 		ajaxParams:{action:"/getAllTickets"},
 		ajaxContentType : "application/json; charset=utf-8",
@@ -103,26 +147,47 @@ function getTicketsTabulator() {
 
 			var nbr_open = 0;
 			var nbr_fermer = 0;
-			nbr_assign=0;
+			var nbr_assign=0;
+			var percent_open=0;
+			var percent_closed=0;
+			var percent_assigned=0;
+			var Total_Ticket=response.tickets.length;
 			response.tickets.forEach(function(ticket) {
-
-				if (ticket[3] == "open") {
-
-					nbr_open++;
-				} else {
-					nbr_fermer++;
-				}
 				
-				if (ticket[6]) {
-					nbr_assign++;
+				if (ticket[3] == "créé") {
+					nbr_open++;
+//					ticket[3]="créé";
+				} else if (ticket[3]=="fermer") {
+					nbr_fermer++;
 					
+				}else {
+					nbr_assign++;
+					ticket[3]="assigné";
 				}
+
 
 			});
-
+            // Dump each Ticket number to The Interface.
 			$("#nbr_open").text(nbr_open);
 			$("#nbr_fermer").text(nbr_fermer);
 			$("#nbr_assign").text(nbr_assign);
+			
+			if (Total_Ticket!=0) {
+				// Dump each Ticket percentage to The Interface.
+				percent_open=Math.round((nbr_open*100)/Total_Ticket);
+				percent_closed=Math.round((nbr_fermer*100)/Total_Ticket);
+				percent_assigned=Math.round((nbr_assign*100)/Total_Ticket);
+			} 
+			
+			
+			$("#percent_open_progress").css("width", percent_open*2);
+			$("#percent_closed_progress").css("width", percent_closed*2);
+			$("#percent_assigned_progress").css("width", percent_assigned*2);
+			
+			$("#percent_open").text(percent_open+"%");
+			$("#percent_closed").text(percent_closed+"%");
+			$("#percent_assigned").text(percent_assigned+"%");
+			
 
 			return response.tickets; // return the tableData property of a
 										// response json object
@@ -153,8 +218,42 @@ function getTicketsTabulator() {
 			title : "Détails",
 			headerSort : false,
 			cellClick : function(e, cell) {
+				///********* Here Add All The Ticket Information That you want to be added **********///
+				console.log("Ticket Status: "+cell.getRow().getData(0)[3]);
+				var ticket_info;
+				var creationDate=getFormattedDate(cell.getRow().getData(0)[5].toString());
+			
 				$("#Details").modal("show");
+			   // Clear closing_info div from any paragraph first
+				$("#ticket_info").empty();
+				if (cell.getRow().getData(0)[3].toString()=="fermer") {
+					var closingDate=getFormattedDate(cell.getRow().getData(0)[9].toString());
+					ticket_info=`
+					 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
+					 <p>Fermé par: <strong>@${cell.getRow().getData(0)[7].toString()}</strong> le: <strong>${closingDate}</strong></p>
+					 <p>Logiciel & Version: <strong>${cell.getRow().getData(0)[11].toString()}, ${cell.getRow().getData(0)[12].toString()}</strong> </p>
+					`;
+					$("#ticket_info").html(ticket_info);
+				}else if (cell.getRow().getData(0)[3].toString()=="créé") {
+					ticket_info=`
+						 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
+						 <p>Logiciel & Version: <strong>${cell.getRow().getData(0)[11].toString()}, ${cell.getRow().getData(0)[12].toString()}</strong> </p>
+						`;
+						$("#ticket_info").html(ticket_info);
+					
+				}else {
+					var assignDate=getFormattedDate(cell.getRow().getData(0)[10].toString());
+					ticket_info=`
+						 <p>créé par: <strong>@${cell.getRow().getData(0)[8].toString()}</strong>, le: <strong>${creationDate}</strong></p>
+						 <p>Assigné à: <strong>@${cell.getRow().getData(0)[6].toString()}</strong> le: <strong>${assignDate}</strong></p>
+						 <p>Logiciel & Version: <strong>${cell.getRow().getData(0)[11].toString()}, ${cell.getRow().getData(0)[12].toString()}</strong> </p>
+						`;
+						$("#ticket_info").html(ticket_info);
+				}
+				
 				$("#putDetail").text(cell.getRow().getData(0)[2].toString());
+				console.log("Created By: "+cell.getRow().getData(0)[8].toString());
+				///*********************************************************************************///
 
 			}
 		}, {
@@ -172,16 +271,15 @@ function getTicketsTabulator() {
 		}, {
 			title : "Date Création",
 			field : "5",
-			sorter:"date",
 			headerFilter : true,
 			headerFilterPlaceholder:"Recherche",
 			formatter : "datetime",
 			formatterParams : {		
-				outputFormat : "DD/MM/YYYY",
+				outputFormat : "YYYY-MM-DD",
 				invalidPlaceholder : "(invalid date format)",
 			}
 		}, {
-			title : "Crée Par",
+			title : "créé Par",
 			field : "6",
 			visible : false,
 		}, {
@@ -195,17 +293,19 @@ function getTicketsTabulator() {
 
 			},
 			
-		}, {
-			formatter : deleteTicket,
-			align : "center",
-			width : 51,
-			headerSort : false,
-			cellClick : function(e, cell) {
-				var id = cell.getRow().getData(0)[0].toString();
-				$(".modal-footer #ticket_id").val(id);
-
-			}
-		},
+		}, 
+		
+//		{
+//			formatter : deleteTicket,
+//			align : "center",
+//			width : 51,
+//			headerSort : false,
+//			cellClick : function(e, cell) {
+//				var id = cell.getRow().getData(0)[0].toString();
+//				$(".modal-footer #ticket_id").val(id);
+//
+//			}
+//		},
 
 		],
 		groupBy : "3",
@@ -214,16 +314,20 @@ function getTicketsTabulator() {
 			// count - the number of rows in this group
 			// data - an array of all the row data objects in this group
 			// group - the group component for the group
-			if (value == "open") {
-				return "Ouvert"
+			if (value == "créé") {
+				return "créé"
 						+ "<span style='color:green; margin-left:10px;'>("
 						+ count + " Tiquets)</span>";
 
-			} else {
+			} else if(value =="fermer") {
 				return "Fermer"
 						+ "<span style='color:#d00; margin-left:10px;'>("
 						+ count + " Tiquets)</span>";
 
+			}else {
+				return "Assigné"
+				+ "<span style='color:#1cbfd0; margin-left:10px;'>("
+				+ count + " Tiquets)</span>";
 			}
 
 		},
@@ -260,10 +364,11 @@ $("#DeleteTicketForm").submit(function(e) {
 		success : function(data) {
 			$("#semiTransparentDiv").hide();
 			if (data.success) {
-				getTicketsTabulator();
-				$('.modal').modal('hide');
-				$("body").removeClass("modal-open");
-				$("div.modal-backdrop").remove();
+//				getTicketsTabulator();
+//				$('.modal').modal('hide');
+//				$("body").removeClass("modal-open");
+//				$("div.modal-backdrop").remove();
+				location.reload(); 
 
 			} else {
 				alert("Delete Ticket Failed !");

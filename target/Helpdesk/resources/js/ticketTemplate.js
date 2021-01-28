@@ -1,10 +1,51 @@
 
 $(document).ready(function() {
+
 	
 	function showLoader() {
-		document.getElementById("semiTransparentDiv").style.display="block";
-			
+		document.getElementById("semiTransparentDiv").style.display="block";	
 		}
+	
+	// Function to get list of Logiciel
+	function getLogicielList() {
+
+		$.ajax({
+			type : "GET",
+			url : "/Helpdesk/Settings",
+			data : {
+				action : "/getLogicielList"
+			},
+			// processData: false,
+			// contentType: "text",
+			dataType : "json",
+			success : function(data) {
+
+				$('#listLogiciel').empty();
+				$('#listLogiciel').append(
+						'<option>--Selectionnez--</option>');
+
+				for (var i = 0; i < data.length; i++) {
+					$('#listLogiciel').append(
+							'<option value="' + data[i][0] + '">' + data[i][1]
+									+ '</option>');
+
+				}
+
+				// Initialize select2
+				//$("#listLogiciel").select2();
+
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Erreur Serveur Veuillez contactez votre administrateur !");
+			},
+		});
+
+	}
+	getLogicielList();
+
+
+
+
 	
 	function Filevalidation() {
 		
@@ -77,19 +118,21 @@ $(document).ready(function() {
 	});
 
 	
-	var qs=$('input#search').quicksearch('ul.list-group li');
+	var qs=$('input.search').quicksearch('ul.list-group li');
+	var search_response=$('input.search_response').quicksearch('ul.media-list li');
 	
 	
 	
 	
 	function getTickets(data) {
 
-		$("#nbr_ticket_open").text("0 Ouverts");
+		$("#nbr_ticket_open").text("0 créés");
+		$("#nbr_ticket_assigned").text("0 Assignés");
 		$("#nbr_ticket_closed").text("0 Fermés");
 		
 		///This is to clear up Ticket list And Close Creation Modal
-		$(".list-group .list-group-item").remove();
-		$(".pagination li").remove();
+		$(".list-group").empty();
+		//$(".pagination").empty();
 		$('.modal').modal('hide');
 		$("body").removeClass("modal-open");
 		$("div.modal-backdrop").remove();
@@ -106,11 +149,9 @@ $(document).ready(function() {
 			var nbr_ticket_open=0;
 			var nbr_ticket_closed=0;
 			var nbr_ticket_assign=0;
-			var userSession;
-
 		
 			data.ticket.forEach(function(ticket) {
-		    
+
 				
 				// ***********Function to Format the
 				// CreationDateTime************//
@@ -118,10 +159,10 @@ $(document).ready(function() {
 					var date = new Date(datetoformat);
 					switch (opt) {
 					case "ticket":
-						 var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+						 var str = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " +  String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0');
 						break;
 					case "resp":
-						 var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+						 var str = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " +  String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0');
 						break;
 
 					default:
@@ -129,19 +170,13 @@ $(document).ready(function() {
 						break;
 					}
 				   
-
 				    return str;
 				}
 			
 				var date=getFormattedDate(ticket[5],"ticket");
 				// ****************************************************************//
 				
-				/// Get the User how Created the Ticket
-				if (ticket[6].username!=undefined) {
-					
-					userSession=ticket[6].username;	
-					
-				}
+
 				var urlFile=$("#urlFile").val();
 				
 
@@ -152,7 +187,7 @@ $(document).ready(function() {
 											<strong class="text-dark">${ticket[1]}</strong> <span class="${ticket[0]}" >${ticket[4]}</span><span
 												class="number pull-right"># ${ticket[0]}</span>
 											<p class="info">
-												Crée par: <strong class="text-dark"> @${userSession}</strong> le: ${date} <i
+												créé par: <strong class="text-dark"> @${ticket[8]}</strong> le: ${date} <i
 													class="fa fa-comments"></i> <a id="${ticket[0]}"
 													class="btn  btn-info btn-sm" href="#" role="button" data-toggle="modal"	data-target="#issue">
 													Réponses</a>
@@ -172,13 +207,15 @@ $(document).ready(function() {
 				
 				$('.list-group').append(item);
 				
-				//get user permission here if UserEntreprise show Planification Button	
+				//get user permission here if UserEntreprise/Admin show Planification Button
 			
 			    if ($("#userPermission").val()==3 || $("#userPermission").val()==1) {
 			    	$("#listPlanifBtn").removeAttr("hidden");
 			    	if (ticket[3]!=="fermer") {
 			    		$("#planif-"+ticket[0]+"").removeAttr("hidden");
 					}
+			    	
+			    	
 			    	
 				}
 				switch (ticket[4]) {
@@ -202,14 +239,18 @@ $(document).ready(function() {
 					break;
 				}
 				
-				if(ticket[3]=="open") {
+				if(ticket[3]=="créé") {
 					nbr_ticket_open++;
 					$("#backgroundTicket-"+ticket[0]+"").addClass("list-group-item-success");
 				}
-				else {
+				else if(ticket[3]=="fermer") {
 					nbr_ticket_closed++;
 					$("#backgroundTicket-"+ticket[0]+"").addClass("list-group-item-danger");
 					$("#edit-"+ticket[0]+"").attr("hidden", true);
+					
+				}else {
+					nbr_ticket_assign++;
+					$("#backgroundTicket-"+ticket[0]+"").addClass("list-group-item-info");
 					
 				}
 				if (ticket[7]!=null) {
@@ -217,20 +258,18 @@ $(document).ready(function() {
 					
 				}
 				
-				
-				
-				
-				
+		
 				// ****** When Clicking on Ticket Reponses This Happens
 				// ***************//
 				
 				$("#"+ticket[0]+"").click(function (e) {
+					var search_response=$('input.search_response').quicksearch('ul.media-list li');
 					
 					
 					var ticket_id=$((e.target)).attr('id');
 					var ticket_detail_header=`
 					<p>
-					  Tiquet <strong class="text-dark">#${ticket[0]}</strong> Crée par <strong class="text-dark"> @${userSession}</strong>
+					  Tiquet <strong class="text-dark">#${ticket[0]}</strong> créé par <strong class="text-dark"> @${ticket[8]}</strong>
 					   le: ${date}
 					</p>
 				    <p>${ticket[2]}</p>	
@@ -272,16 +311,12 @@ $(document).ready(function() {
 							  }
 							
 							if (isNotNull) {
-
-								for (var i = 0, l = data.responses.length; i < l; i++) {
-								    var objResponse = data.responses[i];
-								    var date_creation_response=getFormattedDate(objResponse[1],"resp");
+				
+								
+								objResponse.forEach(function(response) {
 								    
-									if (objResponse[2].username!=undefined) {
-										userResponseSession=objResponse[2].username;
-										
-									}
-								 
+								    var date_creation_response=getFormattedDate(response[2],"resp");
+								    
 								  
 									var ticket_response=`
 									
@@ -291,9 +326,9 @@ $(document).ready(function() {
 												
 													<span class="text-muted pull-right"> <small
 														class="text-muted">Réponse le: ${date_creation_response}</small>
-													</span> <strong class="text-success">  @${userResponseSession}</strong>
+													</span> <strong class="text-success">  @${response[3]}</strong>
 													<p>
-														${objResponse[0]}
+														${response[1]}
 														
 													</p>
 												</div>
@@ -302,7 +337,8 @@ $(document).ready(function() {
 									
 									$( ".media-list" ).append(ticket_response);
 									
-								}
+								});
+								search_response.cache();
 							}else {
 
 								$('.response_list').append('<div class="alert alert-warning" role="alert">Pas de Réponses pour le moment !</div>');
@@ -318,78 +354,6 @@ $(document).ready(function() {
 					
 					/// Filter Response Here
 					// /******** Filtre Responses ***************///
-					$('#filtreResponses').change(function() {
-						console.log("Filter Responses Under Construction !");
-						//$(".media-list .media").remove();
-						
-//						
-//						$.ajax({
-//							type: "GET",
-//							url: "/Helpdesk/ResponseManagement",
-//							data: { 
-//							    ticket_id: ticket_id,
-//							    filtre: $("#filtreResponses").val(),
-//							    action: "/getResponses"
-//							  },
-//							dataType: "json",
-//							
-//							success: function (data) {
-//						
-//								var objResponse=data.responses;
-//								var userResponseSession;
-//								
-//								var isNotNull=false;
-//								for(var prop in objResponse) {
-//								    if(objResponse.hasOwnProperty(prop)) {
-//								    	isNotNull=true;
-//								    }
-//								  }
-//								
-//								if (isNotNull) {
-				//
-//									for (var i = 0, l = data.responses.length; i < l; i++) {
-//									    var objResponse = data.responses[i];
-//									    var date_creation_response=getFormattedDate(objResponse[1],"resp");
-//									    
-//										if (objResponse[2].username!=undefined) {
-//											userResponseSession=objResponse[2].username;
-//											
-//										}
-//									 
-//									  
-//										var ticket_response=`
-//										<li class="media">
-//												<a href="#" class="pull-left"> 
-//												
-//												</a>
-//													<div class="media-body">
-//													
-//														<span class="text-muted pull-right"> <small
-//															class="text-muted">Réponse le: ${date_creation_response}</small>
-//														</span> <strong class="text-success">  @${userResponseSession}</strong>
-//														<p>
-//															${objResponse[0]}
-//															
-//														</p>
-//													</div>
-//										
-//									     </li>`;
-//										
-//										$( ".media-list" ).append(ticket_response);
-//										
-//									}
-//								}else {
-				//
-//									$('.response_list').append('<div class="alert alert-warning" role="alert">Pas de Réponses pour le moment !</div>');
-//								}
-				//
-//							},
-//							error: function (XMLHttpRequest, textStatus, errorThrown) {
-//								alert("Error When getting Responses"+errorThrown);
-//							},
-//						});
-						
-					});
 					
 					
 
@@ -408,8 +372,17 @@ $(document).ready(function() {
 					$(".modal #objet").val(ticket[1]);
 					$(".modal #detail").val(ticket[2]);
 					$(".modal #severity").val(ticket[4]);
-					$(".modal #etat_ticket").val(ticket[3]);
-					//$(".modal #assigned").val(ticket[7]);
+					
+					if (ticket[3]=="assigné") {
+						$(".modal #etat_ticket").remove("option");
+						$(".modal #etat_ticket").html("<option>fermer</otion><option>assigné</option>");
+						$(".modal #etat_ticket").val(ticket[3]);
+					} else {
+						$(".modal #etat_ticket").remove("option");
+						$(".modal #etat_ticket").html("<option>créé</otion><option>fermer</option>");
+						$(".modal #etat_ticket").val(ticket[3]);
+
+					}
 					
 					
 					
@@ -437,14 +410,21 @@ $(document).ready(function() {
 					var ticket_id=$((e.target)).attr('id');
 					ticket_id=""+ticket_id+"";
 					ticket_id = ticket_id.replace(/[^0-9]/g,'');
-					$(".modal #ticket_id").val(ticket_id);
-					
+					$(".modal #ticket_id").val(ticket_id);	
 					$("#date_debut_planif").val('');
 				    $("#date_fin_planif").val('');
 				    $("#date_debut_realise").val('');
 				    $("#date_fin_realise").val('');
-				    $("#date_fin_realise").val('');
 				    $("#observation").val('');
+				    $('#date_debut_planif').attr('placeholder', 'Date Début Planification');
+				    $('#date_fin_planif').attr('placeholder', 'Date Fin Planification');
+				    $('#date_debut_realise').attr('placeholder', 'Date Début Réalisation');
+				    $('#date_fin_realise').attr('placeholder', 'Date Fin Réalisation');
+				    $("#date_debut_planif").css("border", "");
+					$("#date_fin_planif").css("border", "");
+					$("#date_debut_realise").css("border", "");
+					$("#date_fin_realise").css("border", "");
+				    
 				    showLoader();
 					//Initialize The Form
 					
@@ -460,8 +440,6 @@ $(document).ready(function() {
 								dataType: "json",
 								success: function (data) {
 									$("#semiTransparentDiv").hide();
-									
-							
 									var objPlanif=data.ticketPlanif;
 									var isNotNull=false;
 									for(var prop in objPlanif) {
@@ -509,53 +487,32 @@ $(document).ready(function() {
 				});
 	
 			//********************************************************************************************//	
-
-				
+		
 
 			});
 			qs.cache();
 			
-	  // ///////////************* Pagination Tickets List Here
-		// *************//////////////
-
-				
+			
+	        /////////////************* Pagination Tickets List Here *************//////////////
+	 	    
+          function paginationFunc(){
+        	    //$(".pagination").empty();
 				var numberOfItems = $(".list-group .list-group-item").length;
 				var limitPerPage=5;
-				
 				/// Hide all The Other <li> element but the very first 5 
 				$(".list-group .list-group-item:gt("+(limitPerPage-1)+")").hide();
-				
 				/// Here we calculate the number of pages needed
 				var totalPages= Math.ceil(numberOfItems/limitPerPage);
-				/// Previous Button 
-				$(".pagination").append("<li id='previous-page' class='page-item'><a class='page-link' href='javascript:void(0)' aria-label='Previous'> <span aria-hidden='true'>&laquo;</span> </a></li>");
-				
-				
-				/// Insert the very first page in the pagination
-				$(".pagination").append("<li class='page-item current-page active'><a class='page-link' href='javascript:void(0)'>"+1+"</a></li>");
-				
-				
-				for (var i = 2; i <= totalPages; i++) {
-					/// Insert the Total Pages needed in the pagination
-					$(".pagination").append("<li class='page-item current-page'><a class='page-link' href='javascript:void(0)'>"+i+"</a></li>");
-					
-				}
-				
-				
-				/// Next Button 
-				$(".pagination").append("<li id='next-page' class='page-item'><a class='page-link' href='javascript:void(0)' aria-label='Next'> <span aria-hidden='true'>&raquo;</span> </a></li>");
-				
-				
-				/// Event Click on Number in The pagination
-				$(".pagination li.current-page").on("click",function(){  
-					if ($(this).hasClass("active")) {
-						return false;
+				$('.pagination').twbsPagination({
+			        totalPages: totalPages,
+       		        visiblePages: 3,
+			        first:'Début',
+			        prev:'<span aria-hidden="true">&laquo;</span>',
+			        next:'<span aria-hidden="true">&raquo;</span>',
+			        last:'Fin',
+			        onPageClick: function (event, page) {
 						
-					} else {
-						var currentPage=$(this).index(); 
-
-						$(".pagination li").removeClass("active");
-						$(this).addClass("active");
+						var currentPage=page; 
 						$(".list-group .list-group-item").hide();
 						
 						var grandTotal=limitPerPage*currentPage;
@@ -564,61 +521,19 @@ $(document).ready(function() {
 							
 						}
 					
-
-					}
-					
-					
-				});
 				
-				/// Event Click on Next Button in The pagination
-				$("#next-page").on("click",function(){
-					var currentPage=$(".pagination li.active").index();
-					if (currentPage == totalPages) {
-						return false;
+			        }
+			    });		
 						
-					} else {
-						currentPage++;
-						$(".pagination li").removeClass("active");
-						$(".list-group .list-group-item").hide();
-						
-						var grandTotal=limitPerPage*currentPage;
-						for (var i = grandTotal-limitPerPage; i < grandTotal; i++) {
-							$(".list-group .list-group-item:eq("+i+")").show();
-							
-						}
-						$(".pagination li.current-page:eq("+(currentPage-1)+")").addClass("active");
-
-					}
-					
-				});
-				
-				/// Event Click on Previous Button in The pagination
-				$("#previous-page").on("click",function(){
-					var currentPage=$(".pagination li.active").index();
-					if (currentPage == 1) {
-						return false;
-						
-					} else {
-						currentPage--;
-						$(".pagination li").removeClass("active");
-						$(".list-group .list-group-item").hide();
-						
-						var grandTotal=limitPerPage*currentPage;
-						for (var i = grandTotal-limitPerPage; i < grandTotal; i++) {
-							$(".list-group .list-group-item:eq("+i+")").show();
-							
-						}
-						$(".pagination li.current-page:eq("+(currentPage-1)+")").addClass("active");
-
-					}
-					
-				});
-		
+          }	
+           paginationFunc();
+ 	
 			//////////**********************End Pagination***********************///////////
 			
-			// Set open ticket number ticket here
-			$("#nbr_ticket_open").text(nbr_ticket_open+" Ouverts");
+			// Set number ticket here
+			$("#nbr_ticket_open").text(nbr_ticket_open+" créés");
 			$("#nbr_ticket_closed").text(nbr_ticket_closed+" Fermés");
+			$("#nbr_ticket_assigned").text(nbr_ticket_assign+" Assignés");
 	
 
 		} else {
@@ -627,6 +542,9 @@ $(document).ready(function() {
 		}
 		
 	}
+	
+	
+	
 	
 //	function successCallBack(data) {
 //		console.log("inside CallBack");
@@ -664,17 +582,29 @@ $(document).ready(function() {
 
 	
 	// /******** Check UserPermission ***************///
-	if($("#userPermission").val() !=1){
-		$("#back").hide();
-		$(".d-flex").removeClass("justify-content-between");
-		$(".d-flex").addClass("justify-content-end");	
+//	if($("#userPermission").val() !=1){
+//		$("#back").hide();
+//		$(".d-flex").removeClass("justify-content-between");
+//		$(".d-flex").addClass("justify-content-end");	
+//	}
+	if ($("#userPermission").val()==1) {
+		tabsToAdd=`<li class="active open"><a href="panneauAdmin_new.jsp"><i
+		class="zmdi zmdi-home"></i><span>Tableau de Bord</span></a></li>		
+		<li><a href="Users&Contacts.jsp"><i
+				class="zmdi zmdi-account-box-mail"></i><span>Utilisateurs &
+					Contacts</span></a></li>
+		<li><a href="Statistics.jsp"><i
+				class="zmdi zmdi-chart"></i><span>Statistiques</span></a></li>`;
+		$("ul.list").append(tabsToAdd);
+		
+		
 	}
 	// /*********************************************///
 	
 	// /******** Filtre Tickets ***************///
 	$('#filtreTicket').change(function() {
-		$(".list-group .list-group-item").remove();
-		$(".pagination li").remove();
+		$(".list-group").empty();
+		//$(".pagination li").remove();
 		showLoader();
 		
       $.ajax({
@@ -747,6 +677,35 @@ $(document).ready(function() {
 				if (data.success) {
 					
 					RefreshPage();
+					
+					flash('Tiquet Créé Avec Succès', {
+
+						// background color
+						'bgColor': 'green',
+
+						// text color
+						'ftColor': 'white',
+
+						// or 'top'
+						'vPosition': 'top',
+
+						// or 'left'
+						'hPosition': 'right',
+
+						// duration of animation
+						'fadeIn': 400,
+						'fadeOut': 400,
+
+						// click to close
+						'clickable': true,
+
+						// auto hides after a duration time
+						'autohide': true,
+
+						// timout
+						'duration': 4000
+
+					});
 
 				} else {
 					alert("No Ticket Available !");
@@ -835,6 +794,8 @@ $(document).ready(function() {
 		var form = $(this);
 		var url = form.attr("action");
 		var form_data = $("#planifForm").serialize();
+		//Validate Planification Dates here
+		
 		showLoader();
 
 		$.ajax({
@@ -955,8 +916,40 @@ $(document).ready(function() {
 								// the Virtual DOM and improves render speed
 								// dramatically (can be any valid css height value)
 			//data:get_data, //assign data to table
+			locale:true,
+		    langs:{
+		        "fr-fr":{
+//		            "columns":{
+//		                "name":"Name", //replace the title of column name with the value "Name"
+//		            },
+		            "ajax":{
+		                "loading":"Chargement ...", //ajax loader text
+		                "error":"Erreur", //ajax error text
+		            },
+//		            "groups":{ //copy for the auto generated item count in group header
+//		                "item":"item", //the singular  for item
+//		                "items":"items", //the plural for items
+//		            },
+		            "pagination":{
+		                "first":"Premier", //text for the first page button
+		                "first_title":"Premièr Page", //tooltip text for the first page button
+		                "last":"Dernier",
+		                "last_title":"Dernièr Page",
+		                "prev":"Précédent",
+		                "prev_title":"Page Précédente",
+		                "next":"Suivant",
+		                "next_title":"Page Suivante",
+		            },
+//		            "headerFilters":{
+//		                "default":"filter column...", //default header filter placeholder text
+//		                "columns":{
+//		                    "name":"filter name...", //replace default header filter text for column name
+//		                }
+//		            }
+		        }
+		    },
 			ajaxURL : "/Helpdesk/TicketManagement",
-			ajaxParams:{action:"/getPlanifications"},
+			ajaxParams:{action:"/getPlanifications",usersession: $("#usersession").val(),},
 			ajaxResponse:function(url, params, response){
 		        //url - the URL of the request
 		        //params - the parameters passed with the request
@@ -997,7 +990,7 @@ $(document).ready(function() {
 				field : "2",
 				formatter : "datetime",
 				formatterParams : {		
-					outputFormat : "DD/MM/YYYY",
+					outputFormat : "YYYY-MM-DD",
 					invalidPlaceholder : "(PAS DE DATE)",
 				},
 				headerFilter : true,
@@ -1007,7 +1000,7 @@ $(document).ready(function() {
 				field : "3",
 				formatter : "datetime",
 				formatterParams : {		
-					outputFormat : "DD/MM/YYYY",
+					outputFormat : "YYYY-MM-DD",
 					invalidPlaceholder : "(PAS DE DATE)",
 				},
 				headerFilter : true,
@@ -1017,7 +1010,7 @@ $(document).ready(function() {
 				field : "4",
 				formatter : "datetime",
 				formatterParams : {		
-					outputFormat : "DD/MM/YYYY",
+					outputFormat : "YYYY-MM-DD",
 					invalidPlaceholder : "(PAS DE DATE)",
 				},
 				headerFilter : true,
@@ -1028,7 +1021,7 @@ $(document).ready(function() {
 				field : "5",
 				formatter : "datetime",
 				formatterParams : {		
-					outputFormat : "DD/MM/YYYY",
+					outputFormat : "YYYY-MM-DD",
 					invalidPlaceholder : "(PAS DE DATE)",
 				},
 				headerFilter : true,
@@ -1100,8 +1093,64 @@ $(document).ready(function() {
 	
 
 	// initialize with defaults
-	$("#rating1").rating();
+//	$("#rating1").rating();
+	
+	//Clear Search and back to first page 
+	$("#search").keydown(function(){
+			$(".last a").click();
+			$(".first a").click();
+		
+	});
+	
+	$("#listLogiciel").on("change",function(){
+		   var logiciel_id=$("#listLogiciel").val();
+		  if (logiciel_id!=="--Selectionnez--") {
+				$.ajax({
+					type : "GET",
+					url : "/Helpdesk/Settings",
+					data : {
+						logiciel_id:logiciel_id,
+						action : "/getVersionListByLogiciel"
+					},
+					// processData: false,
+					// contentType: "text",
+					dataType : "json",
+					success : function(data) {
 
+						$('#listVersion').empty();
+
+						for (var i = 0; i < data.length; i++) {
+							$('#listVersion').append(
+							'<option value="' + data[i][0] + '">' + data[i][1]
+									+ '</option>');
+
+						}
+
+						// Initialize select2
+						//$("#listVersion").select2();
+
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("Erreur Serveur Veuillez contactez votre administrateur !");
+					},
+				});
+			
+		}else {
+			$("#listVersion").empty();
+			}
+
+		
+	});
+	
+
+	/**
+	   * Option dropdowns. Slide toggle
+	   */
+	  $(".option-heading").on('click', function() {
+	    $(this).toggleClass('is-active').next(".option-content").stop().slideToggle(500);
+	  });
+	  
+	
 	
 
 });

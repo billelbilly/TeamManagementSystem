@@ -7,9 +7,6 @@
 <title>Nous Contacter</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
-<!--===============================================================================================-->
 <link rel="stylesheet" type="text/css"
 	href="resources/contact_assets/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -51,7 +48,7 @@
 
 				<div class="wrap-input1 validate-input"
 					data-validate="Nom obligatoire">
-					<input class="input1" type="text" name="nom" placeholder="Nom" oninvalid="this.setCustomValidity('Nom obligatoire !')"
+					<input class="input1" type="text" name="nom" placeholder="Client" oninvalid="this.setCustomValidity('Client obligatoire !')"
                                      oninput="setCustomValidity('')" required>
 					<span class="shadow-input1"></span>
 				</div>

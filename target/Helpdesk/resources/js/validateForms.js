@@ -24,7 +24,7 @@ $(document).ready(function () {
 				
 				switch (data.user_type) {
 				case "0":
-					flash('Veuillez Validé votre compte contactez votre administrateur pour plus d\'information', {
+					flash('Compte expiré Veuillez contactez votre administrateur !', {
 
 						// background color
 						'bgColor': 'blue',
@@ -94,10 +94,10 @@ $(document).ready(function () {
 						
 						break;
 					case "2":
-						window.location.href = "/Helpdesk/mainTemplate.jsp";
+						window.location.href = "/Helpdesk/mainTemplate_new.jsp";
 						break;
 					case "3":
-						window.location.href = "/Helpdesk/mainTemplate.jsp";
+						window.location.href = "/Helpdesk/mainTemplate_new.jsp";
 						break;
 					case "-1":
 						flash('Nom Utilisateur incorrect', {
@@ -177,138 +177,12 @@ $(document).ready(function () {
 		});
 	});
 
-	$("#registerForm").submit(function (e) {
-		e.preventDefault(); // avoid to execute the actual submit of the form.
 
-		var form = $(this);
-		var url = form.attr("action");
-		var form_data = $("#registerForm").serialize();
-		showLoader();
-
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: form_data, // serializes the form's elements.
-			processData: false,
-			//contentType: "text",
-			dataType: "text",
-			success: function (data) {
-				$("#semiTransparentDiv").hide();
-				if (data=="usersaved") {
-					flash('Enregistrement Termnié avec succès !', {
-
-						// background color
-						'bgColor': 'green',
-
-						// text color
-						'ftColor': 'white',
-
-						// or 'top'
-						'vPosition': 'top',
-
-						// or 'left'
-						'hPosition': 'right',
-
-						// duration of animation
-						'fadeIn': 400,
-						'fadeOut': 400,
-
-						// click to close
-						'clickable': true,
-
-						// auto hides after a duration time
-						'autohide': true,
-
-						// timout
-						'duration': 4000
-
-					});
-					$('#prenom_id').val('');
-					$('#nom_id').val('');
-					$('#email_id').val('');
-					$('#phone_id').val('');
-					$('#username_id').val('');
-					$('#password_id').val('');
-					$('#password2_id').val('');
-					
-					
-				}
-				else if (data=="usernameexist") {
-					$("input").change(function() {
-						$("#username_id").css("border", "");
-					}).trigger("change");
-					$("#username_id").css("border", "1px solid red");
-					flash('Utilisateur existe déjà !', {
-
-						// background color
-						'bgColor': 'red',
-
-						// text color
-						'ftColor': 'white',
-
-						// or 'top'
-						'vPosition': 'top',
-
-						// or 'left'
-						'hPosition': 'right',
-
-						// duration of animation
-						'fadeIn': 400,
-						'fadeOut': 400,
-
-						// click to close
-						'clickable': true,
-
-						// auto hides after a duration time
-						'autohide': true,
-
-						// timout
-						'duration': 4000
-
-					});
-					
-				}else{
-					$("input").change(function() {
-						$("#email_id").css("border", "");
-					}).trigger("change");
-					$("#email_id").css("border", "1px solid red");
-					flash('Email Exist déjà !', {
-						
-
-						// background color
-						'bgColor': 'red',
-
-						// text color
-						'ftColor': 'white',
-
-						// or 'top'
-						'vPosition': 'top',
-
-						// or 'left'
-						'hPosition': 'right',
-
-						// duration of animation
-						'fadeIn': 400,
-						'fadeOut': 400,
-
-						// click to close
-						'clickable': true,
-
-						// auto hides after a duration time
-						'autohide': true,
-
-						// timout
-						'duration': 4000
-
-					});
-
-				}
-				
-			},
-			error: function (XMLHttpRequest, textStatus, errorThrown) {
-				$("#semiTransparentDiv").hide();
-				alert(errorThrown);
-			},
-		});
-	});
+//	$("#prenomRegister_id").on('change',function() {
+//		var isHidden = document.getElementById("successAlert").hasAttribute("hidden");
+//    	if (!isHidden) {
+//    		$("#successAlert").attr("hidden",true);
+//        	
+//		}
+//	});
 });

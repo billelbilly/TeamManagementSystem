@@ -27,8 +27,8 @@
                     <div class="panel-body">
                         <div class="text-center">
                           <h3><i class="fa fa-lock fa-4x"></i></h3>
-                          <h2 class="text-center">Mot de Passe Oublié ?</h2>
-                          <p>Récupération de Mot de Passe.</p>
+                          <h2 class="text-center">Récupération/Changement mot de passe ?</h2>
+                          <p>Récupération/Changement de Mot de Passe.</p>
                             <div class="panel-body">
                               
                               <form id="resetForm" class="form" action="<%=request.getContextPath()%>/ResetPassword" method="post">
