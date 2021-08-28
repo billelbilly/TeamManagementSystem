@@ -1,2 +1,2 @@
 # TeamManagementSystem
-This helps to manage team member and their information
+This helps to manage team members and their information
